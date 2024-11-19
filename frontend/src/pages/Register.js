@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../index.css'; 
+import { Link } from 'react-router-dom'; // Import de Link pour la navigation
+import '../index.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -15,8 +16,8 @@ const Register = () => {
 
     return (
         <div className="register-container">
+            <h2>Register</h2>
             <form onSubmit={handleSubmit}>
-                <h2>Register</h2>
                 <input
                     type="text"
                     name="username"
@@ -40,6 +41,9 @@ const Register = () => {
                 />
                 <button type="submit">Register</button>
             </form>
+            <p>
+                Already have an account? <Link to="/login">Login here</Link>
+            </p>
         </div>
     );
 };
