@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../index.css'; 
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -9,23 +10,13 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:5000/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-            const data = await response.json();
-            console.log(data.message);
-        } catch (error) {
-            console.error('Error during registration:', error);
-        }
+        console.log(formData); // Simule l'envoi du formulaire
     };
 
     return (
-        <div>
-            <h2>Register</h2>
+        <div className="register-container">
             <form onSubmit={handleSubmit}>
+                <h2>Register</h2>
                 <input
                     type="text"
                     name="username"
