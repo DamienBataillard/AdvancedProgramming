@@ -156,7 +156,7 @@ function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: '#0056b3' }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -173,7 +173,7 @@ function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            EFREI FEEDBACKS
+            Students Feedbacks
           </Typography>
           <Search>
             <SearchIconWrapper>
