@@ -13,6 +13,14 @@ code {
     monospace;
 }
 
+/* Style du logo */
+.site-logo {
+  max-width: 300px; /* Largeur maximale */
+  height: auto; /* Garde les proportions */
+  margin-bottom: 20px; /* Espacement avec le formulaire */
+}
+
+
 /* Register Page */
 /* Centrage général de la page */
 .register-container {

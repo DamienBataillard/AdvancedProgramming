@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import de Link pour la navigation
 import '../index.css';
+import logo from '../assets/images/logo.png';
+
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -16,7 +18,7 @@ const Register = () => {
 
     return (
         <div className="register-container">
-            <h2>Register</h2>
+            <img src={logo} alt="Site Logo" className="site-logo" /> {/* Affichage du logo */}
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"

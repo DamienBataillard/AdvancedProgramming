@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../index.css';
+import '../index.css'; // Import du fichier CSS global
+import logo from '../assets/images/logo.png'; // Import de l'image
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -15,7 +16,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <img src={logo} alt="Site Logo" className="site-logo" /> {/* Affiche le logo */}
       <form onSubmit={handleSubmit}>
         <input
           type="email"
