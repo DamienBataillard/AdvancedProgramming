@@ -21,7 +21,7 @@ const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: '#0056b3',
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -156,7 +156,7 @@ function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#0056b3' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#5481c2' }}>
         <Toolbar>
           <IconButton
             size="large"
