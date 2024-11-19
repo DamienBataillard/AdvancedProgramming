@@ -20,13 +20,12 @@ code {
   justify-content: center;
   align-items: center;
   height: 100vh; /* Prend toute la hauteur de la fenêtre */
-  background-color: #f5f5f5; /* Couleur de fond optionnelle */
+  background-color: #c0cae3; /* Couleur de fond optionnelle */
   margin: 0;
 }
 
-/* Style du formulaire */
-form {
-  background: white;
+.register-container form {
+  background: #5481c2;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -36,7 +35,8 @@ form {
   width: 300px; /* Largeur du formulaire */
 }
 
-input, button {
+.register-container input,
+.register-container button {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -45,19 +45,18 @@ input, button {
   box-sizing: border-box;
 }
 
-button {
-  background-color: #007bff;
+.register-container button {
+  background-color: #3c5775;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-button:hover {
+.register-container button:hover {
   background-color: #0056b3;
 }
 
-/* Style du texte sous le formulaire */
 .register-container p {
   margin-top: 10px;
   font-size: 14px;
@@ -83,13 +82,12 @@ button:hover {
   justify-content: center;
   align-items: center;
   height: 100vh; /* Prend toute la hauteur de la fenêtre */
-  background-color: #f5f5f5; /* Couleur de fond optionnelle */
+  background-color: #c0cae3; /* Couleur de fond optionnelle */
   margin: 0;
 }
 
-/* Style du formulaire */
-form {
-  background: white;
+.login-container form {
+  background: #5481c2;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -99,7 +97,8 @@ form {
   width: 300px; /* Largeur du formulaire */
 }
 
-input, button {
+.login-container input,
+.login-container button {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -108,19 +107,18 @@ input, button {
   box-sizing: border-box;
 }
 
-button {
-  background-color: #007bff;
+.login-container button {
+  background-color: #3c5775;
   color: white;
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-button:hover {
+.login-container button:hover {
   background-color: #0056b3;
 }
 
-/* Titre */
 .login-container h2 {
   font-size: 24px;
   margin-bottom: 20px;
