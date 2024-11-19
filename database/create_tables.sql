@@ -70,6 +70,7 @@ CREATE TABLE Question (
 -- Table Answer
 CREATE TABLE Answer (
     id_answer INT PRIMARY KEY AUTO_INCREMENT,
+    note_answer INT,
     content_answer TEXT NOT NULL,
     is_private BOOLEAN NOT NULL,
     id_question INT NOT NULL,
