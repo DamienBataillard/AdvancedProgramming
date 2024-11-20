@@ -1,17 +1,42 @@
 import React, { useState } from 'react';
-import '../index.css'; // Import du fichier CSS global
-import logo from '../assets/images/logo.png'; // Import de l'image
+import '../index.css'; // Assurez-vous que votre CSS est bien importé
+import logo from '../assets/images/logo.png'; // Import du logo
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({
+    mail_profile: '',
+    password_profile: '',
+  });
+
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // Simule l'envoi du formulaire
+
+    try {
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erreur lors de la connexion.');
+      }
+
+      const data = await response.json();
+      setSuccess(`Bienvenue ${data.user.name_profile}`);
+      setError('');
+    } catch (err) {
+      setError(err.message);
+      setSuccess('');
+    }
   };
 
   return (
@@ -20,18 +45,22 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          name="email"
+          name="mail_profile"
           placeholder="Email"
-          value={formData.email}
+          value={formData.mail_profile}
           onChange={handleChange}
+          required
         />
         <input
           type="password"
-          name="password"
+          name="password_profile"
           placeholder="Password"
-          value={formData.password}
+          value={formData.password_profile}
           onChange={handleChange}
+          required
         />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
         <button type="submit">Login</button>
       </form>
     </div>

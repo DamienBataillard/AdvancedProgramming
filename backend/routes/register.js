@@ -1,27 +1,41 @@
 const express = require('express');
+const bcrypt = require('bcrypt'); // Import de bcrypt
 const db = require('../config/db'); // Import de la configuration DB
 
 const router = express.Router();
 
 // Route pour enregistrer un utilisateur
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res, next) => {
   const { mail_profile, name_profile, date_of_birth_profile, password_profile } = req.body;
 
-  // Requête SQL pour insérer un utilisateur
-  const query = `
-    INSERT INTO profile (mail_profile, name_profile, date_of_birth_profile, password_profile)
-    VALUES (?, ?, ?, ?)
-  `;
+  // Vérification des champs obligatoires
+  if (!mail_profile || !name_profile || !date_of_birth_profile || !password_profile) {
+    return res.status(400).json({ message: 'Tous les champs sont requis.' });
+  }
 
-  db.query(query, [mail_profile, name_profile, date_of_birth_profile, password_profile], (err, result) => {
-    if (err) {
-      console.error('Erreur lors de l\'insertion de l\'utilisateur:', err);
-      res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur' });
-      return;
-    }
+  try {
+    // Hachage du mot de passe
+    const saltRounds = 10; // Nombre de tours de salage
+    const hashedPassword = await bcrypt.hash(password_profile, saltRounds);
 
-    res.status(200).json({ message: 'Utilisateur enregistré avec succès', userId: result.insertId });
-  });
+    // Requête SQL pour insérer l'utilisateur
+    const query = `
+      INSERT INTO profile (mail_profile, name_profile, date_of_birth_profile, password_profile)
+      VALUES (?, ?, ?, ?)
+    `;
+
+    db.query(query, [mail_profile, name_profile, date_of_birth_profile, hashedPassword], (err, result) => {
+      if (err) {
+        console.error('Erreur lors de l\'insertion de l\'utilisateur:', err);
+        return res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur.' });
+      }
+
+      res.status(201).json({ message: 'Utilisateur enregistré avec succès', userId: result.insertId });
+    });
+  } catch (err) {
+    console.error('Erreur lors du hachage du mot de passe :', err);
+    next(err); // Passe l'erreur au gestionnaire global
+  }
 });
 
 module.exports = router;
