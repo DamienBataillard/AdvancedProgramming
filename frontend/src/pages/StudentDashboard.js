@@ -6,7 +6,7 @@ import '../index.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const StudentDashboard = () => {
+function StudentDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,17 +41,17 @@ const StudentDashboard = () => {
   return (
     <div className="App">
       <PrimarySearchAppBar />
-      <LogoutButton /> {/* Bouton de déconnexion */}
       <div className='dashboard-container'>
-      <img src={logo} alt="Site Logo" className="site-logo"/>
+      
         <Box
           sx={{
             backgroundColor: 'white',
             borderRadius: '10px',
-            width: '50%',
-            height: '400px',
+            width: '80%',
+          
             margin: 'auto',
             mt: '5%',
+            mb:'5%',
             display: 'flex',
             boxShadow: 3,
             overflow: 'hidden',
