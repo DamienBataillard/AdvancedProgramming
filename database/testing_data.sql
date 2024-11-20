@@ -33,10 +33,11 @@ VALUES
 (2, 2); -- Bob est dans le groupe B
 
 
-INSERT INTO Module (id_module, code_module, name_module)
+INSERT INTO Module (code_module, name_module, professor_module)
 VALUES 
-(1, 'CS101', 'Introduction to Computer Science'),
-(2, 'MATH101', 'Calculus I');
+('CS101', 'Introduction to Computer Science', 'Emma Teacher'),
+('MATH101', 'Calculus I', 'Emma Teacher');
+
 
 
 INSERT INTO Group_Module (id_student_group, id_module)
@@ -47,27 +48,42 @@ VALUES
 
 INSERT INTO Evaluation (id_evaluation, date_opening, date_closing, title_evaluation, id_student_group)
 VALUES 
-(1, '2024-01-15', '2024-01-30', 'Midterm Exam', 1),
-(2, '2024-02-15', '2024-02-28', 'Final Exam', 2);
+(1, '2024-01-15', '2024-01-30', 'Feedback on CS101', 1), -- Évaluation du module CS101 pour le groupe A
+(2, '2024-02-15', '2024-02-28', 'Feedback on MATH101', 2); -- Évaluation du module MATH101 pour le groupe B
 
 
 INSERT INTO Question (id_question, type_question, title_question, content_question, id_evaluation)
 VALUES 
-(1, 1, 'What is a variable?', 'Explain what a variable is in programming.', 1),
-(2, 2, 'Solve the equation', 'Find x if 2x + 3 = 7.', 2);
+(1, 1, 'Module Understanding', 'How well did you understand the module content?', 1),
+(2, 1, 'Teaching Quality', 'How would you rate the teaching quality?', 1),
+(3, 1, 'Material Usefulness', 'Was the provided material helpful?', 2),
+(4, 1, 'Overall Satisfaction', 'Are you satisfied with the module overall?', 2);
 
 
-INSERT INTO Answer (note_answer, content_answer, is_private, id_question, id_student)
+
+INSERT INTO Answer (id_answer, note_answer, content_answer, is_private, id_question, id_student)
 VALUES 
-(5, 'A variable is a named storage for data.', FALSE, 1, 1), -- Alice répond à la question 1 avec une note de 5
-(NULL, 'x = 2. Solved the equation properly.', TRUE, 2, 2); -- Bob répond à la question 2 sans note
+(1, 8, 'The module was clear and well-structured.', FALSE, 1, 1), -- Alice répond sur la compréhension du module CS101
+(2, 9, 'The professor explained very well.', FALSE, 2, 1), -- Alice évalue la qualité de l’enseignement
+(3, 7, 'The material could be more detailed.', FALSE, 3, 2), -- Bob répond sur l’utilité des supports dans MATH101
+(4, 8, 'Overall, I’m satisfied.', FALSE, 4, 2); -- Bob donne une note globale pour MATH101
 
 
 
-INSERT INTO Comment (id_comment, content_comment, date_comment, id_answer)
+
+INSERT INTO Comment (id_comment, content_comment, date_comment, id_answer, id_student, id_module)
 VALUES 
-(1, 'Good explanation!', '2024-01-16', 1), -- Commentaire sur la réponse d'Alice
-(2, 'Double-check the solution.', '2024-02-16', 2); -- Commentaire sur la réponse de Bob
+(1, 'Thank you for the feedback. We will improve the materials.', '2024-01-20', 3, 3, 2), -- Emma commente la réponse de Bob sur MATH101
+(2, 'Great feedback! Glad you liked it.', '2024-01-21', 1, 3, 1); -- Emma commente la réponse d’Alice sur CS101
+
+
+
+INSERT INTO Report (id_report, date, format, id_evaluation)
+VALUES 
+(1, '2024-02-01', 'PDF', 1), -- Rapport pour le feedback sur CS101
+(2, '2024-03-01', 'PDF', 2); -- Rapport pour le feedback sur MATH101
+
+
 
 
 

@@ -35,7 +35,8 @@ CREATE TABLE Student_Group (
 CREATE TABLE Module (
     id_module INT PRIMARY KEY AUTO_INCREMENT,
     code_module VARCHAR(50) NOT NULL UNIQUE,
-    name_module VARCHAR(255) NOT NULL
+    name_module VARCHAR(255) NOT NULL,
+    professor_module VARCHAR(255) NOT NULL
 );
 
 -- Table Group_Module (association entre Student_Group et Module)
@@ -71,7 +72,7 @@ CREATE TABLE Question (
 CREATE TABLE Answer (
     id_answer INT PRIMARY KEY AUTO_INCREMENT,
     note_answer INT,
-    content_answer TEXT NOT NULL,
+    content_answer TEXT,
     is_private BOOLEAN NOT NULL,
     id_question INT NOT NULL,
     id_student INT NOT NULL,
@@ -84,8 +85,10 @@ CREATE TABLE Comment (
     id_comment INT PRIMARY KEY AUTO_INCREMENT,
     content_comment TEXT NOT NULL,
     date_comment DATE NOT NULL,
-    id_answer INT NOT NULL,
-    FOREIGN KEY (id_answer) REFERENCES Answer(id_answer) ON DELETE CASCADE
+    id_student INT NOT NULL,
+    id_module INT NOT NULL,
+    FOREIGN KEY (id_student) REFERENCES Profile(id_profile) ON DELETE CASCADE,
+    FOREIGN KEY (id_module) REFERENCES Module(id_module) ON DELETE CASCADE
 );
 
 -- Table Report
