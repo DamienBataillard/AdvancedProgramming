@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import PrimarySearchAppBar from '../components/AppBar'
+import LogoutButton from '../components/Deconnexion'; // Importez le bouton
 import logo from '../assets/images/logo.png';
 import '../index.css';
 import React, { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ const StudentDashboard = () => {
   return (
     <div className="App">
       <PrimarySearchAppBar />
+      <LogoutButton /> {/* Bouton de déconnexion */}
       <div className='dashboard-container'>
       <img src={logo} alt="Site Logo" className="site-logo"/>
         <Box
