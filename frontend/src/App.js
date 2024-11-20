@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import StudentDashboard from "./pages/StudentDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import EvaluationForm from './pages/EvaluationForm'; // Import du composant
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/dashboard" element={<StudentDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/evaluation/:id" element={<EvaluationForm />} />
       </Routes>
     </Router>
   );

@@ -5,6 +5,7 @@ require('dotenv').config();
 const db = require('./config/db'); // Assurez-vous que db.js est importé correctement
 const cors = require('cors');
 const authMiddleware = require('./middleware/auth'); // Import du middleware
+const evaluationRoutes = require('./routes/evaluation');
 
 const app = express();
 const PORT = 5000;
@@ -16,6 +17,7 @@ app.use(cors()); // Autorise toutes les origines par défaut
 // Intégration des routes
 app.use('/api', registerRoutes);
 app.use('/api', loginRoutes);
+app.use('/api', evaluationRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
