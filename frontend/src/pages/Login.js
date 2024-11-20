@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css'; // Assurez-vous que votre CSS est bien importé
 import logo from '../assets/images/logo.png'; // Import du logo
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Login = () => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // Hook pour naviguer entre les pages
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,6 +35,8 @@ const Login = () => {
       const data = await response.json();
       setSuccess(`Bienvenue ${data.user.name_profile}`);
       setError('');
+      // Redirection vers la page StudentDashboard
+      navigate('/dashboard');
     } catch (err) {
       setError(err.message);
       setSuccess('');
