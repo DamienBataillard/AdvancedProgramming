@@ -1,6 +1,5 @@
 import { Box, Typography } from '@mui/material';
 import PrimarySearchAppBar from '../components/AppBar'
-import LogoutButton from '../components/Deconnexion'; // Importez le bouton
 import logo from '../assets/images/logo.png';
 import '../index.css';
 import React, { useEffect, useState } from 'react';
