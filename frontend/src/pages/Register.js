@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../index.css'; // Assure-toi d'importer le CSS global
 import logo from '../assets/images/logo.png'; // Import du logo
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -45,6 +46,7 @@ const Register = () => {
       const data = await response.json();
       console.log('Utilisateur enregistré avec succès :', data);
       alert('Utilisateur enregistré avec succès !');
+      navigate('/login');
     } catch (err) {
       // Affiche une erreur détaillée dans la console
       console.error('Erreur lors de l\'inscription :', err.message);
