@@ -6,6 +6,8 @@ const db = require('./config/db'); // Assurez-vous que db.js est importé correc
 const cors = require('cors');
 const authMiddleware = require('./middleware/auth'); // Import du middleware
 const evaluationRoutes = require('./routes/evaluation');
+const answerRoutes = require('./routes/answer');
+
 
 const app = express();
 const PORT = 5000;
@@ -18,6 +20,7 @@ app.use(cors()); // Autorise toutes les origines par défaut
 app.use('/api', registerRoutes);
 app.use('/api', loginRoutes);
 app.use('/api', evaluationRoutes);
+app.use('/api', answerRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
