@@ -5,9 +5,198 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #c0cae3;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Style du logo */
+.site-logo {
+  max-width: 300px; /* Largeur maximale */
+  height: auto; /* Garde les proportions */
+  margin-bottom: 20px; /* Espacement avec le formulaire */
+}
+
+
+/* Register Page */
+/* Centrage général de la page */
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #c0cae3; /* Couleur de fond optionnelle */
+  margin: 0;
+}
+
+.register-container form {
+  background: #5481c2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacement entre les champs */
+  width: 300px; /* Largeur du formulaire */
+}
+
+.register-container input,
+.register-container button {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* Les champs occupent toute la largeur */
+  box-sizing: border-box;
+}
+
+.register-container button {
+  background-color: #3c5775;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-container button:hover {
+  background-color: #0056b3;
+}
+
+.register-container p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: center; /* Centre le texte */
+}
+
+.register-container a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-container a:hover {
+  text-decoration: underline;
+}
+
+/* Login Page */
+/* Centrage général de la page */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #c0cae3; /* Couleur de fond optionnelle */
+  margin: 0;
+}
+
+.login-container form {
+  background: #5481c2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacement entre les champs */
+  width: 300px; /* Largeur du formulaire */
+}
+
+.login-container input,
+.login-container button {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; /* Les champs occupent toute la largeur */
+  box-sizing: border-box;
+}
+
+.login-container button {
+  background-color: #3c5775;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.login-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center; /* Centre le titre */
+}
+
+/*Evaluation*/
+.evaluation-page .evaluation-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  background-color: #c0cae3; /* Couleur de fond similaire aux autres formulaires */
+  margin: 0;
+}
+
+.evaluation-page .evaluation-form {
+  background: #5481c2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacement entre les questions */
+}
+
+.evaluation-page .evaluation-form h1 {
+  text-align: center;
+  color: #c0cae3;
+  margin: 0;
+}
+
+.evaluation-page .question-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.evaluation-page .question-container h3 {
+  font-size: 18px;
+  color: #c0cae3;
+  margin: 0;
+}
+
+.evaluation-page p {
+  color:#c0cae3;
+}
+
+.evaluation-page textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #c0cae3;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.evaluation-page button {
+  background-color: #3c5775;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.evaluation-page button:hover {
+  background-color: #0056b3;
 }

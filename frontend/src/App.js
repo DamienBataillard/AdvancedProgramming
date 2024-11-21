@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import StudentDashboard from "./pages/StudentDashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import EvaluationForm from './pages/EvaluationForm'; // Import du composant
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {/* Définir la page par défaut */}
+        <Route path="/" element={<Navigate to="/register" replace />} />
+        <Route path="/dashboard" element={<StudentDashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/evaluation/:id" element={<EvaluationForm />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+
