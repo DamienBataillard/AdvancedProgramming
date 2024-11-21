@@ -82,10 +82,3 @@ INSERT INTO Report (id_report, date, format, id_evaluation)
 VALUES 
 (1, '2024-02-01', 'PDF', 1), -- Rapport pour le feedback sur CS101
 (2, '2024-03-01', 'PDF', 2); -- Rapport pour le feedback sur MATH101
-
-
-
-
-
-
-
