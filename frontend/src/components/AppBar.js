@@ -16,6 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
+import AnchorTemporaryDrawer from './NotificationDrawer';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -141,7 +142,7 @@ function PrimarySearchAppBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={18} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -199,7 +200,7 @@ function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton
+           <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"

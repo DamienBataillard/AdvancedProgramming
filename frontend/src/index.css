@@ -134,3 +134,16 @@ code {
   color: #333;
   text-align: center; /* Centre le titre */
 }
+
+.dashboard-container h1 {
+  font-size: 50px;
+  justify-content: center;
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.dashboard-container h2 {
+  font-size: 30px;
+  justify-content: center;
+  display: flex;
+}

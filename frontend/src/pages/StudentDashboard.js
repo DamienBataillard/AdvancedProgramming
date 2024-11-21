@@ -41,7 +41,8 @@ function StudentDashboard() {
     <div className="App">
       <PrimarySearchAppBar />
       <div className='dashboard-container'>
-      
+        <h1 className='title'>Welcome to EFREI feedbacks !</h1>
+        <h2 className='subtitle'>Give your thoughts</h2>
         <Box
           sx={{
             backgroundColor: 'white',
