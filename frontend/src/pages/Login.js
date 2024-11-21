@@ -36,6 +36,7 @@ const Login = () => {
       setSuccess(`Bienvenue ${data.user.name_profile}`);
       setError('');
       localStorage.setItem('token', data.token); // Stocke le token dans localStorage
+      localStorage.setItem('studentId', data.user.id_profile); // Stockez l'ID utilisateur dans le localStorage
       // Redirection vers la page StudentDashboard
       navigate('/dashboard');
     } catch (err) {
