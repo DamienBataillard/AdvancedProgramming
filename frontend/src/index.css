@@ -137,6 +137,7 @@ code {
 
 .dashboard-container h1 {
   font-size: 50px;
+  color: #333;
   justify-content: center;
   display: flex;
   margin-bottom: 10px;
@@ -144,6 +145,7 @@ code {
 
 .dashboard-container h2 {
   font-size: 30px;
+  color: #333;
   justify-content: center;
   display: flex;
 }
