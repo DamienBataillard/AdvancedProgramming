@@ -173,7 +173,7 @@ code {
 
 .evaluation-page .evaluation-form h1 {
   text-align: center;
-  color: #c0cae3;
+  color: #333;
   margin: 0;
 }
 
@@ -184,18 +184,18 @@ code {
 
 .evaluation-page .question-container h3 {
   font-size: 18px;
-  color: #c0cae3;
+  color: #333;
   margin: 0;
 }
 
 .evaluation-page p {
-  color:#c0cae3;
+  color:#333;
 }
 
 .evaluation-page textarea {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #c0cae3;
+  border: 1px solid #333;
   border-radius: 5px;
   resize: vertical;
 }
