@@ -8,6 +8,7 @@ const authMiddleware = require('./middleware/auth'); // Import du middleware
 const evaluationRoutes = require('./routes/evaluation');
 const answerRoutes = require('./routes/answer');
 const feedbackRoutes = require('./routes/feedback');
+const moduleRoutes = require('./routes/modules');
 
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api', loginRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', answerRoutes);
 app.use('/api', feedbackRoutes);
+app.use('/api', moduleRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',

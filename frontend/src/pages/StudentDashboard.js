@@ -7,11 +7,11 @@ import '../index.css';
 function StudentDashboard() {
   const navigate = useNavigate();
   const [evaluations, setEvaluations] = useState([]);
-  const [feedbacks, setFeedbacks] = useState([]); // Nouveau state pour les feedbacks
+  const [modules, setModules] = useState([]); // State pour les modules
   const [loadingEvaluations, setLoadingEvaluations] = useState(true);
-  const [loadingFeedbacks, setLoadingFeedbacks] = useState(true);
+  const [loadingModules, setLoadingModules] = useState(true); // Chargement des modules
   const [errorEvaluations, setErrorEvaluations] = useState('');
-  const [errorFeedbacks, setErrorFeedbacks] = useState('');
+  const [errorModules, setErrorModules] = useState(''); // Erreur pour les modules
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -71,37 +71,38 @@ function StudentDashboard() {
     fetchEvaluations();
   }, []);
 
-  // Récupérer les feedbacks
+  // Récupérer les modules
   useEffect(() => {
-    const fetchFeedbacks = async () => {
-      const studentId = localStorage.getItem('studentId'); // ID de l'étudiant connecté
+    const fetchModules = async () => {
+      const studentId = localStorage.getItem('studentId'); // ID de l’étudiant connecté
       if (!studentId) {
-        setErrorFeedbacks('Aucun ID étudiant trouvé.');
-        setLoadingFeedbacks(false);
+        setErrorModules('Aucun ID étudiant trouvé.');
+        setLoadingModules(false);
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/feedbacks/${studentId}`);
+        const response = await fetch(`http://localhost:5000/api/modules/${studentId}`);
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des feedbacks.');
+          throw new Error('Erreur lors de la récupération des modules.');
         }
 
         const data = await response.json();
-        setFeedbacks(data);
-        setLoadingFeedbacks(false);
+        setModules(data);
+        setLoadingModules(false);
       } catch (err) {
-        setErrorFeedbacks(err.message);
-        setLoadingFeedbacks(false);
+        setErrorModules(err.message);
+        setLoadingModules(false);
       }
     };
 
-    fetchFeedbacks();
+    fetchModules();
   }, []);
 
-  if (loadingEvaluations || loadingFeedbacks) return <p>Chargement...</p>;
-  if (errorEvaluations || errorFeedbacks)
-    return <p>Erreur : {errorEvaluations || errorFeedbacks}</p>;
+  if (loadingEvaluations || loadingModules)
+    return <p>Chargement...</p>;
+  if (errorEvaluations || errorModules)
+    return <p>Erreur : {errorEvaluations || errorModules}</p>;
 
   return (
     <div className="App">
@@ -169,18 +170,18 @@ function StudentDashboard() {
           )}
 
           <Typography variant="h6" align="center" sx={{ mt: 5, mb: 3 }}>
-            Open Feedbacks
+            Modules
           </Typography>
 
-          {feedbacks.length === 0 ? (
+          {modules.length === 0 ? (
             <Typography variant="body1" align="center">
-              No feedbacks available at the moment.
+              No modules available at the moment.
             </Typography>
           ) : (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {feedbacks.map((feedback) => (
+              {modules.map((module) => (
                 <Box
-                  key={feedback.id_feedback}
+                  key={module.id_module}
                   sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -191,18 +192,13 @@ function StudentDashboard() {
                     boxShadow: 2,
                   }}
                 >
-                  <Typography variant="subtitle1">{feedback.title_feedback}</Typography>
-                  <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="body2">
-                      Created: {new Date(feedback.date_created).toLocaleDateString()}
-                    </Typography>
-                  </Box>
+                  <Typography variant="subtitle1">{module.name_module}</Typography>
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => navigate(`/feedback/${feedback.id_feedback}`)}
+                    onClick={() => navigate(`/module/${module.id_module}/comments`)}
                   >
-                    View
+                    View Feedbacks
                   </Button>
                 </Box>
               ))}
