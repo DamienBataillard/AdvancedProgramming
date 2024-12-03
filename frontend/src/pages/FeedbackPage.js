@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, TextField, Button } from '@mui/material';
+import '../index.css';
 
 function FeedbackPage() {
   const { moduleId } = useParams();
@@ -55,17 +56,18 @@ function FeedbackPage() {
   if (error) return <p>Erreur : {error}</p>;
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>
+    <Box className="feedback-page" sx={{ padding: '20px' }}>
+      <Typography variant="h4" className="feedback-title" gutterBottom>
         Feedbacks for Module
       </Typography>
-      <Box sx={{ marginBottom: '20px' }}>
+      <Box className="feedback-comments" sx={{ marginBottom: '20px' }}>
         {comments.length === 0 ? (
           <Typography>Aucun commentaire pour ce module.</Typography>
         ) : (
           comments.map((comment, index) => (
             <Box
               key={index}
+              className="comment-box"
               sx={{
                 padding: '10px',
                 backgroundColor: '#f9f9f9',
@@ -82,22 +84,28 @@ function FeedbackPage() {
           ))
         )}
       </Box>
-      <TextField
-        fullWidth
-        variant="outlined"
-        label="Votre commentaire"
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-        multiline
-        rows={3}
-        sx={{ marginBottom: '20px' }}
-      />
-      <Button variant="contained" color="primary" onClick={handlePostComment}>
-        Poster un commentaire
-      </Button>
+      <div className="feedback-form">
+        <TextField
+            fullWidth
+            className="comment-input"
+            variant="outlined"
+            label="Votre commentaire"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            multiline
+            rows={3}
+        />
+        <Button
+            className="comment-button"
+            variant="contained"
+            color="primary"
+            onClick={handlePostComment}
+        >
+            Poster un commentaire
+        </Button>
+        </div>
     </Box>
   );
 }
 
 export default FeedbackPage;
-

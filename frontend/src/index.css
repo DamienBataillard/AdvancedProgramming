@@ -212,3 +212,86 @@ code {
 .evaluation-page button:hover {
   background-color: #0056b3;
 }
+
+/* Feedback Page Styles */
+.feedback-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100vh; /* Hauteur minimale pour couvrir l'écran */
+  background-color: #d3e2f5; /* Couleur de fond */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.feedback-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.feedback-comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.comment-box {
+  width: 60%; /* Largeur des commentaires centrée */
+  text-align: center; /* Texte centré */
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comment-box p {
+  margin: 5px 0;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%; /* Largeur centrée */
+  margin-top: 20px; /* Espacement au-dessus du formulaire */
+}
+
+textarea.comment-input {
+  width: 100%; /* Prend toute la largeur du formulaire */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 15px; /* Espacement avec le bouton */
+}
+
+textarea.comment-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+button.comment-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button.comment-button:hover {
+  background-color: #0056b3;
+}
+
