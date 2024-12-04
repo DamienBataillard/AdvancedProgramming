@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 import '../index.css';
 
 function FeedbackPage() {
   const { moduleId } = useParams();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const [isAnonymous, setIsAnonymous] = useState(false); // Nouveau state pour l'anonymat
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -45,8 +46,14 @@ function FeedbackPage() {
         throw new Error('Erreur lors de l’ajout du commentaire.');
       }
 
+      // Ajouter un commentaire dans le frontend avec un champ "anonyme"
+      const displayName = isAnonymous ? 'Anonyme' : localStorage.getItem('userName');
+      setComments([
+        ...comments,
+        { content_comment: newComment, name_profile: displayName },
+      ]);
+
       setNewComment('');
-      setComments([...comments, { content_comment: newComment, id_student: studentId }]);
     } catch (err) {
       setError(err.message);
     }
@@ -86,24 +93,34 @@ function FeedbackPage() {
       </Box>
       <div className="feedback-form">
         <TextField
-            fullWidth
-            className="comment-input"
-            variant="outlined"
-            label="Votre commentaire"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            multiline
-            rows={3}
+          fullWidth
+          className="comment-input"
+          variant="outlined"
+          label="Votre commentaire"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          multiline
+          rows={3}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAnonymous}
+              onChange={(e) => setIsAnonymous(e.target.checked)}
+              color="primary"
+            />
+          }
+          label="Poster en tant qu'anonyme"
         />
         <Button
-            className="comment-button"
-            variant="contained"
-            color="primary"
-            onClick={handlePostComment}
+          className="comment-button"
+          variant="contained"
+          color="primary"
+          onClick={handlePostComment}
         >
-            Poster un commentaire
+          Poster un commentaire
         </Button>
-        </div>
+      </div>
     </Box>
   );
 }
