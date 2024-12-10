@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Select, MenuItem, TextField, Button, FormControl, InputLabel } from "@mui/material";
+import { Box, Typography, Select, MenuItem, TextField, Button, FormControl, InputLabel } from '@mui/material';
+import PrimarySearchAppBar from '../components/AppBar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -44,33 +45,12 @@ const SurveyCreation = () => {
   }, [navigate]);
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#d6dbee", // Couleur de fond
-        padding: 4,
-      }}
-    >
-      {/* En-tête */}
-      <Box
-        sx={{
-          backgroundColor: "#004fa3",
-          color: "white",
-          padding: "10px 20px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h6">EFREI</Typography>
-        <Box>
-          <Button color="inherit">🔔</Button>
-          <Button color="inherit">👤</Button>
-        </Box>
-      </Box>
-
+    <div className="App">
+      <PrimarySearchAppBar />
+      <div className="dashboard-container">
+        <h1 className="title">Welcome to EFREI Feedbacks!</h1>
+        <h2 className="subtitle">Create a New Survey</h2>
+      </div>
       {/* Contenu de la page */}
       <Box
         sx={{
@@ -167,7 +147,7 @@ const SurveyCreation = () => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 
