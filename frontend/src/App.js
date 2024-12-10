@@ -7,6 +7,7 @@ import EvaluationForm from './pages/EvaluationForm';
 import FeedbackPage from './pages/FeedbackPage';
 import AdminUserList from './pages/AdminUserList';
 import Profil from "./pages/Profil";
+import SurveyCreation from './pages/SurveyCreation';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/module/:moduleId/comments" element={<FeedbackPage />} />
         <Route path="/admin/users" element={<AdminUserList />} />
         <Route path="/profil" element={<Profil />} />
+        <Route path="/survey-creation" element={<SurveyCreation />} />
       </Routes>
     </Router>
   );

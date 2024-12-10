@@ -40,6 +40,9 @@ app.get('/api/profil', authMiddleware, (req, res) => {
     user: req.user, // Données utilisateur décodées à partir du token
   });
 });
+app.get('/api/survey-creation', authMiddleware, (req, res) => {
+  res.status(200).json({ message: 'Accès autorisé pour SurveyCreation' });
+});
 
 // Démarrage du serveur
 app.listen(PORT, () => {
