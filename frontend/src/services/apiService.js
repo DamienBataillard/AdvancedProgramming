@@ -68,3 +68,24 @@ export const APIService = {
       throw new Error('Erreur lors de l’ajout du commentaire.');
     }
   };
+
+  export const fetchEvaluation = async (id) => {
+    const response = await fetch(`${API_BASE_URL}/evaluation/${id}`);
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des données.');
+    }
+    return await response.json();
+  };
+  
+  export const submitAnswers = async (answers, studentId) => {
+    const response = await fetch(`${API_BASE_URL}/submit-answers`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers, studentId }),
+    });
+  
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'enregistrement des réponses.");
+    }
+    return await response.json();
+  };
