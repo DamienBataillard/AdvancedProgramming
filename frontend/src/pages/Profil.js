@@ -8,6 +8,7 @@ function Profil() {
     const navigate = useNavigate();
     const [profile, setProfile] = useState(null); // State to store profile data
     const [loading, setLoading] = useState(true); // State to handle loading state
+    console.log(profile)
 
     useEffect(() => {
         const verifyToken = async () => {
@@ -52,9 +53,9 @@ function Profil() {
                         alt="Profil"
                         style={{ borderRadius: '50%', width: 150, height: 150 }}
                     /> */}
-                     <Typography variant="h5" sx={{ marginTop: 2 }}>
+                     {/* <Typography variant="h5" sx={{ marginTop: 2 }}>
                         {profile.name_profile}
-                    </Typography>
+                    </Typography> */}
                 </Box>
             </div>
         </div>

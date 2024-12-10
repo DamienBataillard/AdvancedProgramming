@@ -8,15 +8,9 @@ const authMiddleware = require('./middleware/auth'); // Import du middleware
 const evaluationRoutes = require('./routes/evaluation');
 const answerRoutes = require('./routes/answer');
 const feedbackRoutes = require('./routes/feedback');
-<<<<<<< Updated upstream
 const moduleRoutes = require('./routes/modules');
 const userRoutes = require('./routes/user')
-
-=======
 const profil = require ('./routes/profil')
->>>>>>> Stashed changes
-
-
 
 const app = express();
 const PORT = 5000;
