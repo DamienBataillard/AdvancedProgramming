@@ -85,6 +85,10 @@ function PrimarySearchAppBar() {
     navigate('/login'); // Redirige vers la page de connexion
   };
 
+  const handleProfil = () => {
+    navigate('/profil'); // Redirige vers la page profil
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -106,7 +110,7 @@ function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profil</MenuItem>
+      <MenuItem onClick={handleProfil}>Profil</MenuItem>
       <MenuItem onClick={handleLogout} sx={{color: 'red'}}>Log out</MenuItem>
     </Menu>
   );
