@@ -18,7 +18,7 @@ const CommentForm = ({ onPostComment }) => {
         fullWidth
         className="comment-input"
         variant="outlined"
-        label="Votre commentaire"
+        label="Your comment"
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         multiline
@@ -32,7 +32,7 @@ const CommentForm = ({ onPostComment }) => {
             color="primary"
           />
         }
-        label="Poster anonymement"
+        label="Post anonymously"
       />
       <Button
         className="comment-button"
@@ -40,7 +40,7 @@ const CommentForm = ({ onPostComment }) => {
         color="primary"
         onClick={handleSubmit}
       >
-        Poster un commentaire
+        Post a comment
       </Button>
     </div>
   );
