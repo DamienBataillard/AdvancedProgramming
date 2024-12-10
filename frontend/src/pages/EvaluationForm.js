@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { fetchEvaluation, submitAnswers } from '../services/apiService';
 import QuestionOpen from '../components/QuestionOpen';
-import QuestionClosed from '../components/QuestionClosed';
+import QuestionClosed from '../components/QuestionClosed'; 
 import '../index.css';
 
 const EvaluationForm = () => {
@@ -14,6 +14,7 @@ const EvaluationForm = () => {
   const [responses, setResponses] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false); // État pour gérer la soumission
 
   useEffect(() => {
     const loadEvaluation = async () => {
@@ -55,7 +56,13 @@ const EvaluationForm = () => {
 
     try {
       await submitAnswers(answers, studentId);
-      navigate('/dashboard');
+      setIsSubmitted(true); // Active le message de confirmation
+
+      // Affiche une alerte et redirige après un délai
+      setTimeout(() => {
+        alert('Votre évaluation a été soumise avec succès.');
+        navigate('/dashboard');
+      }, 500);
     } catch (err) {
       console.error(err.message);
     }
@@ -67,29 +74,36 @@ const EvaluationForm = () => {
   return (
     <div className="evaluation-page">
       <div className="evaluation-form-container">
-        <form className="evaluation-form" onSubmit={handleSubmit}>
-          <h1>{evaluation.title_evaluation}</h1>
-          {questions.map((question) => (
-            <div key={question.id_question} className="question-container">
-              <h3>{question.title_question}</h3>
-              <p>{question.content_question}</p>
-              {question.type_question === 1 ? (
-                <QuestionOpen
-                  question={question}
-                  value={responses[question.id_question]}
-                  onChange={handleInputChange}
-                />
-              ) : question.type_question === 2 ? (
-                <QuestionClosed
-                  question={question}
-                  value={responses[question.id_question]}
-                  onChange={handleInputChange}
-                />
-              ) : null}
-            </div>
-          ))}
-          <button type="submit">Envoyer</button>
-        </form>
+        {isSubmitted ? ( // Affichage conditionnel du message de confirmation
+          <div className="confirmation-message">
+            <h2>Merci d'avoir complété l'évaluation !</h2>
+            <p>Vous serez redirigé vers le tableau de bord sous peu...</p>
+          </div>
+        ) : (
+          <form className="evaluation-form" onSubmit={handleSubmit}>
+            <h1>{evaluation.title_evaluation}</h1>
+            {questions.map((question) => (
+              <div key={question.id_question} className="question-container">
+                <h3>{question.title_question}</h3>
+                <p>{question.content_question}</p>
+                {question.type_question === 1 ? (
+                  <QuestionOpen
+                    question={question}
+                    value={responses[question.id_question]}
+                    onChange={handleInputChange}
+                  />
+                ) : question.type_question === 2 ? (
+                  <QuestionClosed
+                    question={question}
+                    value={responses[question.id_question]}
+                    onChange={handleInputChange}
+                  />
+                ) : null}
+              </div>
+            ))}
+            <button type="submit">Send</button>
+          </form>
+        )}
       </div>
     </div>
   );
