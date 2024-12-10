@@ -20,3 +20,17 @@ export const verifyToken = async (token) => {
   if (!response.ok) throw new Error("Accès interdit.");
   return response.json();
 };
+
+export const APIService = {
+    register: async (formData) => {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+      return response.json();
+    },
+  };
