@@ -1,7 +1,9 @@
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, CircularProgress, TextField} from '@mui/material';
 import PrimarySearchAppBar from '../components/AppBar';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DateField } from '@mui/x-date-pickers/DateField';
+
 import '../index.css';
 
 function Profil() {
@@ -43,21 +45,46 @@ function Profil() {
         verifyToken();
       }, [navigate]);
       console.log(profile)
-    return(
+      return (
         <div className="App">
             <PrimarySearchAppBar />
-            <div className="profil-container">
-                <Box>
-                    {/* <img
-                        src={profile.img_profile || 'https://via.placeholder.com/150'} // Default image if none provided
-                        alt="Profil"
-                        style={{ borderRadius: '50%', width: 150, height: 150 }}
-                    /> */}
-                     {/* <Typography variant="h5" sx={{ marginTop: 2 }}>
-                        {profile.name_profile}
-                    </Typography> */}
+            {loading ? (
+                // Render spinner while loading
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <CircularProgress />
                 </Box>
-            </div>
+            ) : profile ? (
+                // Render profile if loaded successfully
+                <div className="profil-container">
+                    <Box sx={ {display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        {/* <img
+                            src={profile.img_profile || 'https://via.placeholder.com/150'}
+                            alt="Profile"
+                            style={{ borderRadius: '50%', width: 300, height: 300 }}
+                        /> */}
+                        <TextField
+
+                          defaultValue={profile.name_profile}
+                          disabled
+                        />
+                        <TextField
+                          defaultValue={profile.mail_profile}
+                          disabled
+                        />
+                        <Typography variant="h5" sx={{ marginTop: 2 }}>
+                            {profile.name_profile || 'Name not available'}
+                        </Typography>
+                        {/* <DateField
+                            value={profile.date_of_birth_profile}
+                        /> */}
+                    </Box>
+                </div>
+            ) : (
+                // Render fallback message if profile is null
+                <Typography variant="h6" sx={{ textAlign: 'center', marginTop: 5 }}>
+                    Unable to load profile data.
+                </Typography>
+            )}
         </div>
     );
 }
