@@ -9,6 +9,9 @@ const evaluationRoutes = require('./routes/evaluation');
 const answerRoutes = require('./routes/answer');
 const feedbackRoutes = require('./routes/feedback');
 const moduleRoutes = require('./routes/modules');
+const userRoutes = require('./routes/user')
+
+
 
 
 const app = express();
@@ -25,6 +28,7 @@ app.use('/api', evaluationRoutes);
 app.use('/api', answerRoutes);
 app.use('/api', feedbackRoutes);
 app.use('/api', moduleRoutes);
+app.use('/api', userRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
