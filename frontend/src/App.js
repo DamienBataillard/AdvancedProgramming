@@ -19,7 +19,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/evaluation/:id" element={<EvaluationForm />} />
         <Route path="/module/:moduleId/comments" element={<FeedbackPage />} />
-        <Route path="/AdminUserList" element={<AdminUserList />} />
+        <Route path="/admin/users" element={<AdminUserList />} />
         <Route path="/profil" element={<Profil />} />
       </Routes>
     </Router>
