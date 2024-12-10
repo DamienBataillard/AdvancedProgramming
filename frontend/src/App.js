@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import EvaluationForm from './pages/EvaluationForm'; 
 import FeedbackPage from './pages/FeedbackPage';
 import AdminUserList from './pages/AdminUserList';
+import Profil from "./pages/Profil";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/evaluation/:id" element={<EvaluationForm />} />
         <Route path="/module/:moduleId/comments" element={<FeedbackPage />} />
         <Route path="/AdminUserList" element={<AdminUserList />} />
+        <Route path="/profil" element={<Profil />} />
       </Routes>
     </Router>
   );
