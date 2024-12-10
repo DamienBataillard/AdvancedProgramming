@@ -97,7 +97,7 @@ const EvaluationForm = () => {
                 // Champ de texte pour les questions ouvertes
                 <textarea
                   name={`question_${question.id_question}`}
-                  placeholder="Votre réponse..."
+                  placeholder="Your answer..."
                   rows="4"
                   cols="50"
                   value={responses[question.id_question] || ''}

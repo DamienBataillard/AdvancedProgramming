@@ -49,3 +49,22 @@ export const APIService = {
   
     return await response.json();
   };
+
+  export const fetchComments = async (moduleId) => {
+    const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`);
+    if (!response.ok) {
+      throw new Error('Erreur lors de la récupération des commentaires.');
+    }
+    return await response.json();
+  };
+  
+  export const postComment = async ({ moduleId, content_comment, id_student }) => {
+    const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content_comment, id_student }),
+    });
+    if (!response.ok) {
+      throw new Error('Erreur lors de l’ajout du commentaire.');
+    }
+  };
