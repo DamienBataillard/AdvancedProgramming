@@ -8,9 +8,13 @@ const authMiddleware = require('./middleware/auth'); // Import du middleware
 const evaluationRoutes = require('./routes/evaluation');
 const answerRoutes = require('./routes/answer');
 const feedbackRoutes = require('./routes/feedback');
+<<<<<<< Updated upstream
 const moduleRoutes = require('./routes/modules');
 const userRoutes = require('./routes/user')
 
+=======
+const profil = require ('./routes/profil')
+>>>>>>> Stashed changes
 
 
 
@@ -23,6 +27,7 @@ app.use(cors()); // Autorise toutes les origines par défaut
 
 // Intégration des routes
 app.use('/api', registerRoutes);
+app.use('/api', profil);
 app.use('/api', loginRoutes);
 app.use('/api', evaluationRoutes);
 app.use('/api', answerRoutes);
@@ -30,6 +35,12 @@ app.use('/api', feedbackRoutes);
 app.use('/api', moduleRoutes);
 app.use('/api', userRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
+  res.status(200).json({
+    message: 'Bienvenue sur le tableau de bord',
+    user: req.user, // Données utilisateur décodées à partir du token
+  });
+});
+app.get('/api/profil', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
     user: req.user, // Données utilisateur décodées à partir du token
