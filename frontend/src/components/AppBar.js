@@ -82,7 +82,7 @@ function PrimarySearchAppBar() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Supprime le token
-    navigate('/'); // Redirige vers la page de connexion
+    navigate('/login'); // Redirige vers la page de connexion
   };
 
   const handleMobileMenuOpen = (event) => {

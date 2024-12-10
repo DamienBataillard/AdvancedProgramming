@@ -19,6 +19,10 @@ function StudentDashboard() {
   return (
     <div className="App">
       <PrimarySearchAppBar />
+      <div className="dashboard-container">
+        <h1 className="title">Welcome to EFREI Feedbacks!</h1>
+        <h2 className="subtitle">Give your thoughts</h2>
+      </div>
       <Box
         sx={{
           backgroundColor: '#5481c2',
