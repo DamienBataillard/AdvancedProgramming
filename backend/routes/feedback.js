@@ -1,9 +1,10 @@
 const express = require('express');
 const db = require('../config/db'); // Importez la configuration de la base de données
+const authMiddleware = require('../middleware/auth'); // Importer le middleware d'authentification
 const router = express.Router();
 
 // Route pour récupérer les feedbacks d'un étudiant
-router.get('/feedbacks/:studentId', (req, res) => {
+router.get('/feedbacks/:studentId', authMiddleware, (req, res) => {
   const { studentId } = req.params;
 
   const query = `

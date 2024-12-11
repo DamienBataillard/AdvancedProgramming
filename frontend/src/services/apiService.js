@@ -57,7 +57,13 @@ export const APIService = {
   };
 
   export const fetchComments = async (moduleId) => {
-    const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`);
+    const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // Récupère le token depuis le localStorage
+      },
+    });
     if (!response.ok) {
       throw new Error('Erreur lors de la récupération des commentaires.');
     }
@@ -76,7 +82,13 @@ export const APIService = {
   };
 
   export const fetchEvaluation = async (id) => {
-    const response = await fetch(`${API_BASE_URL}/evaluation/${id}`);
+    const response = await fetch(`${API_BASE_URL}/evaluation/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // Récupère le token depuis le localStorage
+      },
+    });
     if (!response.ok) {
       throw new Error('Erreur lors de la récupération des données.');
     }
