@@ -21,8 +21,8 @@ const EvaluationForm = () => {
     const loadEvaluation = async () => {
       try {
         const data = await fetchEvaluation(id);
-        setEvaluation(data.evaluation);
-        setQuestions(data.questions);
+        setEvaluation(data);   
+        setQuestions(data.question);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -71,6 +71,7 @@ const EvaluationForm = () => {
 
   if (loading) return <p>Chargement...</p>;
   if (error) return <p>Erreur : {error}</p>;
+  if (!evaluation) return <p>Évaluation non trouvée.</p>;
 
   return (
     <div className="evaluation-page">
