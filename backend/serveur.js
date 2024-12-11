@@ -23,12 +23,12 @@ app.use(cors()); // Autorise toutes les origines par défaut
 
 // Intégration des routes
 app.use('/api', registerRoutes);
-app.use('/api', profil);
+app.use('/api', authMiddleware, profil);
 app.use('/api', loginRoutes);
 app.use('/api', authMiddleware, evaluationRoutes); 
 app.use('/api', authMiddleware, answerRoutes);
 app.use('/api', authMiddleware, feedbackRoutes);
-app.use('/api', moduleRoutes);
+app.use('/api', authMiddleware, moduleRoutes);
 app.use('/api', userRoutes);
 app.use('/api', studentGroupRoutes);
 app.use('/api', studentRoutes);
