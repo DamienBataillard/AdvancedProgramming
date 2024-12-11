@@ -8,6 +8,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import AdminUserList from './pages/AdminUserList';
 import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
+import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
 
 function App() {
   return (
@@ -15,18 +16,61 @@ function App() {
       <Routes>
         {/* Définir la page par défaut */}
         <Route path="/" element={<Navigate to="/register" replace />} />
-        <Route path="/dashboard" element={<StudentDashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/evaluation/:id" element={<EvaluationForm />} />
-        <Route path="/module/:moduleId/comments" element={<FeedbackPage />} />
-        <Route path="/admin/users" element={<AdminUserList />} />
-        <Route path="/profil" element={<Profil />} />
-        <Route path="/survey-creation" element={<SurveyCreation />} />
+        
+        {/* Routes protégées */}
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <StudentDashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/evaluation/:id" 
+          element={
+            <ProtectedRoute>
+              <EvaluationForm />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/module/:moduleId/comments" 
+          element={
+            <ProtectedRoute>
+              <FeedbackPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/admin/users" 
+          element={
+            <ProtectedRoute>
+              <AdminUserList />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profil" 
+          element={
+            <ProtectedRoute>
+              <Profil />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/survey-creation" 
+          element={
+            <ProtectedRoute>
+              <SurveyCreation />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-

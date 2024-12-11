@@ -34,12 +34,6 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
     user: req.user, // Données utilisateur décodées à partir du token
   });
 });
-app.get('/api/profil', authMiddleware, (req, res) => {
-  res.status(200).json({
-    message: 'Bienvenue sur le tableau de bord',
-    user: req.user, // Données utilisateur décodées à partir du token
-  });
-});
 app.get('/api/survey-creation', authMiddleware, (req, res) => {
   res.status(200).json({ message: 'Accès autorisé pour SurveyCreation' });
 });
