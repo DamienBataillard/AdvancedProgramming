@@ -84,6 +84,10 @@ function Profil() {
                             value={profile.date_of_birth_profile}
                         /> */}
                     </Box>
+                    <Box className="profil-container" sx={{display: 'flex', justifyContent: 'center',top: '10px'}}>
+                      <button>Modify</button>
+                    </Box>
+                    
                 </div>
             ) : (
                 // Render fallback message if profile is null
