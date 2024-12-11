@@ -42,10 +42,10 @@ router.get('/profil', authMiddleware, (req, res) => {
 // Update profile route
 router.put('/profil', authMiddleware, (req, res) => {
     const studentId = req.user.userId; // Extract studentId from token's user data
-    const { first_name_profile, last_name_profile, mail_profile } = req.body; // Extract updated fields from request body
+    const { first_name_profile, last_name_profile, mail_profile, date_of_birth_profile } = req.body; // Extract updated fields from request body
 
     // Validate input
-    if (!first_name_profile || !last_name_profile || !mail_profile) {
+    if (!first_name_profile || !last_name_profile || !mail_profile || !date_of_birth_profile) {
         return res.status(400).json({ message: 'Tous les champs obligatoires doivent être remplis.' });
     }
 
@@ -54,11 +54,12 @@ router.put('/profil', authMiddleware, (req, res) => {
         SET 
             first_name_profile = ?, 
             last_name_profile = ?, 
-            mail_profile = ?
+            mail_profile = ?,
+            date_of_birth_profile = ?
         WHERE id_profile = ?
     `;
 
-    db.query(query, [first_name_profile, last_name_profile, mail_profile, studentId], (err, result) => {
+    db.query(query, [first_name_profile, last_name_profile, mail_profile, date_of_birth_profile, studentId], (err, result) => {
         if (err) {
             console.error('Erreur lors de la mise à jour des informations du profil :', err);
             return res.status(500).json({ message: 'Erreur interne du serveur.' });
@@ -75,6 +76,7 @@ router.put('/profil', authMiddleware, (req, res) => {
                 first_name_profile,
                 last_name_profile,
                 mail_profile,
+                date_of_birth_profile,
             },
         });
     });
