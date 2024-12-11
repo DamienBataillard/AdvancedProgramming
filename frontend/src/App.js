@@ -54,6 +54,14 @@ function App() {
           } 
         />
         <Route 
+          path="/admin/groups" 
+          element={
+            <ProtectedRoute>
+              <AdminGroupCreation />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
           path="/profil" 
           element={
             <ProtectedRoute>

@@ -42,6 +42,7 @@ const AdminGroupCreation = () => {
     setLoading(false);
   };
 
+  // Fetch all students
   const fetchStudents = async () => {
     setLoading(true);
     setError('');
@@ -60,9 +61,7 @@ const AdminGroupCreation = () => {
       }
 
       const data = await response.json();
-      console.log(data); // Ajoutez cette ligne pour inspecter les données
-
-      // Filtrage basé sur un champ role ou une autre condition
+      // Filtering based on role (student)
       const filteredStudents = data.filter(student => student.role === 'student');
       setStudents(filteredStudents);
     } catch (err) {
@@ -299,25 +298,22 @@ const AdminGroupCreation = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {/* CSS Styles */}
-      <style>{`
+      <style>
+        {`
         .admin-container {
           padding: 20px;
         }
-
         .site-logo {
           width: 150px;
           margin-bottom: 20px;
         }
-
         .content {
           display: flex;
           gap: 30px;
         }
-
         .column {
           width: 33%;
         }
-
         input[type="text"], input[type="number"] {
           width: 100%;
           padding: 8px;
@@ -325,7 +321,6 @@ const AdminGroupCreation = () => {
           border: 1px solid #ccc;
           border-radius: 4px;
         }
-
         button {
           padding: 8px 15px;
           background-color: #888; /* Grey */
@@ -333,30 +328,27 @@ const AdminGroupCreation = () => {
           border: none;
           cursor: pointer;
         }
-
         button:hover {
           background-color: #4CAF50; /* Green */
         }
-
         button.selected {
           background-color: #1E90FF; /* Blue */
         }
-
         ul {
           list-style-type: none;
           padding-left: 0;
         }
-
         ul li {
           margin-bottom: 10px;
         }
-
         ul li button {
           margin-left: 10px;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };
 
 export default AdminGroupCreation;
+
