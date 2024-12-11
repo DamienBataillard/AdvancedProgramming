@@ -28,7 +28,7 @@ function Profil() {
                     first_name_profile: firstName,
                     last_name_profile: lastName,
                     mail_profile: email,
-                    date_of_birth_profile: date ? dayjs(date).format('YYYY-MM-DD') : null, // Send ISO string
+                    date_of_birth_profile: date ? dayjs(date).format('YYYY-MM-DD') : null,
                 };
 
                 const response = await fetch('http://localhost:5000/api/profil', {
