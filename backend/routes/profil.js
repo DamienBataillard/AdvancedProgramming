@@ -5,13 +5,12 @@ const router = express.Router();
 
 // Route pour récupérer les informations du profil
 router.get('/profil', authMiddleware, async (req, res) => {
-  const studentId = req.user.userId; // Extraire l'ID de l'utilisateur depuis le token
 
   console.log('Utilisateur autorisé:', req.user); // Log des informations utilisateur pour le débogage
 
   try {
     const profile = await prisma.profile.findUnique({
-      where: { id: studentId },
+      where: { id_profile: req.user.id_profile},
       select: {
         id_profile: true,
         mail_profile: true,

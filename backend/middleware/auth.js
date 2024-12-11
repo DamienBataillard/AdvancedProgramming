@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
 
     // Vérifiez si l'utilisateur est toujours actif en base de données (optionnel)
     const user = await prisma.profile.findUnique({
-      where: { id: decoded.id },
+      where: { id_profile: decoded.userId },
     });
 
     if (!user) {
@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).json({ message: 'Compte désactivé.' });
     }
 
-    req.user = decoded; // Ajoute les informations du token à la requête
+    req.user = { id_profile: decoded.userId, ...decoded };// Ajoute les informations du token à la requête
     next(); // Passe au middleware suivant
   } catch (err) {
     console.error('Erreur de validation du token :', err.message);

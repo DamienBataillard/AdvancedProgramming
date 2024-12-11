@@ -17,7 +17,6 @@ function FeedbackPage() {
       try {
         const data = await fetchComments(moduleId);
         setComments(data);
-        console.log(data)
         setLoading(false);
       } catch (err) {
         setError(err.message);
