@@ -13,7 +13,8 @@ router.get('/profil', authMiddleware, (req, res) => {
         SELECT 
             id_profile, 
             mail_profile, 
-            name_profile, 
+            first_name_profile,
+            last_name_profile, 
             date_of_birth_profile, 
             img_profile
         FROM profile

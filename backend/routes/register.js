@@ -6,10 +6,10 @@ const router = express.Router();
 
 // Route pour enregistrer un utilisateur
 router.post('/register', async (req, res, next) => {
-  const { mail_profile, name_profile, date_of_birth_profile, password_profile } = req.body;
+  const { mail_profile, first_name_profile,last_name_profile, date_of_birth_profile, password_profile } = req.body;
 
   // Vérification des champs obligatoires
-  if (!mail_profile || !name_profile || !date_of_birth_profile || !password_profile) {
+  if (!mail_profile || !first_name_profile || !last_name_profile || !date_of_birth_profile || !password_profile) {
     return res.status(400).json({ message: 'Tous les champs sont requis.' });
   }
 
@@ -20,11 +20,11 @@ router.post('/register', async (req, res, next) => {
 
     // Requête SQL pour insérer l'utilisateur
     const query = `
-      INSERT INTO profile (mail_profile, name_profile, date_of_birth_profile, password_profile)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO profile (mail_profile, first_name_profile, last_name_profile, date_of_birth_profile, password_profile)
+      VALUES (?, ?, ?, ?, ?)
     `;
 
-    db.query(query, [mail_profile, name_profile, date_of_birth_profile, hashedPassword], (err, result) => {
+    db.query(query, [mail_profile, first_name_profile,last_name_profile, date_of_birth_profile, hashedPassword], (err, result) => {
       if (err) {
         console.error('Erreur lors de l\'insertion de l\'utilisateur:', err);
         return res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur.' });

@@ -56,24 +56,30 @@ function Profil() {
             ) : profile ? (
                 // Render profile if loaded successfully
                 <div className="profil-container">
-                    <Box sx={ {display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                    <h1 className="title">Welcome to your profil page !</h1>
+                  </Box>
+                    <Box sx={ {display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 3}}>
                         {/* <img
                             src={profile.img_profile || 'https://via.placeholder.com/150'}
                             alt="Profile"
                             style={{ borderRadius: '50%', width: 300, height: 300 }}
                         /> */}
                         <TextField
-
-                          defaultValue={profile.name_profile}
+                          label="First Name"
+                          defaultValue={profile.first_name_profile}
                           disabled
                         />
                         <TextField
+                          label="Last Name"
+                          defaultValue={profile.last_name_profile}
+                          disabled
+                        />
+                        <TextField
+                          label="Mail"
                           defaultValue={profile.mail_profile}
                           disabled
                         />
-                        <Typography variant="h5" sx={{ marginTop: 2 }}>
-                            {profile.name_profile || 'Name not available'}
-                        </Typography>
                         {/* <DateField
                             value={profile.date_of_birth_profile}
                         /> */}

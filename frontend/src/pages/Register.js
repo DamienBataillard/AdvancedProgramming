@@ -8,7 +8,8 @@ import logo from '../assets/images/logo.png';
 const Register = () => {
   const [formData, setFormData] = useState({
     mail_profile: '',
-    name_profile: '',
+    first_name_profile: '',
+    last_name_profile: '',
     date_of_birth_profile: '',
     password_profile: '',
     confirm_password: '',
@@ -51,8 +52,15 @@ const Register = () => {
         />
         <input
           type="text"
-          name="name_profile"
-          placeholder="Name"
+          name="first_name_profile"
+          placeholder="First Name"
+          value={formData.name_profile}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="last_name_profile"
+          placeholder="Last Name"
           value={formData.name_profile}
           onChange={handleChange}
         />

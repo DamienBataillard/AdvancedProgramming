@@ -2,7 +2,8 @@
 CREATE TABLE Profile (
     id_profile INT PRIMARY KEY AUTO_INCREMENT,
     mail_profile VARCHAR(255) NOT NULL UNIQUE,
-    name_profile VARCHAR(255) NOT NULL,
+    first_name_profile VARCHAR(255) NOT NULL,
+    last_name_profile VARCHAR(255) NOT NULL,
     date_of_birth_profile DATE,
     img_profile TEXT,
     password_profile VARCHAR(255) NOT NULL
