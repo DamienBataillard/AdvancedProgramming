@@ -16,6 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/images/logo_efrei.png'; // Import du logo
 import AnchorTemporaryDrawer from './NotificationDrawer';
 
 const Search = styled('div')(({ theme }) => ({
@@ -180,7 +181,9 @@ function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <img src='../assets/images/logo_efrei.png'/>
+          <a href='/dashboard'>
+            <img src={logo} alt='logo' sizes='small' style={{ height: '40px', margin: '0 auto' }}/>
+          </a>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
