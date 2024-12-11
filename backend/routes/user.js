@@ -7,22 +7,26 @@ router.get('/users', async (req, res) => {
   try {
     const users = await prisma.profile.findMany({
       include: {
-        roles: {
+        profile_role: {
           include: {
-            role: true, // Inclure les informations sur les rôles
+            role: true, // Inclure toutes les informations sur les rôles associés
           },
         },
       },
     });
 
-    // Formatage des résultats pour correspondre au schéma attendu
+    // Formater les données pour inclure les rôles avec toutes leurs informations
     const formattedUsers = users.map((user) => ({
       id_profile: user.id_profile,
       mail_profile: user.mail_profile,
       name_profile: user.name_profile,
-      id_role: user.roles[0]?.role.id || null, // Si l'utilisateur a un rôle, prendre son ID
-      name_role: user.roles[0]?.role.name_role || 'Aucun rôle', // Si l'utilisateur a un rôle, prendre son nom
+      roles: user.profile_role.map((pr) => ({
+        id_role: pr.role.id_role,
+        name_role: pr.role.name_role,
+      })), // Extraire les ID et noms des rôles
     }));
+
+    console.log(formattedUsers)
 
     res.status(200).json(formattedUsers);
   } catch (error) {
@@ -30,6 +34,8 @@ router.get('/users', async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
+
+
 
 // Récupérer les rôles disponibles
 router.get('/roles', async (req, res) => {
@@ -49,21 +55,21 @@ router.put('/users/:id/role', async (req, res) => {
 
   try {
     // Supprimer les anciens rôles associés à l'utilisateur
-    await prisma.profile_Role.deleteMany({
-      where: { id_profile: parseInt(id) },
+    await prisma.profile_role.deleteMany({
+      where: { id_profile: parseInt(id, 10) },
     });
 
     // Ajouter le nouveau rôle
-    await prisma.profile_Role.create({
+    await prisma.profile_role.create({
       data: {
-        id_profile: parseInt(id),
-        id_role: parseInt(roleId),
+        id_profile: parseInt(id, 10),
+        id_role: parseInt(roleId, 10),
       },
     });
 
     res.status(200).json({ message: 'Rôle mis à jour avec succès' });
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour du rôle :', error.message);
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du rôle :', err.message);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });

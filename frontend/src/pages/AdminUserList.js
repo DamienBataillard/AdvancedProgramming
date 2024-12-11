@@ -159,12 +159,17 @@ const AdminPage = () => {
               <tr key={user.id_profile}>
                 <td>{user.name_profile}</td>
                 <td>{user.mail_profile}</td>
-                <td>{user.name_role}</td>
+                <td>
+                  {user.roles && user.roles.length > 0
+                    ? user.roles.map((role) => role.name_role).join(", ")
+                    : "Aucun rôle"}
+                </td>
                 <td>
                   <select
                     value={user.id_role || ""}
                     onChange={(e) => updateRole(user.id_profile, e.target.value)}
                   >
+                    <option value="" disabled></option>
                     {roles.map((role) => (
                       <option key={role.id_role} value={role.id_role}>
                         {role.name_role}
