@@ -8,6 +8,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import AdminUserList from './pages/AdminUserList';
 import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
+import AdminGroupCreation from './pages/AdminGroupCreation';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/evaluation/:id" element={<EvaluationForm />} />
         <Route path="/module/:moduleId/comments" element={<FeedbackPage />} />
         <Route path="/admin/users" element={<AdminUserList />} />
+        <Route path="/admin/groups" element={<AdminGroupCreation />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/survey-creation" element={<SurveyCreation />} />
       </Routes>

@@ -11,6 +11,8 @@ const feedbackRoutes = require('./routes/feedback');
 const moduleRoutes = require('./routes/modules');
 const userRoutes = require('./routes/user')
 const profil = require ('./routes/profil')
+const studentGroupRoutes = require('./routes/studentgroup');
+const studentRoutes = require('./routes/student');
 
 const app = express();
 const PORT = 5000;
@@ -28,6 +30,8 @@ app.use('/api', answerRoutes);
 app.use('/api', feedbackRoutes);
 app.use('/api', moduleRoutes);
 app.use('/api', userRoutes);
+app.use('/api', studentGroupRoutes);
+app.use('/api', studentRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
