@@ -2,22 +2,41 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-// Récupérer les utilisateurs avec leur rôle
 router.get('/users', (req, res) => {
+  const { name, email, role } = req.query;
+
+  // Construction dynamique de la clause WHERE
+  let filters = [];
+  if (name) filters.push(`p.first_name_profile LIKE ? OR p.last_name_profile LIKE ?`); // Recherche sur prénom et nom
+  if (email) filters.push(`p.mail_profile LIKE ?`);
+  if (role) filters.push(`r.id_role = ?`);
+
+  const whereClause = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+
   const sql = `
     SELECT 
       p.id_profile, 
       p.mail_profile, 
-      p.name_profile, 
+      p.first_name_profile, 
+      p.last_name_profile, 
       r.id_role, 
       r.name_role 
     FROM Profile p
     LEFT JOIN Profile_Role pr ON p.id_profile = pr.id_profile
-    LEFT JOIN Role r ON pr.id_role = r.id_role;
+    LEFT JOIN Role r ON pr.id_role = r.id_role
+    ${whereClause};
   `;
 
-  // Exécution de la requête avec callback
-  db.query(sql, (error, results) => {
+  // Paramètres pour la requête
+  const params = [];
+  if (name) {
+    params.push(`%${name}%`);
+    params.push(`%${name}%`); // Rechercher dans le prénom et le nom
+  }
+  if (email) params.push(`%${email}%`);
+  if (role) params.push(role);
+
+  db.query(sql, params, (error, results) => {
     if (error) {
       console.error('Erreur lors de la récupération des utilisateurs :', error.message);
       return res.status(500).json({ error: 'Erreur serveur' });
@@ -25,6 +44,8 @@ router.get('/users', (req, res) => {
     res.json(results);
   });
 });
+
+
 
 // Récupérer les rôles disponibles
 router.get('/roles', (req, res) => {

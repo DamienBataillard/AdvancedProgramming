@@ -12,168 +12,201 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     setLoading(true);
-    setError(''); // Reset des erreurs avant chaque appel
+    setError('');
     try {
-      const params = new URLSearchParams({ name, email, role }).toString();
-      const response = await fetch(`http://localhost:5000/api/users?${params}`, {
+      const params = new URLSearchParams();
+      if (name) params.append('name', name);
+      if (email) params.append('email', email);
+      if (role) params.append('role', role);
+
+      console.log('Calling fetchUsers function');
+      console.log('API request with parameters:', params.toString());
+
+      const response = await fetch(`http://localhost:5000/api/users?${params.toString()}`, {
         method: 'GET',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Ajout du token pour l'authentification
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-  
+
       if (!response.ok) {
-        // Si la réponse est une erreur (status != 2xx), afficher le message d'erreur
         const errorData = await response.json();
-        console.error('Erreur serveur:', errorData);
-        throw new Error(errorData.message || 'Erreur lors de la récupération des utilisateurs.');
+        throw new Error(errorData.message || 'Error fetching users.');
       }
-  
+
       const data = await response.json();
+      console.log('Fetched users data:', data);
       setUsers(data);
-      setSuccess('Utilisateurs récupérés avec succès.');
+      setError('');
+      setSuccess('Users successfully fetched.');
     } catch (err) {
-      // Affichage de l'erreur complète
-      console.error('Erreur lors de la récupération des utilisateurs:', err);
+      console.error('Error fetching users:', err);
       setError(err.message);
-      setUsers([]); // On vide la liste des utilisateurs en cas d'erreur
+      setUsers([]);
     }
     setLoading(false);
   };
-  
-  
+
   const fetchRoles = async () => {
-    setError(''); // Reset des erreurs avant chaque appel
+    setError('');
     setSuccess('');
     try {
       const response = await fetch('http://localhost:5000/api/roles', {
         method: 'GET',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Si authentification est requise
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-  
+
       if (!response.ok) {
-        // Si la réponse est une erreur (status != 2xx), afficher le message d'erreur
         const errorData = await response.json();
-        console.error('Erreur serveur:', errorData);
-        throw new Error(errorData.message || 'Erreur lors de la récupération des rôles.');
+        throw new Error(errorData.message || 'Error fetching roles.');
       }
-  
+
       const data = await response.json();
       setRoles(data);
-      setSuccess('Rôles récupérés avec succès.');
+      setSuccess('Roles successfully fetched.');
     } catch (err) {
-      console.error('Erreur lors de la récupération des rôles:', err);
+      console.error('Error fetching roles:', err);
       setError(err.message);
-      setRoles([]); // On vide la liste des rôles en cas d'erreur
+      setRoles([]);
     }
   };
-  
-  // Fonction pour mettre à jour un rôle
+
   const updateRole = async (userId, newRoleId) => {
-    setError(''); // Reset des erreurs avant chaque appel
+    setError('');
     try {
       const response = await fetch(`http://localhost:5000/api/users/${userId}/role`, {
         method: 'PUT',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Ajout du token pour l'authentification
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ roleId: newRoleId }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Erreur lors de la mise à jour du rôle.');
+        throw new Error(errorData.message || 'Error updating role.');
       }
 
-      setSuccess('Le rôle a été mis à jour avec succès !');
-      fetchUsers(); // Rafraîchir la liste des utilisateurs
+      setSuccess('Role updated successfully!');
+      fetchUsers();
     } catch (err) {
       setError(err.message);
-      setSuccess(''); // En cas d'erreur, on vide le message de succès
+      setSuccess('');
     }
   };
 
-  // Chargement initial des utilisateurs et des rôles
+  // useEffect that triggers every time a filter changes (name, email, role)
   useEffect(() => {
     fetchUsers();
+  }, [name, email, role]); // This ensures fetchUsers is called each time any of the filters change
+
+  // Handle role change in the filter
+  const handleRoleChange = (event) => {
+    setRole(event.target.value); // Update the selected role
+  };
+
+  // Handle name change in the filter
+  const handleNameChange = (event) => {
+    setName(event.target.value); // Update the name filter
+  };
+
+  // Handle email change in the filter
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value); // Update the email filter
+  };
+
+  useEffect(() => {
     fetchRoles();
-  }, []); // Effectué une seule fois lors du chargement du composant
+  }, []);
 
   return (
     <div className="admin-container">
-      <img src={logo} alt="Site Logo" className="site-logo" /> {/* Affiche le logo */}
-      <h1>Gestion des Utilisateurs</h1>
+      <img src={logo} alt="Site Logo" className="site-logo" />
+      <h1>User Management</h1>
 
-      <form onSubmit={(e) => { e.preventDefault(); fetchUsers(); }} style={{ marginBottom: "20px" }}>
+      <form
+        style={{ marginBottom: '20px' }}
+      >
         <input
           type="text"
-          placeholder="Nom"
+          placeholder="First Name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ marginRight: "10px" }}
+          onChange={handleNameChange} // Call handleNameChange
+          style={{ marginRight: '10px' }}
         />
         <input
           type="text"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ marginRight: "10px" }}
+          onChange={handleEmailChange} // Call handleEmailChange
+          style={{ marginRight: '10px' }}
         />
-        <select value={role} onChange={(e) => setRole(e.target.value)} style={{ marginRight: "10px" }}>
-          <option value="">Tous les rôles</option>
+        <select
+          value={role}
+          onChange={handleRoleChange} // Call handleRoleChange
+          style={{ marginRight: '10px' }}
+        >
+          <option value="">All Roles</option>
           {roles.map((role) => (
             <option key={role.id_role} value={role.id_role}>
               {role.name_role}
             </option>
           ))}
         </select>
-        <button type="submit">Rechercher</button>
       </form>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
 
       {loading ? (
-        <p>Chargement...</p>
+        <p>Loading...</p>
       ) : (
-        <table border="1" style={{ width: "100%", textAlign: "left" }}>
+        <table border="1" style={{ width: '100%', textAlign: 'left' }}>
           <thead>
             <tr>
-              <th>Nom</th>
+              <th>Full Name</th>
               <th>Email</th>
-              <th>Rôle</th>
+              <th>Role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id_profile}>
-                <td>{user.name_profile}</td>
-                <td>{user.mail_profile}</td>
-                <td>{user.name_role}</td>
-                <td>
-                  <select
-                    value={user.id_role || ""}
-                    onChange={(e) => updateRole(user.id_profile, e.target.value)}
-                  >
-                    {roles.map((role) => (
-                      <option key={role.id_role} value={role.id_role}>
-                        {role.name_role}
-                      </option>
-                    ))}
-                  </select>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user.id_profile}>
+                  <td>{user.first_name_profile} {user.last_name_profile}</td> {/* Display first and last name */}
+                  <td>{user.mail_profile}</td>
+                  <td>{user.name_role}</td>
+                  <td>
+                    <select
+                      value={user.id_role || ''}
+                      onChange={(e) => updateRole(user.id_profile, e.target.value)}
+                    >
+                      {roles.map((role) => (
+                        <option key={role.id_role} value={role.id_role}>
+                          {role.name_role}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" style={{ textAlign: 'center' }}>
+                  No users found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       )}
