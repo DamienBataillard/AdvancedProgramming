@@ -180,14 +180,7 @@ function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Students Feedbacks
-          </Typography>
+          <img src='../assets/images/logo_efrei.png'/>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
