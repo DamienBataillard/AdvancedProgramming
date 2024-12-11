@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model answer {
+  id_answer      Int      @id @default(autoincrement())
+  note_answer    Int?
+  content_answer String?  @db.Text
+  is_private     Boolean
+  id_question    Int
+  id_student     Int
+  question       question @relation(fields: [id_question], references: [id_question], onDelete: Cascade, onUpdate: NoAction)
+  profile        profile  @relation(fields: [id_student], references: [id_profile], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([id_question], map: "answer_id_question_fkey")
+  @@index([id_student], map: "answer_id_student_fkey")
+}
+
+model comment {
+  id_comment      Int      @id @default(autoincrement())
+  content_comment String   @db.Text
+  date_comment    DateTime @db.Date
+  id_student      Int
+  id_module       Int
+  module          module   @relation(fields: [id_module], references: [id_module], onDelete: Cascade, onUpdate: NoAction)
+  profile         profile  @relation(fields: [id_student], references: [id_profile], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([id_module], map: "comment_id_module_fkey")
+  @@index([id_student], map: "comment_id_student_fkey")
+}
+
+model evaluation {
+  id_evaluation    Int           @id @default(autoincrement())
+  date_opening     DateTime      @db.Date
+  date_closing     DateTime      @db.Date
+  title_evaluation String        @db.VarChar(255)
+  id_student_group Int
+  student_group    student_group @relation(fields: [id_student_group], references: [id_student_group], onDelete: Cascade, onUpdate: NoAction)
+  question         question[]
+  report           report[]
+
+  @@index([id_student_group], map: "evaluation_id_student_group_fkey")
+}
+
+model group_module {
+  id_student_group Int
+  id_module        Int
+  module           module        @relation(fields: [id_module], references: [id_module], onDelete: Cascade, onUpdate: NoAction)
+  student_group    student_group @relation(fields: [id_student_group], references: [id_student_group], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([id_student_group, id_module])
+  @@index([id_module], map: "group_module_id_module_fkey")
+}
+
+model module {
+  id_module        Int            @id @default(autoincrement())
+  code_module      String         @unique(map: "code_module") @db.VarChar(50)
+  name_module      String         @db.VarChar(255)
+  professor_module String         @db.VarChar(255)
+  comment          comment[]
+  group_module     group_module[]
+}
+
+model profile {
+  id_profile                Int                         @id @default(autoincrement())
+  mail_profile              String                      @unique(map: "mail_profile") @db.VarChar(255)
+  name_profile              String                      @db.VarChar(255)
+  date_of_birth_profile     DateTime?                   @db.Date
+  img_profile               String?                     @db.Text
+  password_profile          String                      @db.VarChar(255)
+  answer                    answer[]
+  comment                   comment[]
+  profile_role              profile_role[]
+  student_group_association student_group_association[]
+}
+
+model profile_role {
+  id_profile Int
+  id_role    Int
+  profile    profile @relation(fields: [id_profile], references: [id_profile], onDelete: Cascade, onUpdate: NoAction)
+  role       role    @relation(fields: [id_role], references: [id_role], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([id_profile, id_role])
+  @@index([id_role], map: "profile_role_id_role_fkey")
+}
+
+model question {
+  id_question      Int        @id @default(autoincrement())
+  type_question    Int
+  title_question   String     @db.VarChar(255)
+  content_question String     @db.Text
+  id_evaluation    Int
+  answer           answer[]
+  evaluation       evaluation @relation(fields: [id_evaluation], references: [id_evaluation], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([id_evaluation], map: "question_id_evaluation_fkey")
+}
+
+model report {
+  id_report     Int        @id @default(autoincrement())
+  date          DateTime   @db.Date
+  format        String     @db.VarChar(50)
+  id_evaluation Int
+  evaluation    evaluation @relation(fields: [id_evaluation], references: [id_evaluation], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([id_evaluation], map: "report_id_evaluation_fkey")
+}
+
+model role {
+  id_role      Int            @id @default(autoincrement())
+  name_role    String         @unique(map: "name_role") @db.VarChar(50)
+  profile_role profile_role[]
+}
+
+model student_group {
+  id_student_group          Int                         @id @default(autoincrement())
+  name_student_group        String                      @db.VarChar(255)
+  year_student_group        Int
+  semester_student_group    Int
+  evaluation                evaluation[]
+  group_module              group_module[]
+  student_group_association student_group_association[]
+}
+
+model student_group_association {
+  id_student       Int
+  id_student_group Int
+  profile          profile       @relation(fields: [id_student], references: [id_profile], onDelete: Cascade, onUpdate: NoAction)
+  student_group    student_group @relation(fields: [id_student_group], references: [id_student_group], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([id_student, id_student_group])
+  @@index([id_student_group], map: "student_group_association_id_student_group_fkey")
+}

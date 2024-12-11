@@ -1,11 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); // Import de bcrypt
-const db = require('../config/db'); // Import de la configuration DB
-
+const prisma = require('../prismaClient'); // Importer Prisma
 const router = express.Router();
 
 // Route pour enregistrer un utilisateur
-router.post('/register', async (req, res, next) => {
+router.post('/register', async (req, res) => {
   const { mail_profile, name_profile, date_of_birth_profile, password_profile } = req.body;
 
   // Vérification des champs obligatoires
@@ -15,26 +14,26 @@ router.post('/register', async (req, res, next) => {
 
   try {
     // Hachage du mot de passe
-    const saltRounds = 10; // Nombre de tours de salage
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password_profile, saltRounds);
 
-    // Requête SQL pour insérer l'utilisateur
-    const query = `
-      INSERT INTO profile (mail_profile, name_profile, date_of_birth_profile, password_profile)
-      VALUES (?, ?, ?, ?)
-    `;
+    // Création d'un utilisateur avec Prisma
+    const newUser = await prisma.profile.create({
+      data: {
+        mail_profile,
+        name_profile,
+        date_of_birth_profile: new Date(date_of_birth_profile), // Conversion en date
+        password_profile: hashedPassword,
+      },
+    });
 
-    db.query(query, [mail_profile, name_profile, date_of_birth_profile, hashedPassword], (err, result) => {
-      if (err) {
-        console.error('Erreur lors de l\'insertion de l\'utilisateur:', err);
-        return res.status(500).json({ message: 'Erreur lors de l\'enregistrement de l\'utilisateur.' });
-      }
-
-      res.status(201).json({ message: 'Utilisateur enregistré avec succès', userId: result.insertId });
+    res.status(201).json({
+      message: 'Utilisateur enregistré avec succès',
+      userId: newUser.id_profile,
     });
   } catch (err) {
-    console.error('Erreur lors du hachage du mot de passe :', err);
-    next(err); // Passe l'erreur au gestionnaire global
+    console.error('Erreur lors de l\'enregistrement de l\'utilisateur :', err.message);
+    res.status(500).json({ message: 'Erreur interne du serveur.' });
   }
 });
 

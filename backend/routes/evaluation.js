@@ -1,60 +1,60 @@
 const express = require('express');
-const db = require('../config/db'); // Import de la configuration de la base de données
+const prisma = require('../prismaClient'); // Importer Prisma
 const router = express.Router();
 
-
 // Route pour récupérer les évaluations accessibles à un étudiant
-router.get('/evaluations/:studentId', (req, res) => {
+router.get('/evaluations/:studentId', async (req, res) => {
   const { studentId } = req.params;
 
-  const query = `
-    SELECT evaluation.*
-    FROM evaluation
-    JOIN student_group ON evaluation.id_student_group = student_group.id_student_group
-    JOIN student_group_association ON student_group.id_student_group = student_group_association.id_student_group
-    WHERE student_group_association.id_student = ?
-  `;
+  console.log(studentId)
 
-  db.query(query, [studentId], (err, results) => {
-    if (err) {
-      console.error('Erreur lors de la récupération des évaluations :', err);
-      return res.status(500).json({ message: 'Erreur interne du serveur.' });
-    }
+  if (!studentId) {
+    return res.status(400).json({ message: 'Student ID is missing' });
+  }
 
-    res.status(200).json(results);
-  });
+  try {
+    const evaluations = await prisma.evaluation.findMany({
+      where: {
+        student_group: {
+          student_group_association: {
+            some: {
+              id_student: parseInt(studentId, 10),
+            },
+          },
+        },
+      },
+    });
+    res.status(200).json(evaluations);
+  } catch (err) {
+    console.error('Erreur lors de la récupération des évaluations :', err.message);
+    res.status(500).json({ message: 'Erreur interne du serveur.' });
+  }
 });
 
+
 // Route pour récupérer une évaluation et ses questions
-router.get('/evaluation/:id', (req, res) => {
-  const evaluationId = req.params.id;
+router.get('/evaluation/:id', async (req, res) => {
+  const { id } = req.params;
 
-  // Requête SQL pour récupérer l'évaluation
-  const evaluationQuery = `SELECT * FROM evaluation WHERE id_evaluation = ?`;
-  const questionsQuery = `SELECT * FROM question WHERE id_evaluation = ?`;
+  try {
+    // Récupérer l'évaluation avec ses questions associées
+    const evaluation = await prisma.evaluation.findUnique({
+      where: { id_evaluation: parseInt(id, 10) }, // Assurez-vous que le champ est correct
+      include: {
+        question: true, // Inclure les questions associées
+      },
+    });
 
-  db.query(evaluationQuery, [evaluationId], (err, evaluationResult) => {
-    if (err) {
-      console.error('Erreur lors de la récupération de l\'évaluation :', err);
-      return res.status(500).json({ message: 'Erreur interne du serveur.' });
-    }
-
-    if (evaluationResult.length === 0) {
+    if (!evaluation) {
       return res.status(404).json({ message: 'Évaluation non trouvée.' });
     }
 
-    db.query(questionsQuery, [evaluationId], (err, questionsResult) => {
-      if (err) {
-        console.error('Erreur lors de la récupération des questions :', err);
-        return res.status(500).json({ message: 'Erreur interne du serveur.' });
-      }
-
-      res.status(200).json({
-        evaluation: evaluationResult[0],
-        questions: questionsResult,
-      });
-    });
-  });
+    res.status(200).json(evaluation);
+  } catch (err) {
+    console.error("Erreur lors de la récupération de l'évaluation :", err.message);
+    res.status(500).json({ message: 'Erreur interne du serveur.' });
+  }
 });
+
 
 module.exports = router;

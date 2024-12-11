@@ -1,6 +1,9 @@
 const API_BASE_URL = "http://localhost:5000/api";
 
 export const fetchEvaluations = async (studentId) => {
+  if (!studentId) {
+    throw new Error('Student ID is required');
+  }
   const response = await fetch(`${API_BASE_URL}/evaluations/${studentId}`);
   if (!response.ok) throw new Error("Erreur lors de la récupération des évaluations.");
   return response.json();

@@ -24,7 +24,7 @@ const Login = () => {
       const data = await loginUser(formData);
       setMessage({ type: 'success', text: `Bienvenue ${data.user.name_profile}` });
       localStorage.setItem('token', data.token); // Stocke le token
-      localStorage.setItem('studentId', data.user.id_profile); // Stocke l'ID utilisateur
+      localStorage.setItem('studentId', data.user.id); // Stocke l'ID utilisateur
       navigate('/dashboard') 
     } catch (err) {
       setMessage({ type: 'error', text: err.message });
