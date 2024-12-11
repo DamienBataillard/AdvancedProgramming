@@ -23,7 +23,7 @@ const CommentList = ({ comments }) => {
         >
           <Typography variant="body1">{comment.content_comment}</Typography>
           <Typography variant="caption" color="text.secondary">
-            Post by : {comment.name_profile}
+            Post by : {comment.profile.name_profile}
           </Typography>
         </Box>
       ))}

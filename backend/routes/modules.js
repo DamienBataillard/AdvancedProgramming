@@ -44,10 +44,14 @@ router.get('/module/:moduleId/comments', async (req, res) => {
 
   try {
     const comments = await prisma.comment.findMany({
-      where: { id_module: parseInt(moduleId, 10) },
+      where: {
+        id_module: parseInt(moduleId, 10),
+      },
       include: {
-        student: {
-          select: { name_profile: true },
+        profile: {
+          select: {
+            name_profile: true, // Inclure uniquement le nom du profil
+          },
         },
       },
     });
@@ -68,9 +72,9 @@ router.post('/module/:moduleId/comments', async (req, res) => {
     const newComment = await prisma.comment.create({
       data: {
         content_comment,
-        id_module: parseInt(moduleId, 10),
-        id_student,
-        date_comment: new Date(),
+        id_module: parseInt(moduleId, 10), // Convertit moduleId en entier
+        id_student: parseInt(id_student, 10), // Convertit id_student en entier
+        date_comment: new Date(), // Définit la date actuelle
       },
     });
 
