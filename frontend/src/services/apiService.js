@@ -13,7 +13,13 @@ export const fetchEvaluations = async (studentId) => {
 };
 
 export const fetchModules = async (studentId) => {
-  const response = await fetch(`${API_BASE_URL}/modules/${studentId}`);
+  const response = await fetch(`${API_BASE_URL}/modules/${studentId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Récupère le token depuis le localStorage
+    },
+  });
   if (!response.ok) throw new Error("Erreur lors de la récupération des modules.");
   return response.json();
 };
