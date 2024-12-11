@@ -1,10 +1,10 @@
 const express = require('express');
 const db = require('../config/db'); // Import de la configuration de la base de données
+const authMiddleware = require('../middleware/auth'); // Importer le middleware
 const router = express.Router();
 
-
 // Route pour récupérer les évaluations accessibles à un étudiant
-router.get('/evaluations/:studentId', (req, res) => {
+router.get('/evaluations/:studentId', authMiddleware, (req, res) => {
   const { studentId } = req.params;
 
   const query = `
@@ -26,7 +26,7 @@ router.get('/evaluations/:studentId', (req, res) => {
 });
 
 // Route pour récupérer une évaluation et ses questions
-router.get('/evaluation/:id', (req, res) => {
+router.get('/evaluation/:id', authMiddleware, (req, res) => {
   const evaluationId = req.params.id;
 
   // Requête SQL pour récupérer l'évaluation

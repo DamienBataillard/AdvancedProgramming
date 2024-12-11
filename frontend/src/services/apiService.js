@@ -1,7 +1,13 @@
 const API_BASE_URL = "http://localhost:5000/api";
 
 export const fetchEvaluations = async (studentId) => {
-  const response = await fetch(`${API_BASE_URL}/evaluations/${studentId}`);
+  const response = await fetch(`http://localhost:5000/api/evaluations/${studentId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Récupère le token depuis le localStorage
+    },
+  });
   if (!response.ok) throw new Error("Erreur lors de la récupération des évaluations.");
   return response.json();
 };

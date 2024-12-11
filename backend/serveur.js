@@ -25,7 +25,7 @@ app.use(cors()); // Autorise toutes les origines par défaut
 app.use('/api', registerRoutes);
 app.use('/api', profil);
 app.use('/api', loginRoutes);
-app.use('/api', evaluationRoutes);
+app.use('/api', authMiddleware, evaluationRoutes); 
 app.use('/api', answerRoutes);
 app.use('/api', feedbackRoutes);
 app.use('/api', moduleRoutes);
