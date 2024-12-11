@@ -10,41 +10,86 @@ function Profil() {
     const navigate = useNavigate();
     const [profile, setProfile] = useState(null); // State to store profile data
     const [loading, setLoading] = useState(true); // State to handle loading state
+    const [isDisabled, setIsDisabled] = useState(true);
     console.log(profile)
+
+    // Local state for form fields
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+
+    const handleProfil = async () => {
+        if (isDisabled) {
+            // Enable editing
+            setIsDisabled(false);
+        } else {
+            // Save changes to the backend
+            try {
+                const token = localStorage.getItem('token');
+                const updatedProfile = {
+                    first_name_profile: firstName,
+                    last_name_profile: lastName,
+                    mail_profile: email,
+                };
+
+                const response = await fetch('http://localhost:5000/api/profil', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(updatedProfile),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update profile');
+                }
+
+                const data = await response.json();
+                setProfile(data.profile); // Update the profile state with the new data
+                setIsDisabled(true); // Disable editing
+            } catch (error) {
+                console.error('Error updating profile:', error.message);
+            }
+        }
+    };
 
     useEffect(() => {
         const verifyToken = async () => {
-          try {
-            const token = localStorage.getItem('token'); // Récupère le token depuis localStorage
-            console.log(token)
-            if (!token) {
-              throw new Error('Token manquant');
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('Token missing');
+                }
+
+                const response = await fetch('http://localhost:5000/api/profil', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Access denied');
+                }
+
+                const data = await response.json();
+                setProfile(data.profile);
+                setFirstName(data.profile.first_name_profile);
+                setLastName(data.profile.last_name_profile);
+                setEmail(data.profile.mail_profile);
+                setLoading(false);
+            } catch (error) {
+                console.error(error.message);
+                navigate('/'); // Redirect to login if unauthorized
             }
-    
-            const response = await fetch('http://localhost:5000/api/profil', {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${token}`, // En-tête Authorization avec le token
-              },
-            });
-    
-            if (!response.ok) {
-              throw new Error('Accès interdit');
-            }
-    
-            const data = await response.json();
-            setProfile(data.profile)
-            setLoading(false);
-            console.log('Données du tableau de bord:', data);
-          } catch (error) {
-            console.error(error.message);
-            navigate('/'); // Redirige vers la page de connexion si non autorisé
-          }
         };
-    
+
         verifyToken();
-      }, [navigate]);
+    }, [navigate]);
+
       console.log(profile)
+      console.log(isDisabled)
       return (
         <div className="App">
             <PrimarySearchAppBar />
@@ -67,25 +112,29 @@ function Profil() {
                         /> */}
                         <TextField
                           label="First Name"
-                          defaultValue={profile.first_name_profile}
-                          disabled
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          disabled={isDisabled}
                         />
                         <TextField
                           label="Last Name"
-                          defaultValue={profile.last_name_profile}
-                          disabled
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          disabled={isDisabled}
                         />
                         <TextField
                           label="Mail"
-                          defaultValue={profile.mail_profile}
-                          disabled
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          disabled={isDisabled}
                         />
                         {/* <DateField
                             value={profile.date_of_birth_profile}
                         /> */}
                     </Box>
                     <Box className="profil-container" sx={{display: 'flex', justifyContent: 'center',top: '10px'}}>
-                      <button>Modify</button>
+                    
+                      <button onClick={handleProfil}>Modify</button>
                     </Box>
                     
                 </div>
