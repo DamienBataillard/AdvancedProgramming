@@ -61,7 +61,7 @@ router.post('/login', (req, res, next) => {
         user: {
           id_profile: user.id_profile,
           mail_profile: user.mail_profile,
-          name_profile: user.name_profile, // Inclure cette propriété
+          name_profile: user.first_name_profile, // Inclure cette propriété
           role: user.name_role,
         },
       });

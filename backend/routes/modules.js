@@ -29,7 +29,7 @@ router.get('/module/:moduleId/comments', (req, res) => {
     const { moduleId } = req.params;
   
     const query = `
-      SELECT comment.*, profile.name_profile
+      SELECT comment.*, profile.first_name_profile
       FROM comment
       JOIN profile ON comment.id_student = profile.id_profile
       WHERE comment.id_module = ?
