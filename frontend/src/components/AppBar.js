@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import Drawer from '@mui/material/Drawer';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo_efrei.png'; // Import du logo
 import AnchorTemporaryDrawer from './NotificationDrawer';
+import { render } from 'react-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,6 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [notifNumbers, setNotifNumbers] = React.useState(0);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -146,8 +148,9 @@ function PrimarySearchAppBar() {
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          onClick={AnchorTemporaryDrawer}
         >
-          <Badge badgeContent={18} color="error">
+          <Badge badgeContent={notifNumbers} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -200,22 +203,13 @@ function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-           <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+           <AnchorTemporaryDrawer/>
             <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />

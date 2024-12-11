@@ -2,78 +2,46 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-export default function AnchorTemporaryDrawer(anchor) {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
 
-  const toggleDrawer = (anchor, open) => (event) => {
+export default function AnchorTemporaryDrawer() {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-
-    setState({ ...state, [anchor]: open });
+    setIsOpen(open);
   };
 
-  const list = (anchor) => (
-    <Box
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const [notifNumbers, setNotifNumbers] = React.useState(0);
 
   return (
     <div>
-        <React.Fragment key={anchor}>
-            <NotificationsIcon onClick={toggleDrawer(anchor, true)} size="large" color='inherit'/>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
+      <IconButton
+              size="large"
+              color="inherit"
+              onClick={toggleDrawer(true)}
+            >
+              <Badge badgeContent={notifNumbers} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={toggleDrawer(false)}
+      >
+        <Box
+          sx={{ width: 500 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        />
+      </Drawer>
     </div>
   );
 }
