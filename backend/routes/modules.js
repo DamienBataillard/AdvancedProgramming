@@ -42,7 +42,6 @@ router.get('/module/:moduleId/comments', authMiddleware, (req, res) => {
     FROM comment
     LEFT JOIN profile ON comment.id_author = profile.id_profile
     WHERE comment.id_module = ?
-    ORDER BY comment.date_comment DESC
   `;
 
   db.query(query, [moduleId], (err, results) => {

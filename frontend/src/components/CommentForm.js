@@ -6,6 +6,8 @@ const CommentForm = ({ onPostComment }) => {
   const [newComment, setNewComment] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
 
+  const userRole = localStorage.getItem('role');
+
   const handleSubmit = () => {
     onPostComment(newComment, isAnonymous);
     setNewComment(''); // Réinitialiser le champ de saisie
@@ -24,16 +26,17 @@ const CommentForm = ({ onPostComment }) => {
         multiline
         rows={3}
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={isAnonymous}
-            onChange={(e) => setIsAnonymous(e.target.checked)}
-            color="primary"
-          />
-        }
-        label="Post anonymously"
-      />
+      {userRole === 'Student' && (
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAnonymous}
+              onChange={(e) => setIsAnonymous(e.target.checked)}
+            />
+          }
+          label="Post anonymously"
+        />
+      )}
       <Button
         className="comment-button"
         variant="contained"
