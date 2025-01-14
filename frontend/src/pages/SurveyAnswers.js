@@ -9,31 +9,35 @@ const SurveyAnswers = () => {
   if (loading) return <p>Chargement des réponses...</p>;
   if (error) return <p>Erreur : {error}</p>;
 
+  // Regrouper les réponses par question
+  const groupedAnswers = answers.reduce((acc, answer) => {
+    if (!acc[answer.content_question]) {
+      acc[answer.content_question] = [];
+    }
+    acc[answer.content_question].push(answer);
+    return acc;
+  }, {});
+
   return (
-    <div>
-      <h1>Réponses au survey {surveyId}</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Réponse</th>
-            <th>Étudiant</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {answers.map((answer) => (
-            <tr key={answer.id_question}>
-              <td>{answer.content_question}</td>
-              <td>{answer.content_answer}</td>
-              <td>
-                {answer.first_name_profile} {answer.last_name_profile}
-              </td>
-              <td>{new Date(answer.date_answer).toLocaleDateString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="survey-answers-page">
+      <h1 className="survey-answers-title">Réponses au survey {surveyId}</h1>
+      <div className="survey-answers-container">
+        {Object.entries(groupedAnswers).map(([question, responses]) => (
+          <div key={question} className="survey-answers-group">
+            <h3 className="survey-answers-question">{question}</h3>
+            <ul className="survey-answers-list">
+              {responses.map((response, index) => (
+                <li key={index} className="survey-answers-item">
+                  <span className="survey-answers-student">
+                    {response.first_name_profile} {response.last_name_profile}
+                  </span>
+                  : {response.content_answer}{' '}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
