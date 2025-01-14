@@ -17,7 +17,6 @@ function FeedbackPage() {
       try {
         const data = await fetchComments(moduleId);
         setComments(data);
-        console.log(data)
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -29,18 +28,22 @@ function FeedbackPage() {
   }, [moduleId]);
 
   const handlePostComment = async (newComment, isAnonymous) => {
-    const studentId = localStorage.getItem('studentId');
-    if (!studentId) return;
+    const userId = localStorage.getItem('studentId') || localStorage.getItem('teacherId');
+    const userName = localStorage.getItem('userName');
+    if (!userId) return;
 
     try {
       await postComment({
         moduleId,
         content_comment: newComment,
-        id_student: studentId,
+        is_anonymous: isAnonymous,
       });
 
-      const displayName = isAnonymous ? 'Anonyme' : localStorage.getItem('userName');
-      setComments([...comments, { content_comment: newComment, name_profile: displayName }]);
+      const displayName = isAnonymous ? 'Anonyme' : userName;
+      setComments([
+        ...comments,
+        { content_comment: newComment, name_profile: displayName, is_anonymous: isAnonymous },
+      ]);
     } catch (err) {
       setError(err.message);
     }

@@ -31,10 +31,18 @@ router.get('/module/:moduleId/comments', authMiddleware, (req, res) => {
   const { moduleId } = req.params;
 
   const query = `
-    SELECT comment.*, profile.first_name_profile
+    SELECT comment.id_comment, 
+           comment.content_comment, 
+           comment.date_comment, 
+           comment.is_anonymous,
+           CASE 
+             WHEN comment.is_anonymous = 1 THEN 'Anonymous'
+             ELSE CONCAT(profile.first_name_profile, ' ', profile.last_name_profile)
+           END AS author_name
     FROM comment
-    JOIN profile ON comment.id_author = profile.id_profile
+    LEFT JOIN profile ON comment.id_author = profile.id_profile
     WHERE comment.id_module = ?
+    ORDER BY comment.date_comment DESC
   `;
 
   db.query(query, [moduleId], (err, results) => {
@@ -47,10 +55,11 @@ router.get('/module/:moduleId/comments', authMiddleware, (req, res) => {
   });
 });
 
+
 // Route pour poster un commentaire
 router.post('/module/:moduleId/comments', authMiddleware, (req, res) => {
   const { moduleId } = req.params;
-  const { content_comment } = req.body;
+  const { content_comment, is_anonymous } = req.body;
   const userId = req.user.userId; // ID de l'utilisateur authentifié
   const userRole = req.user.role; // Rôle de l'utilisateur
 
@@ -58,17 +67,20 @@ router.post('/module/:moduleId/comments', authMiddleware, (req, res) => {
     return res.status(400).json({ message: 'Le contenu du commentaire est requis.' });
   }
 
-  // Validation supplémentaire si nécessaire
+  // Validation du rôle
   if (!['Student', 'Teacher'].includes(userRole)) {
     return res.status(403).json({ message: 'Seuls les étudiants et les professeurs peuvent laisser des commentaires.' });
   }
 
+  // Préparation de la valeur d'anonymat (0 ou 1)
+  const anonymousFlag = is_anonymous ? 1 : 0;
+
   const query = `
-    INSERT INTO comment (content_comment, id_module, id_author, date_comment)
-    VALUES (?, ?, ?, NOW())
+    INSERT INTO comment (content_comment, id_module, id_author, is_anonymous, date_comment)
+    VALUES (?, ?, ?, ?, NOW())
   `;
 
-  db.query(query, [content_comment, moduleId, userId], (err, result) => {
+  db.query(query, [content_comment, moduleId, userId, anonymousFlag], (err, result) => {
     if (err) {
       console.error('Erreur lors de l’ajout du commentaire :', err);
       return res.status(500).json({ message: 'Erreur interne du serveur.' });
@@ -77,5 +89,6 @@ router.post('/module/:moduleId/comments', authMiddleware, (req, res) => {
     res.status(201).json({ message: 'Commentaire ajouté avec succès.' });
   });
 });
+
 
 module.exports = router;

@@ -88,7 +88,7 @@ export const APIService = {
     return await response.json();
   };
   
-  export const postComment = async ({ moduleId, content_comment }) => {
+  export const postComment = async ({ moduleId, content_comment, is_anonymous }) => {
     const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('Vous devez être connecté pour publier un commentaire.');
@@ -100,7 +100,7 @@ export const APIService = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ content_comment }),
+      body: JSON.stringify({ content_comment , is_anonymous }),
     });
   
     if (!response.ok) {

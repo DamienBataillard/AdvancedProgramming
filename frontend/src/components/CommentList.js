@@ -1,4 +1,3 @@
-// src/components/CommentList.js
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
@@ -23,7 +22,7 @@ const CommentList = ({ comments }) => {
         >
           <Typography variant="body1">{comment.content_comment}</Typography>
           <Typography variant="caption" color="text.secondary">
-            Post by : {comment.first_name_profile}
+            Posté par : {comment.is_anonymous ? 'Anonyme' : comment.author_name}
           </Typography>
         </Box>
       ))}
