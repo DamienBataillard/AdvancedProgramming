@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -18,7 +17,6 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo_efrei.png'; // Import du logo
 import AnchorTemporaryDrawer from './NotificationDrawer';
-import { render } from 'react-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,7 +48,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -63,12 +60,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [notifNumbers, setNotifNumbers] = React.useState(0);
+  const [role, setRole] = React.useState(''); // État pour stocker le rôle utilisateur
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const userRole = localStorage.getItem('role'); // Récupère le rôle utilisateur
+    setRole(userRole);
+  }, []);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -90,6 +91,15 @@ function PrimarySearchAppBar() {
 
   const handleProfil = () => {
     navigate('/profil'); // Redirige vers la page profil
+  };
+
+  const handleDashboardRedirect = () => {
+    // Redirige dynamiquement vers le tableau de bord approprié
+    if (role === 'Teacher') {
+      navigate('/professor-dashboard'); // Redirige vers le tableau de bord professeur
+    } else {
+      navigate('/dashboard'); // Redirige vers le tableau de bord étudiant
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -114,7 +124,9 @@ function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfil}>Profil</MenuItem>
-      <MenuItem onClick={handleLogout} sx={{color: 'red'}}>Log out</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
+        Log out
+      </MenuItem>
     </Menu>
   );
 
@@ -148,9 +160,8 @@ function PrimarySearchAppBar() {
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
-          onClick={AnchorTemporaryDrawer}
         >
-          <Badge badgeContent={notifNumbers} color="error">
+          <Badge badgeContent={0} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -184,8 +195,16 @@ function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <a href='/dashboard'>
-            <img src={logo} alt='logo' sizes='small' style={{ height: '40px', margin: '0 auto' }}/>
+          <a
+            onClick={handleDashboardRedirect} // Redirection dynamique
+            style={{ cursor: 'pointer' }}
+          >
+            <img
+              src={logo}
+              alt="logo"
+              sizes="small"
+              style={{ height: '40px', margin: '0 auto' }}
+            />
           </a>
           <Search>
             <SearchIconWrapper>
@@ -203,7 +222,7 @@ function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-           <AnchorTemporaryDrawer/>
+            <AnchorTemporaryDrawer />
             <IconButton
               size="large"
               edge="end"
