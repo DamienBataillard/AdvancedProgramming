@@ -5,6 +5,7 @@ require('dotenv').config();
 const db = require('./config/db'); // Assurez-vous que db.js est importé correctement
 const cors = require('cors');
 const authMiddleware = require('./middleware/auth'); // Import du middleware
+const checkRole = require('./middleware/checkRole');
 const evaluationRoutes = require('./routes/evaluation');
 const answerRoutes = require('./routes/answer');
 const feedbackRoutes = require('./routes/feedback');
@@ -25,8 +26,6 @@ app.use(cors()); // Autorise toutes les origines par défaut
 app.use('/api', registerRoutes);
 app.use('/api', loginRoutes);
 app.use('/api', userRoutes);
-app.use('/api', studentGroupRoutes);
-app.use('/api', studentRoutes);
 app.use('/api', authMiddleware, profil);
 app.use('/api', authMiddleware, evaluationRoutes); 
 app.use('/api', authMiddleware, answerRoutes);
@@ -41,7 +40,8 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
 app.get('/api/survey-creation', authMiddleware, (req, res) => {
   res.status(200).json({ message: 'Accès autorisé pour SurveyCreation' });
 });
-
+app.use('/api', authMiddleware, checkRole, studentGroupRoutes);
+app.use('/api', authMiddleware, checkRole, studentRoutes);
 // Démarrage du serveur
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);

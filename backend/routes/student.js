@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middleware/auth'); 
+const checkRole = require('../middleware/checkRole');
 const db = require('../config/db');
 
 // Récupérer tous les groupes d'étudiants
-router.get('/student-groups', (req, res) => {
+router.get('/student-groups', authMiddleware, checkRole, (req, res) => {
   const sql = 'SELECT * FROM Student_Group';
 
   db.query(sql, (error, results) => {
@@ -16,7 +18,7 @@ router.get('/student-groups', (req, res) => {
 });
 
 // Créer un nouveau groupe d'étudiants
-router.post('/student-groups', (req, res) => {
+router.post('/student-groups', authMiddleware, checkRole, (req, res) => {
   const { name_student_group, year_student_group, semester_student_group } = req.body;
 
   if (!name_student_group || !year_student_group || !semester_student_group) {
@@ -38,7 +40,7 @@ router.post('/student-groups', (req, res) => {
 });
 
 // Ajouter un étudiant à un groupe
-router.post('/student-groups/:groupId/students', (req, res) => {
+router.post('/student-groups/:groupId/students', authMiddleware, checkRole, (req, res) => {
   const { studentId } = req.body;
   const { groupId } = req.params;
 
@@ -61,7 +63,7 @@ router.post('/student-groups/:groupId/students', (req, res) => {
 });
 
 // Supprimer un étudiant d'un groupe
-router.delete('/student-groups/:groupId/students/:studentId', (req, res) => {
+router.delete('/student-groups/:groupId/students/:studentId', authMiddleware, checkRole, (req, res) => {
   const { groupId, studentId } = req.params;
 
   const sql = `
@@ -79,7 +81,7 @@ router.delete('/student-groups/:groupId/students/:studentId', (req, res) => {
 });
 
 // Supprimer un groupe
-router.delete('/student-groups/:groupId', (req, res) => {
+router.delete('/student-groups/:groupId', authMiddleware, checkRole, (req, res) => {
   const { groupId } = req.params;
 
   const sql = `
@@ -97,7 +99,7 @@ router.delete('/student-groups/:groupId', (req, res) => {
 });
 
 // Récupérer les étudiants dans un groupe spécifique
-router.get('/student-groups/:groupId/students', (req, res) => {
+router.get('/student-groups/:groupId/students', authMiddleware, checkRole, (req, res) => {
   const { groupId } = req.params;
 
   if (!groupId) {

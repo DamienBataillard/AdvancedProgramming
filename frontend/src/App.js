@@ -10,6 +10,7 @@ import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
 import AdminGroupCreation from './pages/AdminGroupCreation';
 import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -49,7 +50,9 @@ function App() {
           path="/admin/users" 
           element={
             <ProtectedRoute>
-              <AdminUserList />
+              <ProtectedAdminRoute>
+                <AdminUserList />
+              </ProtectedAdminRoute>
             </ProtectedRoute>
           } 
         />
@@ -57,7 +60,9 @@ function App() {
           path="/admin/groups" 
           element={
             <ProtectedRoute>
-              <AdminGroupCreation />
+              <ProtectedAdminRoute>
+                <AdminGroupCreation />
+              </ProtectedAdminRoute>
             </ProtectedRoute>
           } 
         />
