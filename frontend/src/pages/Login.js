@@ -19,17 +19,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    console.log('Données du formulaire :', formData);
+  
     try {
       const data = await loginUser(formData);
+      console.log('Connexion réussie, données reçues :', data);
+  
       setMessage({ type: 'success', text: `Bienvenue ${data.user.name_profile}` });
       localStorage.setItem('token', data.token); // Stocke le token
       localStorage.setItem('studentId', data.user.id_profile); // Stocke l'ID utilisateur
-      navigate('/dashboard') 
+      console.log('Token sauvegardé :', localStorage.getItem('token'));
+      navigate('/dashboard');
     } catch (err) {
+      console.error('Erreur lors de la connexion :', err.message);
       setMessage({ type: 'error', text: err.message });
     }
   };
+  
 
   return (
     <div className="login-container">

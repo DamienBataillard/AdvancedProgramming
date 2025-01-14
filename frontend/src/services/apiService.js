@@ -48,20 +48,32 @@ export const APIService = {
   };
 
   export const loginUser = async (credentials) => {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
+    try {
+      console.log('Envoi des données de connexion :', credentials);
   
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Erreur lors de la connexion.');
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+  
+      console.log('Réponse brute :', response);
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Erreur retournée par le backend :', errorData);
+        throw new Error(errorData.message || 'Erreur lors de la connexion.');
+      }
+  
+      const data = await response.json();
+      console.log('Données reçues du serveur :', data);
+      return data;
+    } catch (err) {
+      console.error('Erreur dans loginUser :', err.message);
+      throw err; // Propager l'erreur pour qu'elle soit capturée dans le composant parent
     }
-  
-    return await response.json();
   };
-
+  
   export const fetchComments = async (moduleId) => {
     const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`, {
       method: 'GET',
