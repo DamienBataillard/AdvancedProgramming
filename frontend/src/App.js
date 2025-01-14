@@ -9,6 +9,7 @@ import FeedbackPage from './pages/FeedbackPage';
 import AdminUserList from './pages/AdminUserList';
 import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
+import SurveyAnswers from "./pages/SurveyAnswers";
 import AdminGroupCreation from './pages/AdminGroupCreation';
 import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
 
@@ -37,6 +38,14 @@ function App() {
               <ProfessorDashboard />
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/professor/:professorname/survey/:surveyId/answers" 
+          element={
+            <ProtectedRoute roleRequired="Teacher">
+              <SurveyAnswers professorname={localStorage.getItem('professorname')} />
+            </ProtectedRoute>
+          }
         />
         <Route 
           path="/evaluation/:id" 

@@ -14,6 +14,7 @@ const profil = require ('./routes/profil')
 const studentGroupRoutes = require('./routes/studentgroup');
 const studentRoutes = require('./routes/student');
 const professorRoutes = require('./routes/professor'); 
+const surveyRoutes = require('./routes/survey')
 
 const app = express();
 const PORT = 5000;
@@ -43,6 +44,7 @@ app.get('/api/survey-creation', authMiddleware, (req, res) => {
 app.use('/api', authMiddleware, studentGroupRoutes);
 app.use('/api', authMiddleware, studentRoutes);
 app.use('/api', authMiddleware, professorRoutes);
+app.use('/api', authMiddleware, surveyRoutes);
 // Démarrage du serveur
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);

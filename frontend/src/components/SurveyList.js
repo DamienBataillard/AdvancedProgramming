@@ -2,10 +2,10 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 
-export const SurveyList = ({ evaluations, navigate }) => (
+export const SurveyList = ({ evaluations, navigate, userRole, professorname }) => (
   <Box sx={{ flex: 1, marginRight: '20px' }}>
     <Typography variant="h6" align="center" sx={{ mb: 3 }}>
-      Available Surveys
+      {userRole === 'Teacher' ? 'Your Surveys' : 'Available Surveys'}
     </Typography>
     {evaluations.length === 0 ? (
       <Typography variant="body1" align="center">
@@ -30,9 +30,13 @@ export const SurveyList = ({ evaluations, navigate }) => (
             <Button
               variant="contained"
               color="primary"
-              onClick={() => navigate(`/evaluation/${evaluation.id_evaluation}`)}
+              onClick={() =>
+                userRole === 'Teacher'
+                  ? navigate(`/professor/${professorname}/survey/${evaluation.id_evaluation}/answers`)
+                  : navigate(`/evaluation/${evaluation.id_evaluation}`)
+              }
             >
-              Start
+              {userRole === 'Teacher' ? 'View Answers' : 'Start'}
             </Button>
           </Box>
         ))}

@@ -37,7 +37,7 @@ function StudentDashboard() {
           padding: '20px',
         }}
       >
-        <SurveyList evaluations={evaluations} navigate={navigate} />
+        <SurveyList evaluations={evaluations} navigate={navigate} userRole="Student"/>
         <ModuleList modules={modules} navigate={navigate} />
       </Box>
     </div>
