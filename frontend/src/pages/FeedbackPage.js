@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { fetchComments, postComment } from '../services/apiService';
+import PrimarySearchAppBar from '../components/AppBar';
 import CommentList from '../components/CommentList';
 import CommentForm from '../components/CommentForm';
 import '../index.css';
@@ -53,13 +54,16 @@ function FeedbackPage() {
   if (error) return <p>Erreur : {error}</p>;
 
   return (
-    <Box className="feedback-page" sx={{ padding: '20px' }}>
-      <Typography variant="h4" className="feedback-title" gutterBottom>
-        Feedbacks for Module
-      </Typography>
-      <CommentList comments={comments} />
-      <CommentForm onPostComment={handlePostComment} />
-    </Box>
+    <div className="App">
+      <PrimarySearchAppBar />
+      <Box className="feedback-page" sx={{ padding: '20px' }}>
+        <Typography variant="h4" className="feedback-title" gutterBottom>
+          Feedbacks for Module
+        </Typography>
+        <CommentList comments={comments} />
+        <CommentForm onPostComment={handlePostComment} />
+      </Box>
+    </div>
   );
 }
 

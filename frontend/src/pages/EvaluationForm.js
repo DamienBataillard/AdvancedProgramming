@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
+import PrimarySearchAppBar from '../components/AppBar';
 import { fetchEvaluation, submitAnswers } from '../services/apiService';
 import QuestionOpen from '../components/QuestionOpen';
 import QuestionClosed from '../components/QuestionClosed'; 
@@ -72,41 +72,45 @@ const EvaluationForm = () => {
   if (error) return <p>Erreur : {error}</p>;
 
   return (
-    <div className="evaluation-page">
-      <div className="evaluation-form-container">
-        {isSubmitted ? ( // Affichage conditionnel du message de confirmation
-          <div className="confirmation-message">
-            <h2>Merci d'avoir complété l'évaluation !</h2>
-            <p>Vous serez redirigé vers le tableau de bord sous peu...</p>
-          </div>
-        ) : (
-          <form className="evaluation-form" onSubmit={handleSubmit}>
-            <h1>{evaluation.title_evaluation}</h1>
-            {questions.map((question) => (
-              <div key={question.id_question} className="question-container">
-                <h3>{question.title_question}</h3>
-                <p>{question.content_question}</p>
-                {question.type_question === 1 ? (
-                  <QuestionOpen
-                    question={question}
-                    value={responses[question.id_question]}
-                    onChange={handleInputChange}
-                  />
-                ) : question.type_question === 2 ? (
-                  <QuestionClosed
-                    question={question}
-                    value={responses[question.id_question]}
-                    onChange={handleInputChange}
-                  />
-                ) : null}
-              </div>
-            ))}
-            <button type="submit">Send</button>
-          </form>
-        )}
+    <div className="App">
+      <PrimarySearchAppBar />
+      <div className="evaluation-page">
+        <div className="evaluation-form-container">
+          {isSubmitted ? ( // Affichage conditionnel du message de confirmation
+            <div className="confirmation-message">
+              <h2>Merci d'avoir complété l'évaluation !</h2>
+              <p>Vous serez redirigé vers le tableau de bord sous peu...</p>
+            </div>
+          ) : (
+            <form className="evaluation-form" onSubmit={handleSubmit}>
+              <h1>{evaluation.title_evaluation}</h1>
+              {questions.map((question) => (
+                <div key={question.id_question} className="question-container">
+                  <h3>{question.title_question}</h3>
+                  <p>{question.content_question}</p>
+                  {question.type_question === 1 ? (
+                    <QuestionOpen
+                      question={question}
+                      value={responses[question.id_question]}
+                      onChange={handleInputChange}
+                    />
+                  ) : question.type_question === 2 ? (
+                    <QuestionClosed
+                      question={question}
+                      value={responses[question.id_question]}
+                      onChange={handleInputChange}
+                    />
+                  ) : null}
+                </div>
+              ))}
+              <button type="submit">Send</button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   );
+  
 };
 
 export default EvaluationForm;
