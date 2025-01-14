@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const checkRole = require('../middleware/checkRole');
 const authMiddleware = require('../middleware/auth'); 
 const db = require('../config/db');
 
 // Récupérer tous les groupes d'étudiants
-router.get('/student-groups', authMiddleware, checkRole, (req, res) => {
+router.get('/student-groups', authMiddleware,(req, res) => {
   const sql = 'SELECT * FROM Student_Group';
 
   db.query(sql, (error, results) => {
@@ -18,7 +17,7 @@ router.get('/student-groups', authMiddleware, checkRole, (req, res) => {
 });
 
 // Créer un nouveau groupe d'étudiants
-router.post('/student-groups', authMiddleware, checkRole, (req, res) => {
+router.post('/student-groups', authMiddleware,(req, res) => {
   const { name_student_group, year_student_group, semester_student_group } = req.body;
 
   // Vérifier que les champs nécessaires sont fournis
@@ -45,7 +44,7 @@ router.post('/student-groups', authMiddleware, checkRole, (req, res) => {
 });
 
 // Ajouter un étudiant à un groupe
-router.post('/student-groups/:groupId/students', authMiddleware, checkRole, (req, res) => {
+router.post('/student-groups/:groupId/students', authMiddleware,(req, res) => {
   const { groupId } = req.params;
   const { studentId } = req.body;
 
@@ -70,7 +69,7 @@ router.post('/student-groups/:groupId/students', authMiddleware, checkRole, (req
 });
 
 // Récupérer les étudiants d'un groupe spécifique
-router.get('/student-groups/:groupId/students', authMiddleware, checkRole, (req, res) => {
+router.get('/student-groups/:groupId/students', authMiddleware,(req, res) => {
   const { groupId } = req.params;
 
   if (!groupId) {

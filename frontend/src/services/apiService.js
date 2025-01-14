@@ -88,16 +88,29 @@ export const APIService = {
     return await response.json();
   };
   
-  export const postComment = async ({ moduleId, content_comment, id_student }) => {
+  export const postComment = async ({ moduleId, content_comment }) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Vous devez être connecté pour publier un commentaire.');
+    }
+  
     const response = await fetch(`${API_BASE_URL}/module/${moduleId}/comments`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content_comment, id_student }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ content_comment }),
     });
+  
     if (!response.ok) {
-      throw new Error('Erreur lors de l’ajout du commentaire.');
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Erreur lors de l’ajout du commentaire.');
     }
+  
+    console.log('Commentaire publié avec succès');
   };
+  
 
   export const fetchEvaluation = async (id) => {
     const response = await fetch(`${API_BASE_URL}/evaluation/${id}`, {

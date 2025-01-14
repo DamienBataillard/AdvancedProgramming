@@ -33,7 +33,7 @@ router.get('/module/:moduleId/comments', authMiddleware, (req, res) => {
   const query = `
     SELECT comment.*, profile.first_name_profile
     FROM comment
-    JOIN profile ON comment.id_student = profile.id_profile
+    JOIN profile ON comment.id_author = profile.id_profile
     WHERE comment.id_module = ?
   `;
 
@@ -50,14 +50,25 @@ router.get('/module/:moduleId/comments', authMiddleware, (req, res) => {
 // Route pour poster un commentaire
 router.post('/module/:moduleId/comments', authMiddleware, (req, res) => {
   const { moduleId } = req.params;
-  const { content_comment, id_student } = req.body;
+  const { content_comment } = req.body;
+  const userId = req.user.userId; // ID de l'utilisateur authentifié
+  const userRole = req.user.role; // Rôle de l'utilisateur
+
+  if (!content_comment) {
+    return res.status(400).json({ message: 'Le contenu du commentaire est requis.' });
+  }
+
+  // Validation supplémentaire si nécessaire
+  if (!['Student', 'Teacher'].includes(userRole)) {
+    return res.status(403).json({ message: 'Seuls les étudiants et les professeurs peuvent laisser des commentaires.' });
+  }
 
   const query = `
-    INSERT INTO comment (content_comment, id_module, id_student, date_comment)
+    INSERT INTO comment (content_comment, id_module, id_author, date_comment)
     VALUES (?, ?, ?, NOW())
   `;
 
-  db.query(query, [content_comment, moduleId, id_student], (err, results) => {
+  db.query(query, [content_comment, moduleId, userId], (err, result) => {
     if (err) {
       console.error('Erreur lors de l’ajout du commentaire :', err);
       return res.status(500).json({ message: 'Erreur interne du serveur.' });

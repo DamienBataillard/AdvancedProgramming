@@ -29,8 +29,17 @@ const Login = () => {
       setMessage({ type: 'success', text: `Bienvenue ${data.user.name_profile}` });
       localStorage.setItem('token', data.token); // Stocke le token
       localStorage.setItem('studentId', data.user.id_profile); // Stocke l'ID utilisateur
+      localStorage.setItem('role', data.user.role);
       console.log('Token sauvegardé :', localStorage.getItem('token'));
-      navigate('/dashboard');
+      // Redirection en fonction du rôle
+      if (data.user.role === 'Student') {
+        navigate('/dashboard'); // Page du tableau de bord étudiant
+      } else if (data.user.role === 'Teacher') {
+        localStorage.setItem('professorname', data.user.name_profile);
+        navigate('/professor-dashboard'); // Page du tableau de bord professeur
+      } else {
+        setMessage({ type: 'error', text: 'Rôle utilisateur non reconnu.' });
+      }
     } catch (err) {
       console.error('Erreur lors de la connexion :', err.message);
       setMessage({ type: 'error', text: err.message });

@@ -3,9 +3,8 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 module.exports = (req, res, next) => {
-  console.log('--- Début du middleware auth.js ---');
   const authHeader = req.headers['authorization'];
-  console.log('Authorization Header :', authHeader);
+
 
   if (req.originalUrl === '/api/login') {
     console.log('Ignoré pour /api/login');
@@ -18,11 +17,9 @@ module.exports = (req, res, next) => {
   }
 
   const token = authHeader.split(' ')[1];
-  console.log('Token extrait :', token);
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    console.log('Token décodé :', decoded);
     req.user = decoded;
     next();
   } catch (err) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import StudentDashboard from "./pages/StudentDashboard";
+import ProfessorDashboard from "./pages/ProfessorDashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import EvaluationForm from './pages/EvaluationForm'; 
@@ -10,7 +11,6 @@ import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
 import AdminGroupCreation from './pages/AdminGroupCreation';
 import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
-import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -25,8 +25,16 @@ function App() {
         <Route 
           path="/dashboard" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="Student">
               <StudentDashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/professor-dashboard" 
+          element={
+            <ProtectedRoute requiredRole="Teacher">
+              <ProfessorDashboard />
             </ProtectedRoute>
           } 
         />
@@ -49,20 +57,16 @@ function App() {
         <Route 
           path="/admin/users" 
           element={
-            <ProtectedRoute>
-              <ProtectedAdminRoute>
+            <ProtectedRoute requiredRole="Admin">
                 <AdminUserList />
-              </ProtectedAdminRoute>
             </ProtectedRoute>
           } 
         />
         <Route 
           path="/admin/groups" 
           element={
-            <ProtectedRoute>
-              <ProtectedAdminRoute>
+            <ProtectedRoute requiredRole="Admin">
                 <AdminGroupCreation />
-              </ProtectedAdminRoute>
             </ProtectedRoute>
           } 
         />
