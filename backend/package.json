@@ -6,7 +6,7 @@
   "scripts": {
     "seed": "node insertData.js",
     "init-db": "node initDB.js",
-    "start": "node backend/server.js",
+    "start": "node serveur.js",
     "postinstall": "npm run init-db"
   },
   "keywords": [],

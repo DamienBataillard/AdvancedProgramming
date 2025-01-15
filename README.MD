@@ -1,4 +1,4 @@
-# Mon Projet Backend
+# Advanced_Programming Project
 
 ## Description
 Ce projet est une application backend utilisant Node.js, Express et MySQL.
@@ -14,10 +14,12 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
    ```bash
    git clone https://github.com/mon-projet.git
    cd mon-projet
+   ```
 
 2. **Installer les dépendances** :
    ```bash
    npm install
+   ```
 
 3. **Configurer l'environnement (Créez un fichier .env dans le dossier backend et ajoutez-y les informations suivantes)** :
     ```bash
@@ -27,3 +29,21 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     DB_NAME=advanced_programming
     PORT=5000
     JWT_SECRET=VotreSecretJWT
+    ```
+
+4. **Lancer l'application**
+    Pour démarrer le serveur backend :
+
+    ```bash
+    cd backend
+    npm start
+    ```
+
+
+    Pour démarrer le serveur frontend :
+
+    ```bash
+    cd frontend
+    npm start
+    ```
+
