@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node insertData.js",
     "init-db": "node initDB.js",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "postinstall": "npm run init-db"
   },
   "keywords": [],
   "author": "",
