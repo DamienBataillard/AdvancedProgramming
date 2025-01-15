@@ -1,5 +1,24 @@
 const API_BASE_URL = "http://localhost:5000/api";
 
+export const fetchAllEvaluations = async () => {
+  console.log("Appel à fetchAllEvaluations");
+  const response = await fetch(`http://localhost:5000/api/evaluations`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  if (!response.ok) {
+    console.error("Erreur API :", await response.text());
+    throw new Error("Erreur lors de la récupération de toutes les évaluations.");
+  }
+  const data = await response.json();
+  console.log("Évaluations reçues :", data);
+  return data;
+};
+
+
 export const fetchEvaluations = async (studentId) => {
   const response = await fetch(`http://localhost:5000/api/evaluations/${studentId}`, {
     method: 'GET',

@@ -19,24 +19,27 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     console.log('Données du formulaire :', formData);
-  
+
     try {
       const data = await loginUser(formData);
       console.log('Connexion réussie, données reçues :', data);
-  
+
       setMessage({ type: 'success', text: `Bienvenue ${data.user.name_profile}` });
       localStorage.setItem('token', data.token); // Stocke le token
-      localStorage.setItem('studentId', data.user.id_profile); // Stocke l'ID utilisateur
+      localStorage.setItem('userId', data.user.id_profile); // Stocke l'ID utilisateur
       localStorage.setItem('role', data.user.role);
       console.log('Token sauvegardé :', localStorage.getItem('token'));
+
       // Redirection en fonction du rôle
       if (data.user.role === 'Student') {
         navigate('/dashboard'); // Page du tableau de bord étudiant
       } else if (data.user.role === 'Teacher') {
         localStorage.setItem('professorname', data.user.name_profile);
         navigate('/professor-dashboard'); // Page du tableau de bord professeur
+      } else if (data.user.role === 'Admin') {
+        navigate('/admin-dashboard'); // Page du tableau de bord administrateur
       } else {
         setMessage({ type: 'error', text: 'Rôle utilisateur non reconnu.' });
       }
@@ -45,7 +48,6 @@ const Login = () => {
       setMessage({ type: 'error', text: err.message });
     }
   };
-  
 
   return (
     <div className="login-container">
@@ -69,6 +71,9 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
+      {message.text && (
+        <p className={`message ${message.type}`}>{message.text}</p>
+      )}
     </div>
   );
 };

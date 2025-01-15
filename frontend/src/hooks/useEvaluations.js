@@ -1,8 +1,7 @@
-// hooks/useEvaluations.js
 import { useState, useEffect } from 'react';
-import { fetchEvaluations } from '../services/apiService';
+import { fetchEvaluations, fetchAllEvaluations } from '../services/apiService';
 
-export const useEvaluations = (studentId) => {
+export const useEvaluations = (userId, userRole) => {
   const [evaluations, setEvaluations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -10,7 +9,9 @@ export const useEvaluations = (studentId) => {
   useEffect(() => {
     const loadEvaluations = async () => {
       try {
-        const data = await fetchEvaluations(studentId);
+        const data = userRole === 'Admin'
+          ? await fetchAllEvaluations() // Récupérer toutes les évaluations
+          : await fetchEvaluations(userId); // Récupérer uniquement celles du user
         setEvaluations(data);
       } catch (err) {
         setError(err.message);
@@ -20,7 +21,7 @@ export const useEvaluations = (studentId) => {
     };
 
     loadEvaluations();
-  }, [studentId]);
+  }, [userId, userRole]);
 
   return { evaluations, loading, error };
 };

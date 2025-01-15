@@ -25,6 +25,27 @@ router.get('/evaluations/:studentId', authMiddleware, (req, res) => {
   });
 });
 
+// Route pour récupérer toutes les évaluations pour les administrateurs
+router.get('/evaluations', authMiddleware, (req, res) => {
+  const { role } = req.user;
+  console.log("Rôle de l'utilisateur :", role);
+
+  if (role !== 'Admin') {
+    return res.status(403).json({ message: 'Accès interdit : réservé aux administrateurs.' });
+  }
+
+  const query = `SELECT * FROM evaluation`;
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des évaluations :', err);
+      return res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+
+    res.status(200).json(results);
+  });
+});
+
+
 // Route pour récupérer une évaluation et ses questions
 router.get('/evaluation/:id', authMiddleware, (req, res) => {
   const evaluationId = req.params.id;

@@ -69,7 +69,9 @@ function PrimarySearchAppBar() {
 
   const handleDashboardRedirect = () => {
     // Redirige dynamiquement vers le tableau de bord approprié
-    if (role === 'Teacher') {
+    if (role === 'Admin') {
+      navigate('/admin-dashboard'); // Redirige vers le tableau de bord administrateur
+    } else if (role === 'Teacher') {
       navigate('/professor-dashboard'); // Redirige vers le tableau de bord professeur
     } else {
       navigate('/dashboard'); // Redirige vers le tableau de bord étudiant
@@ -160,15 +162,6 @@ function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#5481c2' }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <a
             onClick={handleDashboardRedirect} // Redirection dynamique
             style={{ cursor: 'pointer' }}

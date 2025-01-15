@@ -11,6 +11,7 @@ import Profil from "./pages/Profil";
 import SurveyCreation from './pages/SurveyCreation';
 import SurveyAnswers from "./pages/SurveyAnswers";
 import AdminGroupCreation from './pages/AdminGroupCreation';
+import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
 
 function App() {
@@ -63,6 +64,15 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute requiredRole="Admin">
+              <AdminDashboard/>
+            </ProtectedRoute>
+          }
+          />
+
         <Route 
           path="/admin/users" 
           element={
