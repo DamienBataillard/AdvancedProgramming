@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 function StudentDashboard() {
   const navigate = useNavigate();
-  const studentId = localStorage.getItem('studentId');
+  const studentId = localStorage.getItem('userId');
+  console.log(studentId)
   const { evaluations, loading: loadingEvals, error: errorEvals } = useEvaluations(studentId);
   const { modules, loading: loadingMods, error: errorMods } = useModules(studentId);
 

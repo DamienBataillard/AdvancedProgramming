@@ -20,6 +20,7 @@ export const fetchAllEvaluations = async () => {
 
 
 export const fetchEvaluations = async (studentId) => {
+  console.log("test")
   const response = await fetch(`http://localhost:5000/api/evaluations/${studentId}`, {
     method: 'GET',
     headers: {
@@ -27,8 +28,13 @@ export const fetchEvaluations = async (studentId) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`, // Récupère le token depuis le localStorage
     },
   });
-  if (!response.ok) throw new Error("Erreur lors de la récupération des évaluations.");
-  return response.json();
+  if (!response.ok) {
+    console.error("Erreur API :", await response.text());
+    throw new Error("Erreur lors de la récupération de toutes les évaluations.");
+  }
+  const data = await response.json();
+  console.log("Évaluations reçues :", data);
+  return data;
 };
 
 export const fetchModules = async (studentId) => {

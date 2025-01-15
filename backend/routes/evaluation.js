@@ -7,6 +7,8 @@ const router = express.Router();
 router.get('/evaluations/:studentId', authMiddleware, (req, res) => {
   const { studentId } = req.params;
 
+  console.log(studentId)
+
   const query = `
     SELECT evaluation.*
     FROM evaluation
@@ -20,7 +22,7 @@ router.get('/evaluations/:studentId', authMiddleware, (req, res) => {
       console.error('Erreur lors de la récupération des évaluations :', err);
       return res.status(500).json({ message: 'Erreur interne du serveur.' });
     }
-
+    
     res.status(200).json(results);
   });
 });
