@@ -185,6 +185,4 @@ async function insertData() {
     console.log('Connexion fermée.');
   }
 }
-
-// Lancer le script
-insertData();
+module.exports = insertData;
