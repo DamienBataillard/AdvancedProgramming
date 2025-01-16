@@ -10,11 +10,11 @@ export const SurveyList = ({ evaluations, navigate, userRole, professorname }) =
   return(
   <Box sx={{ flex: 1, marginRight: '20px' }}>
     <Typography variant="h6" align="center" sx={{ mb: 3 }}>
-      {userRole === 'Teacher' ? 'Your Surveys' : t('surveyTitle')}
+      {userRole === 'Teacher' ? t('teacherSurveyTitle') : t('surveyTitle')}
     </Typography>
     {evaluations.length === 0 ? (
       <Typography variant="body1" align="center">
-        {t('surveyAvailability')}
+        {t('surveysAvailability')}
       </Typography>
     ) : (
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>

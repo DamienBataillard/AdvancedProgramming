@@ -26,7 +26,10 @@ i18n
           adminDashboard: "Admin Dashboard",
           manageSurvey: "Manage Surveys",
           listSurvey: "List of Surveys",
-          createSurvey: "Create New Survey"
+          createSurvey: "Create New Survey",
+          teacherDashboard: "Welcome to EFREI Feedbacks - Professor!",
+          manageSurveyTeacher: "Manage your course feedbacks",
+          teacherSurveyTitle: "Your Surveys"
         },
       },
       fr: {
@@ -46,7 +49,10 @@ i18n
           adminDashboard: "Tableau de bord de l'Administrateur",
           manageSurvey: "Gérer mes enquêtes",
           listSurvey: "Liste des enquêtes",
-          createSurvey: "Créer une nouvelle enquête"
+          createSurvey: "Créer une nouvelle enquête",
+          teacherDashboard: "Bievenue sur EFREI Feedbacks - Professeur!",
+          manageSurveyTeacher: "Gérer vos évaluations de cours",
+          teacherSurveyTitle: "Vos Enquêtes"
         },
       },
     },

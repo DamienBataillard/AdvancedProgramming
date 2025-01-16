@@ -6,14 +6,15 @@ import { useModulesForProfessor} from '../hooks/useModulesForProfessor';
 import { SurveyList } from '../components/SurveyList';
 import { ModuleList } from '../components/ModuleList';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function ProfessorDashboard() {
   const navigate = useNavigate();
   const professorname = localStorage.getItem('professorname'); 
   const { evaluations, loading: loadingEvals, error: errorEvals } = useEvaluationsForProfessor(professorname);
   const { modules, loading: loadingMods, error: errorMods  } = useModulesForProfessor(professorname);
+  const { t } = useTranslation();
   
-
   if (loadingEvals || loadingMods) return <p>Loading...</p>;
   if (errorEvals || errorMods) return <p>Error: {errorEvals || errorMods}</p>;
 
@@ -21,8 +22,8 @@ function ProfessorDashboard() {
     <div className="App">
       <PrimarySearchAppBar />
       <div className="dashboard-container">
-        <h1 className="title">Welcome to EFREI Feedbacks - Professor!</h1>
-        <h2 className="subtitle">Manage your course feedbacks</h2>
+        <h1 className="title">{t('teacherDashboard')}</h1>
+        <h2 className="subtitle">{t('manageSurveyTeacher')}</h2>
       </div>
       <Box
         sx={{
