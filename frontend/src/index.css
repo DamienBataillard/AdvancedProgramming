@@ -375,13 +375,36 @@ button.comment-button:hover {
   color: #888;
 }
 
+.Notification_title {
+  font-weight: bold;
+  color: #000;
+  font-size: 30px;
+  justify-content: center;
+  align-items: center; 
+  margin-left: 1%;
+}
+
 .card {
-  width: 90%; 
-  height: 100px; 
+  width: 95%; 
+  height: auto; /* Allow height to adjust dynamically */
   background-color: lightblue; 
   display: flex; 
+  flex-direction: column; /* Stack content vertically */
   justify-content: center;
   align-items: center; 
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 8px auto; /* Adjust spacing */
+  padding: 16px; /* Consistent padding */
+  border: 1px solid #ddd; 
+  border-radius: 8px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.card:hover {
+  background-color: #87CEEB; /* Change background color on hover */
+  cursor: pointer; /* Indicate interactivity */
+}
+
+.card button {
+  margin-top: 8px; /* Add space between message and button */
 }
