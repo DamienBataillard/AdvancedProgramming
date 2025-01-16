@@ -375,3 +375,13 @@ button.comment-button:hover {
   color: #888;
 }
 
+.card {
+  width: 90%; 
+  height: 100px; 
+  background-color: lightblue; 
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  box-sizing: border-box;
+  margin: 0 auto;
+}

@@ -55,6 +55,14 @@ async function createDatabase() {
         FOREIGN KEY (id_profile) REFERENCES profile (id_profile) ON DELETE CASCADE,
         FOREIGN KEY (id_role) REFERENCES role (id_role) ON DELETE CASCADE
       )`,
+      `CREATE TABLE IF NOT EXISTS notification (
+        id_notification INT AUTO_INCREMENT PRIMARY KEY,
+        message TEXT NOT NULL,
+        is_read TINYINT(1) DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        id_profile INT NOT NULL,
+        FOREIGN KEY (id_profile) REFERENCES profile (id_profile) ON DELETE CASCADE
+      )`,
       `CREATE TABLE IF NOT EXISTS student_group (
         id_student_group INT AUTO_INCREMENT PRIMARY KEY,
         name_student_group VARCHAR(255) NOT NULL,

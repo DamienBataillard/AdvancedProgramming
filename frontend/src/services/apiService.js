@@ -165,3 +165,23 @@ export const APIService = {
     }
     return await response.json();
   };
+
+  export const fetchNotifications = async () => {
+    const response = await fetch(`${API_BASE_URL}/notifications`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`, // Add token from localStorage
+      },
+    });
+  
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Erreur lors de la récupération des notifications:', errorData);
+      throw new Error(errorData.message || 'Erreur lors de la récupération des notifications.');
+    }
+  
+    const data = await response.json();
+    console.log('Notifications reçues:', data);
+    return data;
+  };

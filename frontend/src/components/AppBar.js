@@ -19,6 +19,7 @@ import logo from '../assets/images/logo_efrei.png'; // Import du logo
 import AnchorTemporaryDrawer from './NotificationDrawer';
 import { useTranslation } from 'react-i18next'; // Import translation hook
 import { Button } from '@mui/material';
+import { fetchNotifications } from '../services/apiService';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -39,6 +40,22 @@ function PrimarySearchAppBar() {
   const [role, setRole] = React.useState(''); // État pour stocker le rôle utilisateur
   const navigate = useNavigate();
   const { t, i18n } = useTranslation(); // Translation hook
+  const [unreadNotifications, setUnreadNotifications] = React.useState(0); // Track unread count
+  const [notifications, setNotifications] = React.useState([]);
+  console.log("unread from appbar"+unreadNotifications)
+  React.useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const data = await fetchNotifications();
+        setUnreadNotifications(data.unreadCount || 0); // Update unread count
+        setNotifications(data.notifications || []); // Store notifications
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchUnreadCount(); // Initial fetch
+  }, []);
 
   React.useEffect(() => {
     const userRole = localStorage.getItem('role'); // Récupère le rôle utilisateur
@@ -145,7 +162,7 @@ function PrimarySearchAppBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={0} color="error">
+          <Badge badgeContent={unreadNotifications} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -188,7 +205,9 @@ function PrimarySearchAppBar() {
                 <MailIcon />
               </Badge>
             </IconButton>
-            <AnchorTemporaryDrawer />
+            <AnchorTemporaryDrawer 
+              unreadNotifications={unreadNotifications} // Pass unread count to drawer
+            />
             <IconButton
               size="large"
               edge="end"
