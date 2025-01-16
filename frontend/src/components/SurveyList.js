@@ -41,7 +41,7 @@ export const SurveyList = ({ evaluations, navigate, userRole, professorname }) =
                   : navigate(`/evaluation/${evaluation.id_evaluation}`)
               }
             >
-              {userRole === 'Teacher' ? 'View Answers' : 'Start'}
+              {userRole === 'Teacher' ? t('answer') : t('start')}
             </Button>
           </Box>
         ))}

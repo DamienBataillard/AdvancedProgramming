@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import AdminDashboard from '../pages/AdminDashboard';
 
 // Initialize i18n
 i18n
@@ -17,7 +18,15 @@ i18n
           profile: "Profile",
           logout: "Log out",
           surveysAvailability: "No surveys available at the moment.",
-          surveyTitle : "Available Surveys"
+          surveyTitle : "Available Surveys",
+          start: "Start",
+          answer: "View Answsers",
+          moduleAvailability: "No modules available at the moment.",
+          feedback: "View Feedbacks",
+          adminDashboard: "Admin Dashboard",
+          manageSurvey: "Manage Surveys",
+          listSurvey: "List of Surveys",
+          createSurvey: "Create New Survey"
         },
       },
       fr: {
@@ -29,7 +38,15 @@ i18n
           profile: "Profil",
           logout: "Se déconnecter",
           surveysAvailability: "Aucune enquête n'est disponible pour le moment.",
-          surveyTitle : "Enquêtes disponibles"
+          surveyTitle : "Enquêtes disponibles",
+          start: "Démarrer",
+          answer: "Voir les réponses",
+          moduleAvailability: "Aucun module n'est disponible pour le moment.",
+          feedback: "Voir les commentaires",
+          adminDashboard: "Tableau de bord de l'Administrateur",
+          manageSurvey: "Gérer mes enquêtes",
+          listSurvey: "Liste des enquêtes",
+          createSurvey: "Créer une nouvelle enquête"
         },
       },
     },

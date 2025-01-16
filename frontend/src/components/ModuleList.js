@@ -1,15 +1,19 @@
 // components/ModuleList.js
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
-export const ModuleList = ({ modules, navigate }) => (
+export const ModuleList = ({ modules, navigate }) => {
+  const { t } = useTranslation();
+
+  return(
   <Box sx={{ flex: 1, marginLeft: '20px' }}>
     <Typography variant="h6" align="center" sx={{ mb: 3 }}>
       Modules
     </Typography>
     {modules.length === 0 ? (
       <Typography variant="body1" align="center">
-        No modules available at the moment.
+        {t('moduleAvailability')}
       </Typography>
     ) : (
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -32,11 +36,11 @@ export const ModuleList = ({ modules, navigate }) => (
               color="primary"
               onClick={() => navigate(`/module/${module.id_module}/comments`)}
             >
-              View Feedbacks
+              {t("feedback")}
             </Button>
           </Box>
         ))}
       </Box>
     )}
   </Box>
-);
+)};

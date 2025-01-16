@@ -4,11 +4,13 @@ import PrimarySearchAppBar from '../components/AppBar';
 import { useEvaluations } from '../hooks/useEvaluations';
 import { SurveyList } from '../components/SurveyList';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function AdminDashboard() {
   const navigate = useNavigate();
   const userRole = localStorage.getItem('role');
   const { evaluations, loading: loadingEvals, error: errorEvals } = useEvaluations(null, userRole);
+  const { t } = useTranslation();
 
   console.log("Evaluations récupérées :", evaluations);
 
@@ -23,8 +25,8 @@ function AdminDashboard() {
     <div className="App">
       <PrimarySearchAppBar />
       <div className="dashboard-container">
-        <h1 className="title">Admin Dashboard</h1>
-        <h2 className="subtitle">Manage Evaluations</h2>
+        <h1 className="title">{t('adminDashboard')}</h1>
+        <h2 className="subtitle">{t('manageSurvey')}</h2>
       </div>
       <Box
         sx={{
@@ -39,14 +41,14 @@ function AdminDashboard() {
         }}
       >
         <Typography variant="h5" gutterBottom>
-          List of Evaluations
+          {t('listSurvey')}
         </Typography>
         <Button
           variant="contained"
           sx={{ mb: 2 }}
           onClick={handleCreateSurvey}
         >
-          Create New Evaluation
+          {t('createSurvey')}
         </Button>
         <SurveyList evaluations={evaluations} navigate={navigate} userRole="Admin" />
       </Box>
