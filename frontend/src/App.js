@@ -13,9 +13,12 @@ import SurveyAnswers from "./pages/SurveyAnswers";
 import AdminGroupCreation from './pages/AdminGroupCreation';
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from './components/ProtectedRoute'; // Import du composant ProtectedRoute
+import { I18nextProvider } from 'react-i18next';
+import i18n from './services/i18n';
 
 function App() {
   return (
+    <I18nextProvider i18n={i18n}>
     <Router>
       <Routes>
         {/* Définir la page par défaut */}
@@ -107,6 +110,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </I18nextProvider>
   );
 }
 
