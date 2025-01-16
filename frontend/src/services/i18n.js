@@ -16,7 +16,8 @@ i18n
           notifications: "Notifications",
           profile: "Profile",
           logout: "Log out",
-          surveysAvailability: "No surveys available at the moment."
+          surveysAvailability: "No surveys available at the moment.",
+          surveyTitle : "Available Surveys"
         },
       },
       fr: {
@@ -27,7 +28,8 @@ i18n
           notifications: "Notifications",
           profile: "Profil",
           logout: "Se déconnecter",
-          surveysAvailability: "Aucune enquête n'est disponible pour le moment."
+          surveysAvailability: "Aucune enquête n'est disponible pour le moment.",
+          surveyTitle : "Enquêtes disponibles"
         },
       },
     },

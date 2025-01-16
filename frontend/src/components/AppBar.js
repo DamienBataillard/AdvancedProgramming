@@ -17,6 +17,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo_efrei.png'; // Import du logo
 import AnchorTemporaryDrawer from './NotificationDrawer';
+import { useTranslation } from 'react-i18next'; // Import translation hook
+import { Button } from '@mui/material';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
@@ -36,11 +38,17 @@ function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [role, setRole] = React.useState(''); // État pour stocker le rôle utilisateur
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation(); // Translation hook
 
   React.useEffect(() => {
     const userRole = localStorage.getItem('role'); // Récupère le rôle utilisateur
     setRole(userRole);
   }, []);
+
+  const handleLanguageToggle = () => {
+    const newLang = i18n.language === 'en' ? 'fr' : 'en'; // Toggle language
+    i18n.changeLanguage(newLang);
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -99,9 +107,9 @@ function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfil}>Profil</MenuItem>
+      <MenuItem onClick={handleProfil}>{t('profile')}</MenuItem>
       <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
-        Log out
+        {t('logout')}
       </MenuItem>
     </Menu>
   );
@@ -192,6 +200,9 @@ function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>
+            <Button color="inherit" onClick={handleLanguageToggle}>
+              {i18n.language === 'en' ? 'FR' : 'EN'} {/* Toggle button label */}
+            </Button>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
