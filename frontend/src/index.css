@@ -389,7 +389,6 @@ button.comment-button:hover {
   height: auto; /* Allow height to adjust dynamically */
   background-color: lightblue; 
   display: flex; 
-  flex-direction: column; /* Stack content vertically */
   justify-content: center;
   align-items: center; 
   box-sizing: border-box;

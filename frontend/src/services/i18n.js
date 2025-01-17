@@ -29,7 +29,9 @@ i18n
           createSurvey: "Create New Survey",
           teacherDashboard: "Welcome to EFREI Feedbacks - Professor!",
           manageSurveyTeacher: "Manage your course feedbacks",
-          teacherSurveyTitle: "Your Surveys"
+          teacherSurveyTitle: "Your Surveys",
+          readNotifications: "Notifications",
+          unreadNotifications: "Unread Notifications"
         },
       },
       fr: {
@@ -52,7 +54,9 @@ i18n
           createSurvey: "Créer une nouvelle enquête",
           teacherDashboard: "Bievenue sur EFREI Feedbacks - Professeur!",
           manageSurveyTeacher: "Gérer vos évaluations de cours",
-          teacherSurveyTitle: "Vos Enquêtes"
+          teacherSurveyTitle: "Vos Enquêtes",
+          readNotifications: "Notifications",
+          unreadNotifications: "Notifications non lues"
         },
       },
     },
