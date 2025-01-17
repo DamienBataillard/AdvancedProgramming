@@ -13,20 +13,17 @@ router.get('/survey-creation', authMiddleware, (req, res) => {
 
 // Nouvelle route pour récupérer les modules
 router.get('/modulesname', authMiddleware, (req, res) => {
-  console.log('Route /modules atteinte');
   db.query('SELECT id_module, name_module FROM Module', (err, results) => {
     if (err) {
       console.error('Erreur lors de la récupération des modules:', err);
       return res.status(500).json({ error: 'Erreur lors de la récupération des modules.' });
     }
-    console.log('Modules récupérés :', results);
     res.json(results);
   });
 });
 
 // Nouvelle route pour récupérer les enseignants
 router.get('/teachers', authMiddleware, (req, res) => {
-  console.log('Route /teachers atteinte');
   db.query(`
     SELECT id_profile, last_name_profile 
     FROM Profile 
@@ -55,41 +52,57 @@ router.get('/student-groups', authMiddleware, (req, res) => {
 router.post('/surveys', authMiddleware, (req, res) => {
   const { module, teacher, studentGroup, startDate, endDate, questions } = req.body;
 
-  if (!module || !teacher || !studentGroup || !startDate || !endDate || questions.length === 0) {
+  if (!studentGroup || !startDate || !endDate || questions.length === 0) {
     return res.status(400).json({ error: "Tous les champs sont obligatoires." });
   }
 
-  // Insertion du sondage dans la table Survey
-  const surveyQuery = `
-    INSERT INTO Survey (id_module, id_teacher, id_student_group, start_date, end_date)
-    VALUES (?, ?, ?, ?, ?)
+  // Conversion des dates au format YYYY-MM-DD
+  const formattedStartDate = new Date(startDate).toISOString().split("T")[0];
+  const formattedEndDate = new Date(endDate).toISOString().split("T")[0];
+
+  // Étape 1 : Insérer l'évaluation
+  const evaluationQuery = `
+    INSERT INTO evaluation (date_opening, date_closing, title_evaluation, id_student_group)
+    VALUES (?, ?, ?, ?)
   `;
 
-  db.query(surveyQuery, [module, teacher, studentGroup, startDate, endDate], (err, result) => {
-    if (err) {
-      console.error("Erreur lors de l'insertion du sondage :", err);
-      return res.status(500).json({ error: "Erreur lors de la création du sondage." });
-    }
-
-    const surveyId = result.insertId;
-
-    // Insertion des questions dans la table Survey_Questions
-    const questionsQuery = `
-      INSERT INTO Survey_Questions (id_survey, question_text, question_type)
-      VALUES ?
-    `;
-
-    const questionsData = questions.map((q) => [surveyId, q.text, q.type]);
-
-    db.query(questionsQuery, [questionsData], (err) => {
+  db.query(
+    evaluationQuery,
+    [formattedStartDate, formattedEndDate, "Survey Title", studentGroup],
+    (err, result) => {
       if (err) {
-        console.error("Erreur lors de l'insertion des questions :", err);
-        return res.status(500).json({ error: "Erreur lors de l'ajout des questions." });
+        console.error("Erreur lors de l'insertion de l'évaluation :", err);
+        return res.status(500).json({ error: "Erreur lors de la création de l'évaluation." });
       }
 
-      res.status(201).json({ message: "Sondage créé avec succès !" });
-    });
-  });
+      const evaluationId = result.insertId; // ID de l'évaluation nouvellement créée
+      console.log("Évaluation créée avec ID :", evaluationId);
+
+      // Étape 2 : Insérer les questions
+      const questionsQuery = `
+        INSERT INTO question (type_question, title_question, content_question, id_evaluation)
+        VALUES ?
+      `;
+
+      const questionsData = questions.map((q) => [
+        q.type === "text" ? 1 : 2, // 1 pour texte, 2 pour une note
+        q.text,
+        "",
+        evaluationId,
+      ]);
+
+      db.query(questionsQuery, [questionsData], (err) => {
+        if (err) {
+          console.error("Erreur lors de l'insertion des questions :", err);
+          return res.status(500).json({ error: "Erreur lors de l'ajout des questions." });
+        }
+
+        res.status(201).json({ message: "Sondage et questions créés avec succès !" });
+      });
+    }
+  );
 });
+
+
 
 module.exports = router;

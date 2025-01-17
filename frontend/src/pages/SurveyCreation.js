@@ -3,7 +3,7 @@ import { Box, Typography, FormControl, InputLabel, Select, MenuItem, TextField, 
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import PrimarySearchAppBar from "../components/AppBar";
-import { fetchModulesNames, fetchTeachers, fetchStudentGroups } from "../services/apiService";
+import { fetchModulesNames, fetchTeachers, fetchStudentGroups, createSurvey } from "../services/apiService";
 
 const SurveyCreation = () => {
   const [module, setModule] = useState("");
@@ -61,20 +61,8 @@ const SurveyCreation = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/surveys", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(surveyData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Erreur lors de la création du sondage.");
-      }
-
-      alert("Sondage créé avec succès !");
+      const result = await createSurvey(surveyData);
+      alert(result.message); // "Sondage créé avec succès !"
     } catch (err) {
       console.error("Erreur :", err);
       alert("Impossible de créer le sondage. Veuillez réessayer.");
