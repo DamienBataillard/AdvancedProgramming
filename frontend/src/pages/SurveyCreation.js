@@ -1,48 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Box, Typography, Select, MenuItem, TextField, Button, FormControl, InputLabel } from '@mui/material';
-import PrimarySearchAppBar from '../components/AppBar';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import PrimarySearchAppBar from "../components/AppBar";
+import { fetchModules, fetchTeachers, fetchStudentGroups } from "../services/apiService";
 
 const SurveyCreation = () => {
-  const navigate = useNavigate();
   const [module, setModule] = useState("");
   const [teacher, setTeacher] = useState("");
   const [studentGroup, setStudentGroup] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
-  // Vérification du token pour restreindre l'accès
+  const [modules, setModules] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [studentGroups, setStudentGroups] = useState([]);
+
   useEffect(() => {
-    const verifyToken = async () => {
+    const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("Token manquant");
-        }
-  
-        // Nouvelle URL pour le backend spécifique à SurveyCreation
-        const response = await fetch("http://localhost:5000/api/survey-creation", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error("Accès interdit");
-        }
-      } catch (error) {
-        console.error(error.message);
-        navigate("/"); // Redirection vers la page de connexion
+        const modulesData = await fetchModules();
+        const teachersData = await fetchTeachers();
+        const studentGroupsData = await fetchStudentGroups();
+
+        setModules(modulesData);
+        setTeachers(teachersData);
+        setStudentGroups(studentGroupsData);
+      } catch (err) {
+        console.error("Erreur lors du chargement des données :", err);
       }
     };
-  
-    verifyToken();
-  }, [navigate]);
+
+    fetchData();
+  }, []);
 
   return (
     <div className="App">
@@ -51,7 +41,6 @@ const SurveyCreation = () => {
         <h1 className="title">Welcome to EFREI Feedbacks!</h1>
         <h2 className="subtitle">Create a New Survey</h2>
       </div>
-      {/* Contenu de la page */}
       <Box
         sx={{
           padding: 4,
@@ -90,9 +79,11 @@ const SurveyCreation = () => {
             <FormControl fullWidth>
               <InputLabel>Select Module</InputLabel>
               <Select value={module} onChange={(e) => setModule(e.target.value)}>
-                <MenuItem value="Module1">Module 1</MenuItem>
-                <MenuItem value="Module2">Module 2</MenuItem>
-                <MenuItem value="Module3">Module 3</MenuItem>
+                {modules.map((mod) => (
+                  <MenuItem key={mod.id} value={mod.id}>
+                    {mod.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
@@ -100,9 +91,11 @@ const SurveyCreation = () => {
             <FormControl fullWidth>
               <InputLabel>Select Teacher</InputLabel>
               <Select value={teacher} onChange={(e) => setTeacher(e.target.value)}>
-                <MenuItem value="Teacher1">Teacher 1</MenuItem>
-                <MenuItem value="Teacher2">Teacher 2</MenuItem>
-                <MenuItem value="Teacher3">Teacher 3</MenuItem>
+                {teachers.map((teach) => (
+                  <MenuItem key={teach.id} value={teach.id}>
+                    {teach.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
@@ -110,9 +103,11 @@ const SurveyCreation = () => {
             <FormControl fullWidth>
               <InputLabel>Select Student Group</InputLabel>
               <Select value={studentGroup} onChange={(e) => setStudentGroup(e.target.value)}>
-                <MenuItem value="Group1">Group 1</MenuItem>
-                <MenuItem value="Group2">Group 2</MenuItem>
-                <MenuItem value="Group3">Group 3</MenuItem>
+                {studentGroups.map((group) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    {group.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
