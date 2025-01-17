@@ -15,7 +15,7 @@ const studentGroupRoutes = require('./routes/studentgroup');
 const studentRoutes = require('./routes/student');
 const professorRoutes = require('./routes/professor'); 
 const surveyRoutes = require('./routes/survey')
-const notificationRoutes = require('./routes/notification')
+const surveyCreation = require('./routes/surveyCreation');
 
 const app = express();
 const PORT = 5000;
@@ -33,7 +33,6 @@ app.use('/api', authMiddleware, evaluationRoutes);
 app.use('/api', authMiddleware, answerRoutes);
 app.use('/api', authMiddleware, feedbackRoutes);
 app.use('/api', authMiddleware, moduleRoutes);
-app.use('/api', authMiddleware, notificationRoutes);
 app.get('/api/dashboard', authMiddleware, (req, res) => {
   res.status(200).json({
     message: 'Bienvenue sur le tableau de bord',
@@ -43,6 +42,7 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
 app.get('/api/survey-creation', authMiddleware, (req, res) => {
   res.status(200).json({ message: 'Accès autorisé pour SurveyCreation' });
 });
+app.use('/api/survey-creation', surveyCreation);
 app.use('/api', authMiddleware, studentGroupRoutes);
 app.use('/api', authMiddleware, studentRoutes);
 app.use('/api', authMiddleware, professorRoutes);

@@ -185,3 +185,69 @@ export const APIService = {
     console.log('Notifications reçues:', data);
     return data;
   };
+
+
+  export const fetchModulesNames = async () => {
+    const response = await fetch(`${API_BASE_URL}/survey-creation/modulesname`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (!response.ok) {
+      console.error("Erreur API :", await response.text());
+      throw new Error("Erreur lors de la récupération des modulesname.");
+    }
+    return await response.json();
+  };
+  
+  export const fetchTeachers = async () => {
+    const response = await fetch(`${API_BASE_URL}/survey-creation/teachers`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (!response.ok) {
+      console.error("Erreur API :", await response.text());
+      throw new Error("Erreur lors de la récupération des enseignants.");
+    }
+    return await response.json();
+  };
+  
+  export const fetchStudentGroups = async () => {
+    const response = await fetch(`${API_BASE_URL}/survey-creation/student-groups`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (!response.ok) {
+      console.error("Erreur API :", await response.text());
+      throw new Error("Erreur lors de la récupération des groupes d'étudiants.");
+    }
+    return await response.json();
+  };
+  
+
+  export const createSurvey = async (surveyData) => {
+    const response = await fetch(`${API_BASE_URL}/survey-creation/surveys`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(surveyData),
+    });
+  
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Erreur API :", errorText);
+      throw new Error("Erreur lors de la création du sondage.");
+    }
+  
+    return await response.json();
+  };
