@@ -18,7 +18,7 @@ function AdminDashboard() {
   if (errorEvals) return <p>Erreur : {errorEvals}</p>;
 
   const handleCreateSurvey = () => {
-    navigate('/create-survey'); // Redirige vers la page SurveyCreation
+    navigate('/admin/survey-creation'); // Redirige vers la page SurveyCreation
   };
 
   return (
