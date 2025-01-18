@@ -20,6 +20,7 @@ const SurveyCreation = () => {
   const [open, setOpen] = useState(false); // État du popup
   const [newQuestion, setNewQuestion] = useState(""); // Question en cours de création
   const [questionType, setQuestionType] = useState("text"); // Type de question ("text" ou "rating")
+  const [surveyTitle, setSurveyTitle] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +40,16 @@ const SurveyCreation = () => {
     fetchData();
   }, []);
 
+  // Mise à jour dynamique du titre en fonction du module
+  useEffect(() => {
+    const selectedModule = modules.find((mod) => mod.id_module === module);
+    if (selectedModule) {
+      setSurveyTitle(`Feedback for ${selectedModule.code_module}`);
+    } else {
+      setSurveyTitle("");
+    }
+  }, [module, modules]);
+
   const handleAddQuestion = () => {
     setQuestions([...questions, { text: newQuestion, type: questionType }]);
     setNewQuestion("");
@@ -51,6 +62,11 @@ const SurveyCreation = () => {
   };
 
   const handleCreateSurvey = async () => {
+    if (!surveyTitle) {
+      alert("Le titre du sondage est vide. Veuillez sélectionner un module.");
+      return;
+    }
+
     const surveyData = {
       module,
       teacher,
@@ -58,11 +74,12 @@ const SurveyCreation = () => {
       startDate,
       endDate,
       questions,
+      title: surveyTitle, 
     };
 
     try {
       const result = await createSurvey(surveyData);
-      alert(result.message); // "Sondage créé avec succès !"
+      alert(result.message); 
     } catch (err) {
       console.error("Erreur :", err);
       alert("Impossible de créer le sondage. Veuillez réessayer.");
@@ -116,7 +133,7 @@ const SurveyCreation = () => {
               <Select value={module} onChange={(e) => setModule(e.target.value)}>
                 {modules.map((mod) => (
                   <MenuItem key={mod.id_module} value={mod.id_module}>
-                    {mod.name_module}
+                    {mod.code_module}
                   </MenuItem>
                 ))}
               </Select>

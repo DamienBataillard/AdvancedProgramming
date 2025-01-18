@@ -13,7 +13,7 @@ router.get('/survey-creation', authMiddleware, (req, res) => {
 
 // Nouvelle route pour récupérer les modules
 router.get('/modulesname', authMiddleware, (req, res) => {
-  db.query('SELECT id_module, name_module FROM Module', (err, results) => {
+  db.query('SELECT id_module, code_module FROM Module', (err, results) => {
     if (err) {
       console.error('Erreur lors de la récupération des modules:', err);
       return res.status(500).json({ error: 'Erreur lors de la récupération des modules.' });
@@ -50,11 +50,12 @@ router.get('/student-groups', authMiddleware, (req, res) => {
 
 
 router.post('/surveys', authMiddleware, (req, res) => {
-  const { module, teacher, studentGroup, startDate, endDate, questions } = req.body;
-
-  if (!studentGroup || !startDate || !endDate || questions.length === 0) {
+  const { module, teacher, studentGroup, startDate, endDate, questions, title } = req.body;
+  console.log("Requête de création de sondage reçue :", req.body);
+  if (!module || !teacher || !studentGroup || !startDate || !endDate || questions.length === 0 || !title) {
     return res.status(400).json({ error: "Tous les champs sont obligatoires." });
   }
+  
 
   // Conversion des dates au format YYYY-MM-DD
   const formattedStartDate = new Date(startDate).toISOString().split("T")[0];
@@ -68,7 +69,7 @@ router.post('/surveys', authMiddleware, (req, res) => {
 
   db.query(
     evaluationQuery,
-    [formattedStartDate, formattedEndDate, "Survey Title", studentGroup],
+    [formattedStartDate, formattedEndDate, title, studentGroup],
     (err, result) => {
       if (err) {
         console.error("Erreur lors de l'insertion de l'évaluation :", err);
