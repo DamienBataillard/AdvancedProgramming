@@ -27,7 +27,14 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     ```
 
 3. **Installer les dépendances** :
+
    ```bash
+   cd backend
+   npm install
+   ```
+
+   ```bash
+   cd frontend
    npm install
    ```
 
@@ -35,7 +42,6 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     Pour démarrer le serveur backend :
 
     ```bash
-    cd backend
     npm start
     ```
 
@@ -43,7 +49,6 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     Pour démarrer le serveur frontend :
 
     ```bash
-    cd frontend
     npm start
     ```
 
