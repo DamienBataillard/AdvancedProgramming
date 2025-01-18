@@ -16,12 +16,7 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
    cd mon-projet
    ```
 
-2. **Installer les dépendances** :
-   ```bash
-   npm install
-   ```
-
-3. **Configurer l'environnement (Créez un fichier .env dans le dossier backend et ajoutez-y les informations suivantes)** :
+2. **Configurer l'environnement (Créez un fichier .env dans le dossier backend et ajoutez-y les informations suivantes)** :
     ```bash
     DB_HOST=localhost
     DB_USER=root
@@ -30,6 +25,11 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     PORT=5000
     JWT_SECRET=VotreSecretJWT
     ```
+
+3. **Installer les dépendances** :
+   ```bash
+   npm install
+   ```
 
 4. **Lancer l'application**
     Pour démarrer le serveur backend :
