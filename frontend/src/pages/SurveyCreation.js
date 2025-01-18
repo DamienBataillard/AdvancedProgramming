@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Box,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import PrimarySearchAppBar from "../components/AppBar";
@@ -18,7 +31,8 @@ const SurveyCreation = () => {
 
   const [questions, setQuestions] = useState([]); // Liste des questions
   const [open, setOpen] = useState(false); // État du popup
-  const [newQuestion, setNewQuestion] = useState(""); // Question en cours de création
+  const [newQuestionTitle, setNewQuestionTitle] = useState(""); // Titre de la question en cours de création
+  const [newQuestionContent, setNewQuestionContent] = useState(""); // Contenu de la question
   const [questionType, setQuestionType] = useState("text"); // Type de question ("text" ou "rating")
   const [surveyTitle, setSurveyTitle] = useState("");
 
@@ -51,8 +65,12 @@ const SurveyCreation = () => {
   }, [module, modules]);
 
   const handleAddQuestion = () => {
-    setQuestions([...questions, { text: newQuestion, type: questionType }]);
-    setNewQuestion("");
+    setQuestions([
+      ...questions,
+      { title: newQuestionTitle, content: newQuestionContent, type: questionType },
+    ]);
+    setNewQuestionTitle("");
+    setNewQuestionContent("");
     setQuestionType("text");
     setOpen(false);
   };
@@ -74,12 +92,12 @@ const SurveyCreation = () => {
       startDate,
       endDate,
       questions,
-      title: surveyTitle, 
+      title: surveyTitle,
     };
 
     try {
       const result = await createSurvey(surveyData);
-      alert(result.message); 
+      alert(result.message);
     } catch (err) {
       console.error("Erreur :", err);
       alert("Impossible de créer le sondage. Veuillez réessayer.");
@@ -116,7 +134,6 @@ const SurveyCreation = () => {
             overflow: "hidden",
           }}
         >
-          {/* Panneau gauche */}
           <Box
             sx={{
               width: "30%",
@@ -180,7 +197,6 @@ const SurveyCreation = () => {
             </LocalizationProvider>
           </Box>
 
-          {/* Panneau droit */}
           <Box
             sx={{
               width: "70%",
@@ -206,7 +222,10 @@ const SurveyCreation = () => {
                 }}
               >
                 <Typography>
-                  {index + 1}. {question.text} ({question.type === "text" ? "Text" : "Rating 1-5"})
+                  {index + 1}. {question.title} ({question.type === "text" ? "Text" : "Rating 1-5"})
+                </Typography>
+                <Typography variant="body2" sx={{ marginLeft: 2 }}>
+                  {question.content}
                 </Typography>
                 <Button color="error" onClick={() => handleDeleteQuestion(index)}>
                   Delete
@@ -216,12 +235,10 @@ const SurveyCreation = () => {
           </Box>
         </Box>
 
-        {/* Bouton Add Question */}
         <Button variant="contained" sx={{ marginTop: 2 }} onClick={() => setOpen(true)}>
           Add Question
         </Button>
 
-        {/* Bouton Create Survey */}
         {questions.length > 0 && (
           <Button variant="contained" color="primary" sx={{ marginTop: 2 }} onClick={handleCreateSurvey}>
             Create Survey
@@ -229,15 +246,21 @@ const SurveyCreation = () => {
         )}
       </Box>
 
-      {/* Popup pour ajouter une question */}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add Question</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
-            label="Write question here"
-            value={newQuestion}
-            onChange={(e) => setNewQuestion(e.target.value)}
+            label="Question Title"
+            value={newQuestionTitle}
+            onChange={(e) => setNewQuestionTitle(e.target.value)}
+            sx={{ marginBottom: 2 }}
+          />
+          <TextField
+            fullWidth
+            label="Question Content"
+            value={newQuestionContent}
+            onChange={(e) => setNewQuestionContent(e.target.value)}
             sx={{ marginBottom: 2 }}
           />
           <FormControl fullWidth>
