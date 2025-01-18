@@ -79,4 +79,34 @@ router.get('/notifications', authMiddleware, async (req, res) => {
     }
 });
 
+router.patch('/notifications/:id', authMiddleware, async (req, res) => {
+    try {
+        const profileId = req.user.userId;
+        const notificationId = req.params.id;
+        const { is_read } = req.body;
+        
+        if (typeof is_read !== 'boolean') {
+            return res.status(400).json({ message: 'Invalid value for is_read' });
+        }
+
+        const updateQuery = `
+            UPDATE notification
+            SET is_read = ?
+            WHERE id_notification = ? AND id_profile = ?
+        `;
+        const [result] = await db.promise().query(updateQuery, [is_read, notificationId, profileId]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Notification not found or unauthorized' });
+        }
+
+        res.status(200).json({ message: 'Notification updated successfully' });
+    } catch (err) {
+        console.error('Error updating notification:', err);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
 module.exports = router;

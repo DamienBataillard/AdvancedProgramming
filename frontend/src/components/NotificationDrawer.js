@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { fetchNotifications } from '../services/apiService';
+import { fetchNotifications, updateNotificationStatus } from '../services/apiService';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
@@ -85,16 +85,23 @@ export default function AnchorTemporaryDrawer({ unreadNotifications }) {
               {/* Button */}
               {notif.is_read === 0 && (
                 <IconButton
-                  onClick={() => {
-                    // Mark notification as read
-                    const updatedNotifications = notifications.map((n) => {
-                      if (n.id_notification === notif.id_notification) {
-                        return { ...n, is_read: 1 }; // Update the `is_read` field
-                      }
-                      return n;
-                    });
-                    setNotifications(updatedNotifications); // Update the notifications state
-                  }}
+                onClick={async () => {
+                  try {
+                      // Call the API to update the notification status
+                      await updateNotificationStatus(notif.id_notification, true);
+          
+                      // Update the local state after successful API call
+                      const updatedNotifications = notifications.map((n) => {
+                          if (n.id_notification === notif.id_notification) {
+                              return { ...n, is_read: 1 }; // Mark as read
+                          }
+                          return n;
+                      });
+                      setNotifications(updatedNotifications); // Update the state
+                  } catch (error) {
+                      console.error('Erreur lors de la mise à jour de la notification:', error);
+                  }
+              }}
                 >
                   <DoneIcon /> {/* Icon displayed inside the button */}
                 </IconButton>

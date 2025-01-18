@@ -186,6 +186,30 @@ export const APIService = {
     return data;
   };
 
+  export const updateNotificationStatus = async (notificationId, isRead) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/notifications/${notificationId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`, // Add token from localStorage
+            },
+            body: JSON.stringify({ is_read: isRead }), // Send the `is_read` value in the body
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erreur lors de la mise à jour de la notification:', errorData);
+            throw new Error(errorData.message || 'Erreur lors de la mise à jour de la notification.');
+        }
+
+        console.log('Notification mise à jour avec succès');
+    } catch (error) {
+        console.error('Erreur:', error);
+        throw error;
+    }
+};
+
 
   export const fetchModulesNames = async () => {
     const response = await fetch(`${API_BASE_URL}/survey-creation/modulesname`, {
