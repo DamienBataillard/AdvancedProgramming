@@ -226,29 +226,15 @@ export const APIService = {
     return await response.json();
   };
   
-  export const fetchTeachers = async () => {
-    const response = await fetch(`${API_BASE_URL}/survey-creation/teachers`, {
-      method: 'GET',
+  export const fetchStudentGroupsByModule = async (moduleId) => {
+    const response = await fetch(`${API_BASE_URL}/survey-creation/student-groups-by-module/${moduleId}`, {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`, 
       },
     });
-    if (!response.ok) {
-      console.error("Erreur API :", await response.text());
-      throw new Error("Erreur lors de la récupération des enseignants.");
-    }
-    return await response.json();
-  };
   
-  export const fetchStudentGroups = async () => {
-    const response = await fetch(`${API_BASE_URL}/survey-creation/student-groups`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
     if (!response.ok) {
       console.error("Erreur API :", await response.text());
       throw new Error("Erreur lors de la récupération des groupes d'étudiants.");
@@ -275,3 +261,6 @@ export const APIService = {
   
     return await response.json();
   };
+
+
+

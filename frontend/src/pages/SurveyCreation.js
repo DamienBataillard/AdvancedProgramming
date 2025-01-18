@@ -1,32 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Box, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle,} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import PrimarySearchAppBar from "../components/AppBar";
-import { fetchModulesNames, fetchTeachers, fetchStudentGroups, createSurvey } from "../services/apiService";
+import { fetchModulesNames, fetchStudentGroupsByModule, createSurvey } from "../services/apiService";
 
 const SurveyCreation = () => {
   const [module, setModule] = useState("");
-  const [teacher, setTeacher] = useState("");
   const [studentGroup, setStudentGroup] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
   const [modules, setModules] = useState([]);
-  const [teachers, setTeachers] = useState([]);
   const [studentGroups, setStudentGroups] = useState([]);
 
   const [questions, setQuestions] = useState([]); // Liste des questions
@@ -40,12 +25,7 @@ const SurveyCreation = () => {
     const fetchData = async () => {
       try {
         const modulesData = await fetchModulesNames();
-        const teachersData = await fetchTeachers();
-        const studentGroupsData = await fetchStudentGroups();
-
         setModules(modulesData);
-        setTeachers(teachersData);
-        setStudentGroups(studentGroupsData);
       } catch (err) {
         console.error("Erreur lors du chargement des données :", err);
       }
@@ -54,7 +34,6 @@ const SurveyCreation = () => {
     fetchData();
   }, []);
 
-  // Mise à jour dynamique du titre en fonction du module
   useEffect(() => {
     const selectedModule = modules.find((mod) => mod.id_module === module);
     if (selectedModule) {
@@ -63,6 +42,23 @@ const SurveyCreation = () => {
       setSurveyTitle("");
     }
   }, [module, modules]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        if (module) {
+          const groupsData = await fetchStudentGroupsByModule(module);
+          setStudentGroups(groupsData);
+        } else {
+          setStudentGroups([]);
+        }
+      } catch (err) {
+        console.error("Erreur lors du chargement des groupes d'étudiants :", err);
+      }
+    };
+
+    fetchGroups();
+  }, [module]);
 
   const handleAddQuestion = () => {
     setQuestions([
@@ -87,7 +83,6 @@ const SurveyCreation = () => {
 
     const surveyData = {
       module,
-      teacher,
       studentGroup,
       startDate,
       endDate,
@@ -151,18 +146,6 @@ const SurveyCreation = () => {
                 {modules.map((mod) => (
                   <MenuItem key={mod.id_module} value={mod.id_module}>
                     {mod.code_module}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Sélection de l'enseignant */}
-            <FormControl fullWidth>
-              <InputLabel>Select Teacher</InputLabel>
-              <Select value={teacher} onChange={(e) => setTeacher(e.target.value)}>
-                {teachers.map((teach) => (
-                  <MenuItem key={teach.id_profile} value={teach.id_profile}>
-                    {teach.last_name_profile}
                   </MenuItem>
                 ))}
               </Select>
