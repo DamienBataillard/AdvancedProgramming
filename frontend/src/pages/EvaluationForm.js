@@ -41,7 +41,7 @@ const EvaluationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const studentId = localStorage.getItem('studentId');
+    const studentId = localStorage.getItem('userId');
 
     if (!studentId) {
       alert('Vous devez être connecté pour soumettre vos réponses.');
