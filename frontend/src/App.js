@@ -101,12 +101,12 @@ function App() {
           } 
         />
         <Route 
-          path="/survey-creation" 
+          path="/admin/survey-creation" 
           element={
-            <ProtectedRoute>
-              <SurveyCreation />
+            <ProtectedRoute requiredRole="Admin">
+                <SurveyCreation />
             </ProtectedRoute>
-          } 
+          }
         />
       </Routes>
     </Router>
