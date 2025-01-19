@@ -42,6 +42,7 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     Pour démarrer le serveur backend :
 
     ```bash
+    node initDB.js
     npm start
     ```
 
