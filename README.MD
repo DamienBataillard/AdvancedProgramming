@@ -12,8 +12,8 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
 
 1. **Cloner le projet** :
    ```bash
-   git clone https://github.com/mon-projet.git
-   cd mon-projet
+   git clone https://github.com/DamienBataillard/AdvancedProgramming
+   cd AdvancedProgramming
    ```
 
 2. **Configurer l'environnement (Créez un fichier .env dans le dossier backend et ajoutez-y les informations suivantes)** :
