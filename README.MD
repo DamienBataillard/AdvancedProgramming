@@ -23,7 +23,7 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
     DB_PASSWORD=VotreMotDePasse
     DB_NAME=advanced_programming
     PORT=5000
-    JWT_SECRET=VotreSecretJWT
+    JWT_SECRET=Cpmg7AQiDi
     ```
 
 3. **Installer les dépendances** :
