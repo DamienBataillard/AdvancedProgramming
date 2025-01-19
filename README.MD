@@ -35,7 +35,7 @@ Ce projet est une application backend utilisant Node.js, Express et MySQL.
 
    ```bash
    cd frontend
-   npm install
+   npm install --force
    ```
 
 4. **Lancer l'application**
