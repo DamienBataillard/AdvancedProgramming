@@ -1,19 +1,18 @@
 const express = require('express');
 const db = require('../config/db'); // Connexion à la base de données
+const authMiddleware = require('../middleware/auth'); // Importer le middleware
 const router = express.Router();
 
 // Route pour enregistrer les réponses
-router.post('/submit-answers', (req, res) => {
-    console.log('Requête reçue pour /submit-answers');
-    const { answers, studentId } = req.body;
-  
-    console.log('Données reçues :', { answers, studentId });
-  
-    if (!answers || !studentId) {
-      return res.status(400).json({ message: 'Données manquantes.' });
-    }
+router.post('/submit-answers', authMiddleware, (req, res) => {
+  console.log('Requête reçue pour /submit-answers');
+  const { answers, studentId } = req.body;
 
-  
+  console.log('Données reçues :', { answers, studentId });
+
+  if (!answers || !studentId) {
+    return res.status(400).json({ message: 'Données manquantes.' });
+  }
 
   const query = `
     INSERT INTO answer (content_answer, is_private, id_question, id_student)

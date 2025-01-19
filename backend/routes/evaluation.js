@@ -1,9 +1,55 @@
 const express = require('express');
 const db = require('../config/db'); // Import de la configuration de la base de données
+const authMiddleware = require('../middleware/auth'); // Importer le middleware
 const router = express.Router();
 
+// Route pour récupérer les évaluations accessibles à un étudiant
+router.get('/evaluations/:studentId', authMiddleware, (req, res) => {
+  const { studentId } = req.params;
+
+  console.log(studentId)
+
+  const query = `
+    SELECT evaluation.*
+    FROM evaluation
+    JOIN student_group ON evaluation.id_student_group = student_group.id_student_group
+    JOIN student_group_association ON student_group.id_student_group = student_group_association.id_student_group
+    WHERE student_group_association.id_student = ?
+  `;
+
+  db.query(query, [studentId], (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des évaluations :', err);
+      return res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+    
+    res.status(200).json(results);
+  });
+});
+
+// Route pour récupérer toutes les évaluations pour les administrateurs
+router.get('/evaluations', authMiddleware, (req, res) => {
+  const { role } = req.user;
+  console.log("Rôle de l'utilisateur :", role);
+
+  if (role !== 'Admin') {
+    return res.status(403).json({ message: 'Accès interdit : réservé aux administrateurs.' });
+  }
+
+  const query = `SELECT * FROM evaluation`;
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la récupération des évaluations :', err);
+      return res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+
+    res.status(200).json(results);
+  });
+});
+
+
 // Route pour récupérer une évaluation et ses questions
-router.get('/evaluation/:id', (req, res) => {
+router.get('/evaluation/:id', authMiddleware, (req, res) => {
   const evaluationId = req.params.id;
 
   // Requête SQL pour récupérer l'évaluation

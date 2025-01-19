@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import '../index.css'; // Assure-toi d'importer le CSS global
-import logo from '../assets/images/logo.png'; // Import du logo
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { APIService } from '../services/apiService';
+import { validateRegisterForm } from '../utils/FormValidator';
+import '../index.css'; // Assurez-vous que ce fichier contient les styles globaux
+import logo from '../assets/images/logo.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     mail_profile: '',
-    name_profile: '',
+    first_name_profile: '',
+    last_name_profile: '',
     date_of_birth_profile: '',
     password_profile: '',
     confirm_password: '',
   });
-
-  const [error, setError] = useState('');
+  const [error, setErrors] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
@@ -21,45 +23,26 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
-  
+    e.preventDefault();
+    const validationErrors = validateRegisterForm(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          mail_profile: formData.mail_profile,
-          name_profile: formData.name_profile,
-          date_of_birth_profile: formData.date_of_birth_profile,
-          password_profile: formData.password_profile,
-        }),
-      });
-  
-      // Vérifie si la réponse est OK (200-299)
-      if (!response.ok) {
-        const errorData = await response.json(); // Tente d'extraire les détails de l'erreur
-        throw new Error(
-          `Erreur HTTP ${response.status}: ${errorData.message || 'Une erreur est survenue'}`
-        );
-      }
-  
-      // Si la réponse est valide
-      const data = await response.json();
-      console.log('Utilisateur enregistré avec succès :', data);
-      alert('Utilisateur enregistré avec succès !');
+      await APIService.register(formData);
+      alert('Registration successful');
       navigate('/login');
     } catch (err) {
-      // Affiche une erreur détaillée dans la console
-      console.error('Erreur lors de l\'inscription :', err.message);
-      alert(`Erreur : ${err.message}`); // Affiche un message utilisateur
+      alert(`Error: ${err.message}`);
     }
   };
-  
 
   return (
     <div className="register-container">
-      <img src={logo} alt="Site Logo" className="site-logo" /> {/* Affiche le logo */}
-      <form onSubmit={handleSubmit}>
+      <img src={logo} alt="Site Logo" className="site-logo" />
+      <form onSubmit={handleSubmit} className="register-form">
         <input
           type="email"
           name="mail_profile"
@@ -69,8 +52,15 @@ const Register = () => {
         />
         <input
           type="text"
-          name="name_profile"
-          placeholder="Name"
+          name="first_name_profile"
+          placeholder="First Name"
+          value={formData.name_profile}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="last_name_profile"
+          placeholder="Last Name"
           value={formData.name_profile}
           onChange={handleChange}
         />

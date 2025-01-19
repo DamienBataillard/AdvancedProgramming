@@ -9,8 +9,11 @@ const router = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY; // Utilisez une clé secrète sécurisée (stockez-la dans un fichier .env)
 
 // Route pour connecter un utilisateur
-router.post('/login', (req, res, next) => {
+router.post('/login', (req, res) => {
   const { mail_profile, password_profile } = req.body;
+
+  console.log('Route /login appelée');
+  console.log('Requête reçue avec :', req.body);
 
   if (!mail_profile || !password_profile) {
     return res.status(400).json({ message: 'Email et mot de passe sont requis.' });
@@ -54,6 +57,8 @@ router.post('/login', (req, res, next) => {
         { expiresIn: '1h' }
       );
 
+      console.log('Token généré :', token);
+
       // Inclure les informations utilisateur dans la réponse
       res.status(200).json({
         message: 'Connexion réussie.',
@@ -61,7 +66,7 @@ router.post('/login', (req, res, next) => {
         user: {
           id_profile: user.id_profile,
           mail_profile: user.mail_profile,
-          name_profile: user.name_profile, // Inclure cette propriété
+          name_profile: user.first_name_profile, // Inclure cette propriété
           role: user.name_role,
         },
       });

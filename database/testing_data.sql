@@ -1,9 +1,9 @@
-INSERT INTO Profile (id_profile, mail_profile, name_profile, date_of_birth_profile, img_profile, password_profile)
+INSERT INTO Profile (id_profile, mail_profile, first_name_profile,last_name_profile, date_of_birth_profile, img_profile, password_profile)
 VALUES 
-(1, 'student1@example.com', 'Alice Student', '2002-05-10', 'student1.jpg', 'password123'),
-(2, 'student2@example.com', 'Bob Student', '2003-08-15', 'student2.jpg', 'password123'),
-(3, 'teacher1@example.com', 'Prof. Emma', '1980-03-22', 'teacher1.jpg', 'securepass'),
-(4, 'admin@example.com', 'Admin John', '1975-01-12', 'admin.jpg', 'adminpass');
+(1, 'student1@example.com', 'Alice','Student', '2002-05-10', 'student1.jpg', 'password123'),
+(2, 'student2@example.com', 'Bob', 'Student', '2003-08-15', 'student2.jpg', 'password123'),
+(3, 'teacher1@example.com', 'Prof', 'Emma', '1980-03-22', 'teacher1.jpg', 'securepass'),
+(4, 'admin@example.com', 'Admin','John', '1975-01-12', 'admin.jpg', 'adminpass');
 
 
 INSERT INTO Role (id_role, name_role)

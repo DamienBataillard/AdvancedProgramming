@@ -4,7 +4,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,38 +15,16 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: '#0056b3',
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
+import logo from '../assets/images/logo_efrei.png'; // Import du logo
+import AnchorTemporaryDrawer from './NotificationDrawer';
+import { useTranslation } from 'react-i18next'; // Import translation hook
+import { Button } from '@mui/material';
+import { fetchNotifications } from '../services/apiService';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -60,11 +37,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [role, setRole] = React.useState(''); // État pour stocker le rôle utilisateur
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation(); // Translation hook
+  const [unreadNotifications, setUnreadNotifications] = React.useState(0); // Track unread count
+  const [notifications, setNotifications] = React.useState([]);
+  console.log("unread from appbar"+unreadNotifications)
+  React.useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const data = await fetchNotifications();
+        setUnreadNotifications(data.unreadCount || 0); // Update unread count
+        setNotifications(data.notifications || []); // Store notifications
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchUnreadCount(); // Initial fetch
+  }, []);
+
+  React.useEffect(() => {
+    const userRole = localStorage.getItem('role'); // Récupère le rôle utilisateur
+    setRole(userRole);
+  }, []);
+
+  const handleLanguageToggle = () => {
+    const newLang = i18n.language === 'en' ? 'fr' : 'en'; // Toggle language
+    i18n.changeLanguage(newLang);
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const navigate = useNavigate();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,7 +85,22 @@ function PrimarySearchAppBar() {
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Supprime le token
-    navigate('/'); // Redirige vers la page de connexion
+    navigate('/login'); // Redirige vers la page de connexion
+  };
+
+  const handleProfil = () => {
+    navigate('/profil'); // Redirige vers la page profil
+  };
+
+  const handleDashboardRedirect = () => {
+    // Redirige dynamiquement vers le tableau de bord approprié
+    if (role === 'Admin') {
+      navigate('/admin-dashboard'); // Redirige vers le tableau de bord administrateur
+    } else if (role === 'Teacher') {
+      navigate('/professor-dashboard'); // Redirige vers le tableau de bord professeur
+    } else {
+      navigate('/dashboard'); // Redirige vers le tableau de bord étudiant
+    }
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -105,8 +124,10 @@ function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profil</MenuItem>
-      <MenuItem onClick={handleLogout} sx={{color: 'red'}}>Log out</MenuItem>
+      <MenuItem onClick={handleProfil}>{t('profile')}</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>
+        {t('logout')}
+      </MenuItem>
     </Menu>
   );
 
@@ -141,7 +162,7 @@ function PrimarySearchAppBar() {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={unreadNotifications} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
@@ -166,48 +187,22 @@ function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: '#5481c2' }}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
+          <a
+            onClick={handleDashboardRedirect} // Redirection dynamique
+            style={{ cursor: 'pointer' }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Students Feedbacks
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+            <img
+              src={logo}
+              alt="logo"
+              sizes="small"
+              style={{ height: '40px', margin: '0 auto' }}
             />
-          </Search>
+          </a>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <AnchorTemporaryDrawer 
+              unreadNotifications={unreadNotifications} // Pass unread count to drawer
+            />
             <IconButton
               size="large"
               edge="end"
@@ -219,6 +214,9 @@ function PrimarySearchAppBar() {
             >
               <AccountCircle />
             </IconButton>
+            <Button color="inherit" onClick={handleLanguageToggle}>
+              {i18n.language === 'en' ? 'FR' : 'EN'} {/* Toggle button label */}
+            </Button>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

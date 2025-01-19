@@ -1,0 +1,448 @@
+{
+    
+    "answer": [
+      {
+        "id_answer": 1,
+        "note_answer": 9,
+        "content_answer": "The course was very well explained.",
+        "is_private": 0,
+        "id_question": 1,
+        "id_student": 1
+      },
+      {
+        "id_answer": 2,
+        "note_answer": 8,
+        "content_answer": "The teacher gave clear instructions.",
+        "is_private": 0,
+        "id_question": 2,
+        "id_student": 2
+      },
+      {
+        "id_answer": 3,
+        "note_answer": 7,
+        "content_answer": "The module content could be improved.",
+        "is_private": 1,
+        "id_question": 3,
+        "id_student": 3
+      },
+      {
+        "id_answer": 4,
+        "note_answer": 10,
+        "content_answer": "Excellent course! Very informative.",
+        "is_private": 0,
+        "id_question": 1,
+        "id_student": 4
+      },
+      {
+        "id_answer": 5,
+        "note_answer": 6,
+        "content_answer": "Good but could use more examples.",
+        "is_private": 1,
+        "id_question": 2,
+        "id_student": 5
+      }
+    ],"comment": [
+      {
+        "id_comment": 1,
+        "content_comment": "Great job on the course material!",
+        "is_anonymous": 0,
+        "date_comment": "2025-01-14T08:00:00.000Z",
+        "id_module": 1,
+        "id_author": 1
+      },
+      {
+        "id_comment": 2,
+        "content_comment": "The exercises were very helpful.",
+        "is_anonymous": 1,
+        "date_comment": "2025-01-14T09:00:00.000Z",
+        "id_module": 2,
+        "id_author": 2
+      },
+      {
+        "id_comment": 3,
+        "content_comment": "Can we have more examples in the slides?",
+        "is_anonymous": 0,
+        "date_comment": "2025-01-14T10:00:00.000Z",
+        "id_module": 3,
+        "id_author": 3
+      },
+      {
+        "id_comment": 4,
+        "content_comment": "The course content was amazing!",
+        "is_anonymous": 1,
+        "date_comment": "2025-01-14T11:00:00.000Z",
+        "id_module": 1,
+        "id_author": 4
+      },
+      {
+        "id_comment": 5,
+        "content_comment": "The quizzes were a bit challenging.",
+        "is_anonymous": 0,
+        "date_comment": "2025-01-14T12:00:00.000Z",
+        "id_module": 2,
+        "id_author": 5
+      }
+    ],"evaluation": [
+          {
+            "id_evaluation": 1,
+            "date_opening": "2025-01-10T08:00:00.000Z",
+            "date_closing": "2025-01-20T08:00:00.000Z",
+            "title_evaluation": "Feedback for CS101",
+            "id_student_group": 1
+          },
+          {
+            "id_evaluation": 2,
+            "date_opening": "2025-01-15T09:00:00.000Z",
+            "date_closing": "2025-01-25T09:00:00.000Z",
+            "title_evaluation": "Feedback for MATH101",
+            "id_student_group": 2
+          },
+          {
+            "id_evaluation": 3,
+            "date_opening": "2025-01-20T10:00:00.000Z",
+            "date_closing": "2025-01-30T10:00:00.000Z",
+            "title_evaluation": "Feedback for PHY101",
+            "id_student_group": 3
+          }, {
+            "id_evaluation": 4,
+            "date_opening": "2025-01-25T10:00:00.000Z",
+            "date_closing": "2025-02-05T10:00:00.000Z",
+            "title_evaluation": "Feedback for ART101",
+            "id_student_group": 4
+          },
+          {
+            "id_evaluation": 5,
+            "date_opening": "2025-02-01T10:00:00.000Z",
+            "date_closing": "2025-02-10T10:00:00.000Z",
+            "title_evaluation": "Feedback for BIO101",
+            "id_student_group": 5
+          }
+        ],  "group_module": [
+              {
+                "id_student_group": 1,
+                "id_module": 1
+              },
+              {
+                "id_student_group": 1,
+                "id_module": 2
+              },
+              {
+                "id_student_group": 2,
+                "id_module": 2
+              },
+              {
+                "id_student_group": 3,
+                "id_module": 3
+              },
+              {
+                "id_student_group": 4,
+                "id_module": 4
+              },
+              {
+                "id_student_group": 5,
+                "id_module": 5
+              },
+              {
+                "id_student_group": 2,
+                "id_module": 3
+              },
+              {
+                "id_student_group": 4,
+                "id_module": 5
+              }
+            ], "module": [
+                  {
+                    "id_module": 1,
+                    "code_module": "CS101",
+                    "name_module": "Introduction to Computer Science",
+                    "professor_module": "Alan"
+                  },
+                  {
+                    "id_module": 2,
+                    "code_module": "MATH101",
+                    "name_module": "Calculus I",
+                    "professor_module": "Emmy"
+                  },
+                  {
+                    "id_module": 3,
+                    "code_module": "PHY101",
+                    "name_module": "Physics Basics",
+                    "professor_module": "Richard"
+                  }, {
+                    "id_module": 4,
+                    "code_module": "ART101",
+                    "name_module": "Introduction to Art",
+                    "professor_module": "Leonardo"
+                  },
+                  {
+                    "id_module": 5,
+                    "code_module": "BIO101",
+                    "name_module": "Biology Basics",
+                    "professor_module": "Marie Curie"
+                  }
+                ],  "profile": [
+                    {
+                        "id_profile": 1,
+                        "mail_profile": "alice@student.com",
+                        "date_of_birth_profile": "2003-04-15",
+                        "img_profile": "alice.jpg",
+                        "password_profile": "$2a$10$Hz0iyu6i83i6mNxtnXG7JOmwxkBuEEf7cL4Yb3G3AHzayKZnjIqne",
+                        "first_name_profile": "Alice",
+                        "last_name_profile": "Johnson"
+                      },
+                      {
+                        "id_profile": 2,
+                        "mail_profile": "bob@student.com",
+                        "date_of_birth_profile": "2002-12-22",
+                        "img_profile": "bob.jpg",
+                        "password_profile": "$2a$10$lM7SmMEntCRE05CGinnYFOrwFs8mXn8ljcf6gp1iE704BId18H6G.",
+                        "first_name_profile": "Bob",
+                        "last_name_profile": "Smith"
+                      },
+                      {
+                        "id_profile": 3,
+                        "mail_profile": "professor.turing@university.com",
+                        "date_of_birth_profile": "1978-06-11",
+                        "img_profile": "turing.jpg",
+                        "password_profile": "$2a$10$kTgwztIhiSz9GPMRUtYBbuJFg2ZY27uHN8CP2r.6Na5aZnLrG5caq",
+                        "first_name_profile": "Alan",
+                        "last_name_profile": "Turing"
+                      },
+                      {
+                        "id_profile": 4,
+                        "mail_profile": "professor.noether@university.com",
+                        "date_of_birth_profile": "1985-03-09",
+                        "img_profile": "noether.jpg",
+                        "password_profile": "$2a$10$OkxkdkxpGhDlOGKA0HB9IegzZGhekB29ss/GNWY8I0qxlccmqYBem",
+                        "first_name_profile": "Emmy",
+                        "last_name_profile": "Noether"
+                      },
+                      {
+                        "id_profile": 5,
+                        "mail_profile": "admin@university.com",
+                        "date_of_birth_profile": "1975-09-30",
+                        "img_profile": "admin.jpg",
+                        "password_profile": "$2a$10$LZ2KJf9OTgghkgAMEiGcPu97NBWT0IXWaCl2XtEmucYNsvj2u56oi",
+                        "first_name_profile": "Admin",
+                        "last_name_profile": "User"
+                      },
+                      {
+                        "id_profile": 6,
+                        "mail_profile": "eva@student.com",
+                        "date_of_birth_profile": "2004-03-10",
+                        "img_profile": "eva.jpg",
+                        "password_profile": "$2a$10$9S77gPiJrn2qLVMujmynOuEA8iNjWW6DOMROIFDUb0hlHK/MKNSVa",
+                        "first_name_profile": "Eva",
+                        "last_name_profile": "Green"
+                      },
+                      {
+                        "id_profile": 7,
+                        "mail_profile": "jack@student.com",
+                        "date_of_birth_profile": "2002-07-25",
+                        "img_profile": "jack.jpg",
+                        "password_profile": "$2a$10$.2GgqnduPnREQiWasy0lIuJWAXro4sKIvIMAOTwSdTjb3ajSED5DC",
+                        "first_name_profile": "Jack",
+                        "last_name_profile": "Sparrow"
+                      },
+                      {
+                        "id_profile": 8,
+                        "mail_profile": "professor.hawking@university.com",
+                        "date_of_birth_profile": "1942-01-08",
+                        "img_profile": "hawking.jpg",
+                        "password_profile": "$2a$10$0K.Y6crB1TrBDpaZGuH00uljujy99Pw.qdtqxZeP1SqWCUB0886eW",
+                        "first_name_profile": "Stephen",
+                        "last_name_profile": "Hawking"
+                      },
+                      {
+                        "id_profile": 9,
+                        "mail_profile": "lara@student.com",
+                        "date_of_birth_profile": "2003-10-30",
+                        "img_profile": "lara.jpg",
+                        "password_profile": "$2a$10$T.4May5JrrzgEKZOhYxTROtj6utcO6OaHjB6dKvN1pnh6heMUdneK",
+                        "first_name_profile": "Lara",
+                        "last_name_profile": "Croft"
+                      },
+                      {
+                        "id_profile": 10,
+                        "mail_profile": "tony@student.com",
+                        "date_of_birth_profile": "2005-06-15",
+                        "img_profile": "tony.jpg",
+                        "password_profile": "$2a$10$eP5MUv.MikeEXddVgpWZF.TFXpg1hyubOlCzzrXdxpqOoe3NsRqcS",
+                        "first_name_profile": "Tony",
+                        "last_name_profile": "Stark"
+                      }
+                    ],
+                    "profile_role": [
+                      {
+                        "id_profile": 1,
+                        "id_role": 1
+                      },
+                      {
+                        "id_profile": 2,
+                        "id_role": 1
+                      },
+                      {
+                        "id_profile": 3,
+                        "id_role": 2
+                      },
+                      {
+                        "id_profile": 4,
+                        "id_role": 2
+                      },
+                      {
+                        "id_profile": 5,
+                        "id_role": 3
+                      }
+                    ],
+                    "question": [
+                      {
+                        "id_question": 1,
+                        "type_question": 1,
+                        "title_question": "Module Understanding",
+                        "content_question": "How well did you understand the module content?",
+                        "id_evaluation": 1
+                      },
+                      {
+                        "id_question": 2,
+                        "type_question": 1,
+                        "title_question": "Teaching Quality",
+                        "content_question": "How would you rate the teaching quality?",
+                        "id_evaluation": 1
+                      },
+                      {
+                        "id_question": 3,
+                        "type_question": 1,
+                        "title_question": "Material Usefulness",
+                        "content_question": "Was the provided material helpful?",
+                        "id_evaluation": 2
+                      },
+                      {
+                        "id_question": 4,
+                        "type_question": 1,
+                        "title_question": "Overall Satisfaction",
+                        "content_question": "Are you satisfied with the module overall?",
+                        "id_evaluation": 2
+                      },{
+                        "id_question": 5,
+                        "type_question": 1,
+                        "title_question": "Lecture Clarity",
+                        "content_question": "Was the lecture clear and easy to follow?",
+                        "id_evaluation": 4
+                      },
+                      {
+                        "id_question": 6,
+                        "type_question": 1,
+                        "title_question": "Course Material Quality",
+                        "content_question": "How would you rate the course materials?",
+                        "id_evaluation": 4
+                      },
+                      {
+                        "id_question": 7,
+                        "type_question": 1,
+                        "title_question": "Practical Examples",
+                        "content_question": "Did the course include enough practical examples?",
+                        "id_evaluation": 5
+                      },
+                      {
+                        "id_question": 8,
+                        "type_question": 1,
+                        "title_question": "Instructor Feedback",
+                        "content_question": "How satisfied are you with the feedback from the instructor?",
+                        "id_evaluation": 5
+                      },
+                      {
+                        "id_question": 9,
+                        "type_question": 1,
+                        "title_question": "Overall Experience",
+                        "content_question": "How would you rate your overall experience?",
+                        "id_evaluation": 5
+                      }
+                    ],
+                    "student_group": [
+                      {
+                        "id_student_group": 1,
+                        "name_student_group": "Group A",
+                        "year_student_group": 2024,
+                        "semester_student_group": 1
+                      },
+                      {
+                        "id_student_group": 2,
+                        "name_student_group": "Group B",
+                        "year_student_group": 2024,
+                        "semester_student_group": 2
+                      },
+                      {
+                        "id_student_group": 3,
+                        "name_student_group": "Group C",
+                        "year_student_group": 2025,
+                        "semester_student_group": 1
+                      }, {
+                        "id_student_group": 4,
+                        "name_student_group": "Group D",
+                        "year_student_group": 2025,
+                        "semester_student_group": 1
+                      },
+                      {
+                        "id_student_group": 5,
+                        "name_student_group": "Group E",
+                        "year_student_group": 2025,
+                        "semester_student_group": 2
+                      }
+                    ],
+                    "student_group_association": [
+                      {
+                        "id_student": 1,
+                        "id_student_group": 1
+                      },
+                      {
+                        "id_student": 2,
+                        "id_student_group": 2
+                      },
+                      {
+                        "id_student": 1,
+                        "id_student_group": 3
+                      },{
+                        "id_student": 6,
+                        "id_student_group": 4
+                      },
+                      {
+                        "id_student": 7,
+                        "id_student_group": 5
+                      },
+                      {
+                        "id_student": 8,
+                        "id_student_group": 4
+                      },
+                      {
+                        "id_student": 9,
+                        "id_student_group": 5
+                      },
+                      {
+                        "id_student": 10,
+                        "id_student_group": 4
+                      }
+                    ],
+                  "role": [
+    {
+        "id_role": 1,
+        "name_role": "Student"
+    },
+    {
+        "id_role": 2,
+        "name_role": "Teacher"
+    },
+    {
+        "id_role": 3,
+        "name_role": "Admin"
+    }
+]
+}
+                  
+                  
+                  
+              
+          
+
+      
+  
+  

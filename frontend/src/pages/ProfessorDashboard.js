@@ -1,29 +1,29 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import PrimarySearchAppBar from '../components/AppBar';
-import { useEvaluations } from '../hooks/useEvaluations';
-import { useModules } from '../hooks/useModules';
+import { useEvaluationsForProfessor } from '../hooks/useEvaluationsForProfessor';
+import { useModulesForProfessor} from '../hooks/useModulesForProfessor';
 import { SurveyList } from '../components/SurveyList';
 import { ModuleList } from '../components/ModuleList';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-function StudentDashboard() {
+function ProfessorDashboard() {
   const navigate = useNavigate();
-  const studentId = localStorage.getItem('userId');
-  const { evaluations, loading: loadingEvals, error: errorEvals } = useEvaluations(studentId);
-  const { modules, loading: loadingMods, error: errorMods } = useModules(studentId);
+  const professorname = localStorage.getItem('professorname'); 
+  const { evaluations, loading: loadingEvals, error: errorEvals } = useEvaluationsForProfessor(professorname);
+  const { modules, loading: loadingMods, error: errorMods  } = useModulesForProfessor(professorname);
   const { t } = useTranslation();
-
-  if (loadingEvals || loadingMods) return <p>Chargement...</p>;
-  if (errorEvals || errorMods) return <p>Erreur : {errorEvals || errorMods}</p>;
+  
+  if (loadingEvals || loadingMods) return <p>Loading...</p>;
+  if (errorEvals || errorMods) return <p>Error: {errorEvals || errorMods}</p>;
 
   return (
     <div className="App">
       <PrimarySearchAppBar />
       <div className="dashboard-container">
-        <h1 className="title">{t('welcome')}</h1>
-        <h2 className="subtitle">{t('subtitle')}</h2>
+        <h1 className="title">{t('teacherDashboard')}</h1>
+        <h2 className="subtitle">{t('manageSurveyTeacher')}</h2>
       </div>
       <Box
         sx={{
@@ -39,11 +39,11 @@ function StudentDashboard() {
           padding: '20px',
         }}
       >
-        <SurveyList evaluations={evaluations} navigate={navigate} userRole="Student"/>
+        <SurveyList evaluations={evaluations} navigate={navigate} userRole="Teacher" professorname={professorname}/>
         <ModuleList modules={modules} navigate={navigate} />
       </Box>
     </div>
   );
 }
 
-export default StudentDashboard;
+export default ProfessorDashboard;
